@@ -1,6 +1,6 @@
 import 'package:laas/model/user_model.dart';
 
-Future<List<User>> getLender(String deptID) async {
+Future<List<User>> getLender() async {
   List<User> mockupUserList = [
     const User(
       id: 1,

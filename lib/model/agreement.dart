@@ -5,7 +5,6 @@ class Agreement {
   final int dueIn;
   final String addition;
   final bool isApproved;
-  final String contractFile;
 
   const Agreement({
     required this.id,
@@ -14,7 +13,6 @@ class Agreement {
     required this.dueIn,
     required this.addition,
     required this.isApproved,
-    required this.contractFile,
   });
 
   factory Agreement.fromJson(Map json) {
@@ -25,7 +23,6 @@ class Agreement {
       dueIn: json['dueIn'],
       addition: json['addition'],
       isApproved: json['isApproved'],
-      contractFile: json['contractFile'],
     );
   }
 }

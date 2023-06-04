@@ -1,9 +1,9 @@
 import 'package:laas/model/user_model.dart';
 
-Future<List<User>> getBorrower(String deptID) async {
+Future<List<User>> getBorrower() async {
   List<User> mockupUserList = [
     const User(
-      id: 1,
+      id: 5,
       title: 'Mr.',
       firstname: 'David',
       lastname: 'Brown',
@@ -11,7 +11,7 @@ Future<List<User>> getBorrower(String deptID) async {
       isLender: true,
     ),
     const User(
-      id: 2,
+      id: 6,
       title: 'Ms.',
       firstname: 'Sophia',
       lastname: 'Davis',
@@ -19,7 +19,7 @@ Future<List<User>> getBorrower(String deptID) async {
       isLender: true,
     ),
     const User(
-      id: 3,
+      id: 7,
       title: 'Dr.',
       firstname: 'Oliver',
       lastname: 'Wilson',
@@ -27,7 +27,7 @@ Future<List<User>> getBorrower(String deptID) async {
       isLender: true,
     ),
     const User(
-      id: 4,
+      id: 8,
       title: 'Mrs.',
       firstname: 'Emma',
       lastname: 'Anderson',

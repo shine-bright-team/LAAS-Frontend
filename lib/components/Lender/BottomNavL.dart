@@ -44,17 +44,17 @@ class BottomNavL extends StatelessWidget {
       NavItem(
           icon: const Icon(Icons.cottage_outlined),
           label: 'Home',
-          path: "/",
+          path: "/l",
           isGo: true),
       NavItem(
           icon: const Icon(Icons.search),
           label: 'search',
-          path: "/search",
+          path: "/l/search",
           isGo: true),
       NavItem(
           icon: const Icon(Icons.account_circle_outlined),
           label: 'Profile',
-          path: "/profile",
+          path: "/l/profile",
           isGo: true),
     ];
     int whichIndex() {

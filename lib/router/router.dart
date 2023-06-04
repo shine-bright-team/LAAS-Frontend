@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:laas/components/Borrower/BottomNavB.dart';
 import 'package:laas/components/Lender/BottomNavL.dart';
 import 'package:laas/pages/Borrower/b_home.dart';
+import 'package:laas/pages/Borrower/b_loan_status.dart';
+import 'package:laas/pages/Borrower/b_payment.dart';
 import 'package:laas/pages/Borrower/b_profile.dart';
 import 'package:laas/pages/Lender/L_Home.dart';
 import 'package:laas/pages/Lender/l_approve.dart';
@@ -36,7 +38,7 @@ class AppGoRouter extends ChangeNotifier {
     if (isAuth &&
         (state.location == '/login' || state.location == '/register')) {
       if (authState!.isLender) {
-        return '/';
+        return '/l';
       } else {
         return '/b';
       }
@@ -54,15 +56,15 @@ class AppGoRouter extends ChangeNotifier {
         ShellRoute(
           routes: [
             GoRoute(
-              path: "/",
+              path: "/l",
               builder: (context, state) => const LHome(),
             ),
             GoRoute(
-              path: "/search",
+              path: "/l/search",
               builder: (context, state) => const Search(),
             ),
             GoRoute(
-              path: "/profile",
+              path: "/l/profile",
               builder: (context, state) => const LProfileScreen(),
             ),
           ],
@@ -74,19 +76,19 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          path: "/loanstatus",
+          path: "/l/loanstatus",
           builder: (context, state) => const LLoanStatus(),
         ),
         GoRoute(
-          path: "/createlone",
+          path: "/l/createlone",
           builder: (context, state) => const LCreateLoan(),
         ),
         GoRoute(
-          path: "/apporvelone",
+          path: "/l/apporvelone",
           builder: (context, state) => const LApprove(),
         ),
         GoRoute(
-          path: "/payment",
+          path: "/l/payment",
           builder: (context, state) => const LPaymentScreen(),
         ),
         ShellRoute(
@@ -106,6 +108,14 @@ class AppGoRouter extends ChangeNotifier {
             ),
             body: child,
           ),
+        ),
+        GoRoute(
+          path: "/b/loanstatus",
+          builder: (context, state) => const BLoanStatus(),
+        ),
+        GoRoute(
+          path: "/b/payment",
+          builder: (context, state) => const BPaymentScreen(),
         ),
         GoRoute(
           path: "/login",
