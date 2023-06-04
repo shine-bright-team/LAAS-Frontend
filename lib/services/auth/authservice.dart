@@ -6,6 +6,7 @@ import 'package:laas/services/api.dart';
 class AuthService {
   Future<UserCredential?> get user async {
     final user = (await Api.dio.get("/user/")) as UserCredential;
+    // ignore: unnecessary_null_comparison
     if (user == null) {
       return null;
     }

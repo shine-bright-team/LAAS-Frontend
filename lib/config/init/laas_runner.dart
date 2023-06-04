@@ -30,7 +30,7 @@ class LaaS extends ConsumerWidget {
           darkScheme = darkColorScheme;
         }
 
-        // final router = ref.watch(routerProvider);
+        final router = ref.watch(routerProvider);
         return MaterialApp.router(
           title: 'LAAS',
           debugShowCheckedModeBanner: false,
@@ -44,7 +44,7 @@ class LaaS extends ConsumerWidget {
           //   colorScheme: darkScheme,
           //   extensions: [darkCustomColors],
           // ),
-          routerConfig: GoRouter(routes: routes),
+          routerConfig: router,
         );
       },
     );

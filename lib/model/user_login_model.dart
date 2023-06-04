@@ -1,5 +1,5 @@
 class UserCredential {
-  final String userId;
+  final int userId;
   final bool isLender;
 
   const UserCredential({
@@ -10,4 +10,6 @@ class UserCredential {
   factory UserCredential.fromJson(Map json) {
     return UserCredential(userId: json['userId'], isLender: json['isLender']);
   }
+
+  get valueOrNull => null;
 }
