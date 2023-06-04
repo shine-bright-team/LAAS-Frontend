@@ -2,9 +2,10 @@ import 'package:dynamic_color/dynamic_color.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:go_router/go_router.dart';
+import 'package:laas/config/theme/color_schemes.g.dart';
+import 'package:laas/router/router.dart';
 import '../../providers/router_provider.dart';
-import '../theme/schemes.g.dart';
 import '../theme/custom_color.g.dart';
 
 class LaaS extends ConsumerWidget {
@@ -29,7 +30,7 @@ class LaaS extends ConsumerWidget {
           darkScheme = darkColorScheme;
         }
 
-        final router = ref.watch(routerProvider);
+        // final router = ref.watch(routerProvider);
         return MaterialApp.router(
           title: 'LAAS',
           debugShowCheckedModeBanner: false,
@@ -38,12 +39,12 @@ class LaaS extends ConsumerWidget {
             colorScheme: lightScheme,
             extensions: [lightCustomColors],
           ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorScheme: darkScheme,
-            extensions: [darkCustomColors],
-          ),
-          routerConfig: router,
+          // darkTheme: ThemeData(
+          //   useMaterial3: true,
+          //   colorScheme: darkScheme,
+          //   extensions: [darkCustomColors],
+          // ),
+          routerConfig: GoRouter(routes: routes),
         );
       },
     );

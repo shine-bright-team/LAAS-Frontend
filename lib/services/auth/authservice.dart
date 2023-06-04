@@ -1,7 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:laas/model/user_login_model.dart';
-import 'package:laas/model/user_model.dart';
 import 'package:laas/services/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   Future<UserCredential?> get user async {

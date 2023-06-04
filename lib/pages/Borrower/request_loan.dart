@@ -8,7 +8,7 @@ class RequestLoan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("LProfileScreen"),
+        title: const Text("RequestLoan"),
       ),
       body: const Center(
         child: Text("Create Screen"),
