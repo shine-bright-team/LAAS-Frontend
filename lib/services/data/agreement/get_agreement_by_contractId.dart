@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:laas/model/agreement.dart';
 import 'package:laas/services/data/agreement/get_agreement.dart';
 
