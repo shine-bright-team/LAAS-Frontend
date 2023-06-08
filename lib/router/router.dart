@@ -80,11 +80,11 @@ class AppGoRouter extends ChangeNotifier {
           builder: (context, state) => const LLoanStatus(),
         ),
         GoRoute(
-          path: "/l/createlone",
+          path: "/l/createloan",
           builder: (context, state) => const LCreateLoan(),
         ),
         GoRoute(
-          path: "/l/apporvelone",
+          path: "/l/apporveloan",
           builder: (context, state) => const LApprove(),
         ),
         GoRoute(
