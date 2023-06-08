@@ -3,7 +3,7 @@ import 'package:laas/components/Lender/Star.dart';
 import 'package:laas/config/theme/custom_color.g.dart';
 
 Widget review(BuildContext context) {
-  return (Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
@@ -49,11 +49,16 @@ Widget review(BuildContext context) {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     StarDisplayWidget(
+                    StarDisplayWidget(
                       value: 4,
-                      filledStar: Icon(Icons.star, color: Theme.of(context).extension<CustomColors>()!.star)),
-                      unfilledStar:
-                          Icon(Icons.star_border, color: Theme.of(context).extension<CustomColors>()!.star)),
+                      filledStar: Icon(Icons.star,
+                          color: Theme.of(context)
+                              .extension<CustomColors>()!
+                              .star),
+                      unfilledStar: Icon(Icons.star_border,
+                          color: Theme.of(context)
+                              .extension<CustomColors>()!
+                              .star),
                       key: null,
                     ),
                     const SizedBox(
@@ -77,5 +82,5 @@ Widget review(BuildContext context) {
         ),
       ),
     ],
-  ));
+  );
 }
