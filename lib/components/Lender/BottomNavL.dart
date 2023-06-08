@@ -1,24 +1,5 @@
-// import 'package:flutter/material.dart';
+// ignore_for_file: file_names
 
-// class BottomNavL extends StatelessWidget {
-//   const BottomNavL({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       items: const <BottomNavigationBarItem>[
-//         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-//         BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
-//         BottomNavigationBarItem(icon: Icon(Icons.savings), label: 'Debt'),
-//         BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Profile'),
-//       ],
-//       currentIndex: 0,
-//       unselectedItemColor: Colors.grey,
-//       selectedItemColor: Theme.of(context).colorScheme.primary,
-//       showUnselectedLabels: true,
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -45,11 +26,6 @@ class BottomNavL extends StatelessWidget {
           icon: const Icon(Icons.cottage_outlined),
           label: 'Home',
           path: "/l",
-          isGo: true),
-      NavItem(
-          icon: const Icon(Icons.search),
-          label: 'search',
-          path: "/l/search",
           isGo: true),
       NavItem(
           icon: const Icon(Icons.account_circle_outlined),
