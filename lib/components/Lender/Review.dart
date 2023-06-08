@@ -16,7 +16,7 @@ Widget review(BuildContext context) {
         height: 20,
       ),
       Container(
-        constraints: const BoxConstraints(maxWidth: 340, minHeight: 150),
+        constraints: const BoxConstraints(maxWidth: 576),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(19),
           color: Theme.of(context).colorScheme.surface,
@@ -82,5 +82,26 @@ Widget review(BuildContext context) {
         ),
       ),
     ],
+  );
+}
+
+Widget logoutButton(BuildContext context) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      minimumSize: const Size.fromHeight(50),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+    ),
+    onPressed: () {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Log out successfully')),
+      );
+    },
+    child: Text(
+      "Log Out",
+      style: TextStyle(
+          color: Theme.of(context).colorScheme.onPrimary,
+          fontWeight: FontWeight.bold,
+          fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+    ),
   );
 }

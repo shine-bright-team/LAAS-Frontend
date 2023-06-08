@@ -27,14 +27,16 @@ class LProfileScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: [
-                    review(context),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    agreement(context)
-                  ],
+                child: Center(
+                  child: Column(
+                    children: [
+                      review(context),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      agreement(context)
+                    ],
+                  ),
                 ),
               ),
               Padding(
