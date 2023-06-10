@@ -17,6 +17,7 @@ class RegisterPage extends ConsumerStatefulWidget {
 class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var _title = '';
+  // ignore: unused_field
   var _role = false;
   final _fname = TextEditingController();
   final _lname = TextEditingController();
