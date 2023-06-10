@@ -8,7 +8,7 @@ import 'package:laas/pages/Borrower/b_home.dart';
 import 'package:laas/pages/Borrower/b_loan_status.dart';
 import 'package:laas/pages/Borrower/b_payment.dart';
 import 'package:laas/pages/Borrower/b_profile.dart';
-import 'package:laas/pages/Lender/L_Home.dart';
+import 'package:laas/pages/Lender/L_home.dart';
 import 'package:laas/pages/Lender/l_approve.dart';
 import 'package:laas/pages/Lender/l_create_lone.dart';
 import 'package:laas/pages/Lender/l_loan_status.dart';
