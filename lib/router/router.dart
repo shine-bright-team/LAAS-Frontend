@@ -14,6 +14,7 @@ import 'package:laas/pages/Lender/l_create_lone.dart';
 import 'package:laas/pages/Lender/l_loan_status.dart';
 import 'package:laas/pages/Lender/l_profile.dart';
 import 'package:laas/pages/Lender/search.dart';
+import 'package:laas/pages/kyc.dart';
 import 'package:laas/pages/login.dart';
 import 'package:laas/pages/Lender/l_payment.dart';
 import 'package:laas/pages/register.dart';
@@ -124,6 +125,10 @@ class AppGoRouter extends ChangeNotifier {
         GoRoute(
           path: "/register",
           builder: (context, state) => const RegisterPage(),
+        ),
+        GoRoute(
+          path: "/KYC",
+          builder: (context, state) => const Kyc(),
         ),
       ],
       builder: (context, state, child) {
