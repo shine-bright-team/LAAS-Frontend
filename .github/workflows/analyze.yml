@@ -30,6 +30,7 @@ jobs:
   
       - name: Get dependencies 🤖
         run: |
+          touch .env
           flutter pub get      
       
       - name: Analyzing💀
