@@ -84,34 +84,36 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          parentNavigatorKey: _shellRouteKey,
+          parentNavigatorKey: _mainRouteKey,
           path: "/l/createloan",
           builder: (context, state) => const LCreateLoan(),
         ),
         GoRoute(
-          parentNavigatorKey: _shellRouteKey,
+          parentNavigatorKey: _mainRouteKey,
           path: "/l/loanstatus/:contractId",
           builder: (context, state) =>
               LLoanStatus(contractId: state.params['conreactId']!),
         ),
         GoRoute(
-          parentNavigatorKey: _shellRouteKey,
+          parentNavigatorKey: _mainRouteKey,
           path: "/l/apporveloan/:contractId",
           builder: (context, state) =>
               LApprove(contractId: state.params['conreactId']!),
         ),
         GoRoute(
-            parentNavigatorKey: _shellRouteKey,
+            parentNavigatorKey: _mainRouteKey,
             path: "/l/payment/:contractId",
             builder: (context, state) =>
                 LPaymentScreen(contractId: state.params['conreactId']!)),
         ShellRoute(
           routes: [
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/b",
               builder: (context, state) => const BHome(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/b/profile",
               builder: (context, state) => const BProfileScreen(),
             ),
@@ -124,22 +126,27 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/b/loanstatus",
           builder: (context, state) => const BLoanStatus(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/b/payment",
           builder: (context, state) => const BPaymentScreen(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/login",
           builder: (context, state) => const LoginPage(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/register",
           builder: (context, state) => const RegisterPage(),
         ),
         GoRoute(
+          parentNavigatorKey: _mainRouteKey,
           path: "/KYC",
           builder: (context, state) => const Kyc(),
         ),
