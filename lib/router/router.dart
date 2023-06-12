@@ -92,19 +92,19 @@ class AppGoRouter extends ChangeNotifier {
           parentNavigatorKey: _mainRouteKey,
           path: "/l/loanstatus/:contractId",
           builder: (context, state) =>
-              LLoanStatus(contractId: state.params['conreactId']!),
+              LLoanStatus(contractId: state.params['contractId']!),
         ),
         GoRoute(
           parentNavigatorKey: _mainRouteKey,
           path: "/l/apporveloan/:contractId",
           builder: (context, state) =>
-              LApprove(contractId: state.params['conreactId']!),
+              LApprove(contractId: state.params['contractId']!),
         ),
         GoRoute(
             parentNavigatorKey: _mainRouteKey,
             path: "/l/payment/:contractId",
             builder: (context, state) =>
-                LPaymentScreen(contractId: state.params['conreactId']!)),
+                LPaymentScreen(contractId: state.params['contractId']!)),
         ShellRoute(
           routes: [
             GoRoute(
