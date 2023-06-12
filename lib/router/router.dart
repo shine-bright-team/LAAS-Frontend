@@ -8,12 +8,13 @@ import 'package:laas/pages/Borrower/b_home.dart';
 import 'package:laas/pages/Borrower/b_loan_status.dart';
 import 'package:laas/pages/Borrower/b_payment.dart';
 import 'package:laas/pages/Borrower/b_profile.dart';
-import 'package:laas/pages/Lender/L_Home.dart';
 import 'package:laas/pages/Lender/l_approve.dart';
 import 'package:laas/pages/Lender/l_create_lone.dart';
+import 'package:laas/pages/Lender/l_home.dart';
 import 'package:laas/pages/Lender/l_loan_status.dart';
 import 'package:laas/pages/Lender/l_profile.dart';
 import 'package:laas/pages/Lender/search.dart';
+import 'package:laas/pages/kyc.dart';
 import 'package:laas/pages/login.dart';
 import 'package:laas/pages/Lender/l_payment.dart';
 import 'package:laas/pages/register.dart';
@@ -80,11 +81,11 @@ class AppGoRouter extends ChangeNotifier {
           builder: (context, state) => const LLoanStatus(),
         ),
         GoRoute(
-          path: "/l/createlone",
+          path: "/l/createloan",
           builder: (context, state) => const LCreateLoan(),
         ),
         GoRoute(
-          path: "/l/apporvelone",
+          path: "/l/apporveloan",
           builder: (context, state) => const LApprove(),
         ),
         GoRoute(
@@ -124,6 +125,10 @@ class AppGoRouter extends ChangeNotifier {
         GoRoute(
           path: "/register",
           builder: (context, state) => const RegisterPage(),
+        ),
+        GoRoute(
+          path: "/KYC",
+          builder: (context, state) => const Kyc(),
         ),
       ],
       builder: (context, state, child) {
