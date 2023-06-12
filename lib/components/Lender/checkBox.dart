@@ -24,13 +24,21 @@ class LinkedLabelCheckbox extends StatelessWidget {
     if (labelType == LabelType.text) {
       labelWidget = Text(
         label,
-        style: textStyle,
+        style: textStyle.copyWith(
+          color: value
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+        ),
       );
     } else {
       labelWidget = TextField(
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: textStyle,
+          labelStyle: textStyle.copyWith(
+            color: value
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+          ),
           focusedBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(color: Theme.of(context).colorScheme.primary),

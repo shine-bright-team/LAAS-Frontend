@@ -29,8 +29,8 @@ class _SilderBarState extends State<SilderBar> {
             fontSize: 20,
           ),
         ),
-        SizedBox(
-          width: 250,
+        Container(
+          constraints: const BoxConstraints(maxWidth: 150),
           child: Slider(
             min: 0.0,
             max: 100.0,
