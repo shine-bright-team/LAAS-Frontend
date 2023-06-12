@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 class LApprove extends StatelessWidget {
-  const LApprove({super.key});
+  final String contractId;
+  const LApprove({super.key, this.contractId = ""});
 
   @override
   Widget build(BuildContext context) {

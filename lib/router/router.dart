@@ -51,20 +51,27 @@ class AppGoRouter extends ChangeNotifier {
     return null;
   }
 
-  final routes = [
+  final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
+  final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
+
+  late final routes = [
     ShellRoute(
+      navigatorKey: _mainRouteKey,
       routes: [
         ShellRoute(
           routes: [
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/l",
               builder: (context, state) => const LHome(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/l/search",
               builder: (context, state) => const Search(),
             ),
             GoRoute(
+              parentNavigatorKey: _shellRouteKey,
               path: "/l/profile",
               builder: (context, state) => const LProfileScreen(),
             ),
@@ -77,21 +84,27 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          path: "/l/loanstatus",
-          builder: (context, state) => const LLoanStatus(),
-        ),
-        GoRoute(
+          parentNavigatorKey: _shellRouteKey,
           path: "/l/createloan",
           builder: (context, state) => const LCreateLoan(),
         ),
         GoRoute(
-          path: "/l/apporveloan",
-          builder: (context, state) => const LApprove(),
+          parentNavigatorKey: _shellRouteKey,
+          path: "/l/loanstatus/:contractId",
+          builder: (context, state) =>
+              LLoanStatus(contractId: state.params['conreactId']!),
         ),
         GoRoute(
-          path: "/l/payment",
-          builder: (context, state) => const LPaymentScreen(),
+          parentNavigatorKey: _shellRouteKey,
+          path: "/l/apporveloan/:contractId",
+          builder: (context, state) =>
+              LApprove(contractId: state.params['conreactId']!),
         ),
+        GoRoute(
+            parentNavigatorKey: _shellRouteKey,
+            path: "/l/payment/:contractId",
+            builder: (context, state) =>
+                LPaymentScreen(contractId: state.params['conreactId']!)),
         ShellRoute(
           routes: [
             GoRoute(
