@@ -1,7 +1,7 @@
 //FXH
 import 'package:flutter/material.dart';
-import 'package:laas/components/Lender/header.dart';
-import 'package:laas/components/Lender/review.dart';
+import 'package:laas/components/Lender/header_.dart';
+import 'package:laas/components/Lender/review_.dart';
 import 'package:laas/components/Lender/debtAnalysis.dart';
 
 class LApprove extends StatelessWidget {

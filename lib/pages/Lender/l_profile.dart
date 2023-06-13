@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/header_.dart';
 import 'package:laas/components/Lender/argeement.dart';
 
-import '../../components/Lender/review.dart';
+import '../../components/Lender/review_.dart';
 
 class LProfileScreen extends StatelessWidget {
   const LProfileScreen({super.key});
