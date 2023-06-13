@@ -1,6 +1,6 @@
 //FXH
 import 'package:flutter/material.dart';
-import 'package:laas/components/Lender/checkBox.dart';
+import 'package:laas/components/Lender/check_box.dart';
 import 'package:laas/components/Lender/silder.dart';
 
 class LCreateLoan extends StatefulWidget {
