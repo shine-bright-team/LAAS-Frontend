@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../config/theme/custom_color.g.dart';
 
 Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
