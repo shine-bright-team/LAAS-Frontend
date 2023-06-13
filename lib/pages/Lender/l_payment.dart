@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 
 class LPaymentScreen extends StatelessWidget {
-  const LPaymentScreen({super.key});
+  final String contractId;
+  const LPaymentScreen({super.key, this.contractId = ""});
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,8 @@ import 'package:laas/components/Lender/l_detail_card.dart';
 import 'package:laas/components/Lender/transactions_card.dart';
 
 class LLoanStatus extends StatefulWidget {
-  const LLoanStatus({super.key});
+  final String contractId;
+  const LLoanStatus({super.key, this.contractId = ""});
 
   @override
   State<LLoanStatus> createState() => _LLoanStatusState();
