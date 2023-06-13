@@ -1,9 +1,9 @@
 //fxh
 import 'package:flutter/material.dart';
-import 'package:laas/components/Lender/Argeement.dart';
-import 'package:laas/components/Lender/Header.dart';
+import 'package:laas/components/Lender/argeement.dart';
+import 'package:laas/components/Lender/header.dart';
 
-import '../../components/Lender/Review.dart';
+import '../../components/Lender/review.dart';
 
 class LProfileScreen extends StatelessWidget {
   const LProfileScreen({super.key});
