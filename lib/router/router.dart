@@ -81,7 +81,11 @@ class AppGoRouter extends ChangeNotifier {
         ),
         GoRoute(
           path: "/l/createloan",
-          builder: (context, state) => const LCreateLoan(),
+          builder: (context, state) => LCreateLoan(
+            onPaymentOptionSelected: (value) {
+              // Handle the payment option selection logic here
+            },
+          ),
         ),
         GoRoute(
           path: "/l/apporveloan",

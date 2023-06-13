@@ -4,18 +4,53 @@ import 'package:laas/components/Lender/checkBox.dart';
 import 'package:laas/components/Lender/silder.dart';
 
 class LCreateLoan extends StatefulWidget {
-  const LCreateLoan({Key? key}) : super(key: key);
+  final ValueChanged<String> onPaymentOptionSelected;
+  const LCreateLoan({Key? key, required this.onPaymentOptionSelected})
+      : super(key: key);
 
   @override
   State<LCreateLoan> createState() => _LCreateLoanState();
 }
 
 const List<String> list = <String>['per day', 'per month'];
+const List<String> paymentOptions = ['KbanK', 'SCB', 'PromptPay'];
+String selectedPaymentOption = '';
 
 class _LCreateLoanState extends State<LCreateLoan> {
-  bool _isSelected = false;
+  bool _isSelected1 = false;
+  bool _isSelected2 = false;
+  bool _isTextFieldFilled = false;
+
+  TextEditingController startController = TextEditingController();
+  TextEditingController endController = TextEditingController();
+  TextEditingController agreementDetailsController = TextEditingController();
+  TextEditingController paymentNumberController = TextEditingController();
+
+  void onPaymentOptionSelected(String option) {
+    setState(() {
+      selectedPaymentOption = option;
+    });
+  }
+
+  @override
+  void dispose() {
+    startController.dispose();
+    endController.dispose();
+    agreementDetailsController.dispose();
+    paymentNumberController.dispose();
+    super.dispose();
+  }
+
+  bool isFieldsFilled() {
+    return startController.text.isNotEmpty &&
+        endController.text.isNotEmpty &&
+        agreementDetailsController.text.isNotEmpty &&
+        paymentNumberController.text.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
+    _isTextFieldFilled = isFieldsFilled();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -42,6 +77,10 @@ class _LCreateLoanState extends State<LCreateLoan> {
                 children: [
                   Expanded(
                     child: TextField(
+                      controller: startController,
+                      onChanged: (value) => setState(() {
+                        _isTextFieldFilled = isFieldsFilled();
+                      }),
                       decoration: InputDecoration(
                         labelText: "Start",
                         hintStyle: TextStyle(
@@ -65,6 +104,10 @@ class _LCreateLoanState extends State<LCreateLoan> {
                   const SizedBox(width: 15),
                   Expanded(
                     child: TextField(
+                      controller: endController,
+                      onChanged: (value) => setState(() {
+                        _isTextFieldFilled = isFieldsFilled();
+                      }),
                       decoration: InputDecoration(
                         labelText: "End",
                         hintStyle: TextStyle(
@@ -97,24 +140,122 @@ class _LCreateLoanState extends State<LCreateLoan> {
                     Flexible(
                       child: LinkedLabelCheckbox(
                         label: 'Interest rate |',
-                        value: _isSelected,
+                        value: _isSelected1,
                         onChanged: (bool newValue) {
                           setState(() {
-                            _isSelected = newValue;
+                            _isSelected1 = newValue;
                           });
                         },
                         labelType: LabelType.text,
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    DropdownButtons(
-                      isEnabled: _isSelected,
+                    const SizedBox(width: 5),
+                    LDropdownButtons(
+                      isEnabled: _isSelected1,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 17),
-              SilderBar(isEnabled: _isSelected),
+              const SizedBox(height: 10),
+              SilderBar(isEnabled: _isSelected1),
+              const SizedBox(height: 10),
+              LinkedLabelCheckbox(
+                label: 'Due within (months)',
+                value: _isSelected2,
+                onChanged: (bool newValue) {
+                  setState(() {
+                    _isSelected2 = newValue;
+                  });
+                },
+                labelType: LabelType.textField,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Additional Agreement",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium!.fontSize,
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: agreementDetailsController,
+                decoration: InputDecoration(
+                  labelText: "Agreement Details",
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  contentPadding: const EdgeInsets.all(20),
+                  fillColor: Theme.of(context).colorScheme.surfaceVariant,
+                  filled: true,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Payment channel",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium!.fontSize,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                height: 70,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5.0),
+                    topRight: Radius.circular(5.0),
+                  ),
+                  color: Theme.of(context).colorScheme.surfaceVariant,
+                ),
+                width: double.infinity,
+                child: Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, top: 10, right: 10),
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: selectedPaymentOption.isNotEmpty
+                          ? selectedPaymentOption
+                          : null,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedPaymentOption = value!;
+                        });
+                        widget.onPaymentOptionSelected(value!);
+                      },
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      items: paymentOptions.map((String option) {
+                        return DropdownMenuItem<String>(
+                          value: option,
+                          key: ValueKey<String>(option),
+                          child: Text(option),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: paymentNumberController,
+                decoration: InputDecoration(
+                  labelText: "Payment Number",
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  contentPadding: const EdgeInsets.all(20),
+                  fillColor: Theme.of(context).colorScheme.surfaceVariant,
+                  filled: true,
+                ),
+              ),
+              const SizedBox(height: 100),
+              createLoanButton(context, _isTextFieldFilled),
             ],
           ),
         ),
@@ -123,16 +264,16 @@ class _LCreateLoanState extends State<LCreateLoan> {
   }
 }
 
-class DropdownButtons extends StatefulWidget {
+class LDropdownButtons extends StatefulWidget {
   final bool isEnabled;
 
-  const DropdownButtons({Key? key, required this.isEnabled}) : super(key: key);
+  const LDropdownButtons({Key? key, required this.isEnabled}) : super(key: key);
 
   @override
-  State<DropdownButtons> createState() => _DropdownButtonsState();
+  State<LDropdownButtons> createState() => _LDropdownButtonsState();
 }
 
-class _DropdownButtonsState extends State<DropdownButtons> {
+class _LDropdownButtonsState extends State<LDropdownButtons> {
   int dropdownValue = 0;
 
   @override
@@ -206,4 +347,34 @@ class _DropdownButtonsState extends State<DropdownButtons> {
       ),
     );
   }
+}
+
+Widget createLoanButton(BuildContext context, bool isTextFieldFilled) {
+  Color buttonColor = Theme.of(context).colorScheme.primary;
+  Color textColor = Theme.of(context).colorScheme.onPrimary;
+  if (!isTextFieldFilled) {
+    buttonColor = Theme.of(context).colorScheme.onSurface;
+    textColor = Theme.of(context).colorScheme.primary;
+  }
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+      foregroundColor: textColor,
+      minimumSize: const Size.fromHeight(50),
+      backgroundColor: buttonColor,
+    ),
+    onPressed: isTextFieldFilled && selectedPaymentOption.isNotEmpty
+        ? () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Create Loan successfully')),
+            );
+          }
+        : null,
+    child: Text(
+      "Create Loan",
+      style: TextStyle(
+          color: textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+    ),
+  );
 }
