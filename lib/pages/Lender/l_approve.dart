@@ -5,7 +5,8 @@ import 'package:laas/components/Lender/review.dart';
 import 'package:laas/components/Lender/debt_analysis.dart';
 
 class LApprove extends StatelessWidget {
-  const LApprove({super.key});
+  final String contractId;
+  const LApprove({super.key, this.contractId = ""});
 
   @override
   Widget build(BuildContext context) {

@@ -1,15 +1,13 @@
-//fxh
 import 'package:flutter/material.dart';
 
-class LPaymentScreen extends StatelessWidget {
-  final String contractId;
-  const LPaymentScreen({super.key, this.contractId = ""});
+class Kyc extends StatelessWidget {
+  const Kyc({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("LPaymentScreen"),
+        title: const Text("LApprove"),
       ),
       body: const Center(
         child: Text("Create Screen"),
