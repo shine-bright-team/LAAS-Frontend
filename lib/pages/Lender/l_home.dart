@@ -1,9 +1,35 @@
 //phon
 import 'package:flutter/material.dart';
+import 'package:laas/model/contract.dart';
+import 'package:laas/services/data/lone_contract/get_loan.dart';
+import 'package:laas/services/data/userdata/get_borrower.dart';
 import '../../components/Lender/lender_card.dart';
+import '../../model/user_model.dart';
 
-class LHome extends StatelessWidget {
+class LHome extends StatefulWidget {
   const LHome({super.key});
+
+  @override
+  State<LHome> createState() => _LHomeState();
+}
+
+class _LHomeState extends State<LHome> {
+  List<User> urBorrowers = [];
+  List<Contract> urBrContract = [];
+  @override
+  void initState() {
+    _getYourBorrowers();
+    super.initState();
+  }
+
+  _getYourBorrowers() async {
+    urBorrowers = await getBorrower();
+    urBrContract = await getContract();
+    setState(() {
+      urBorrowers;
+      urBrContract;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +56,23 @@ class LHome extends StatelessWidget {
                   textAlign: TextAlign.end,
                 ),
                 const SizedBox(height: 10),
-                const LenderCard(
-                    id: "01",
-                    name: "Thanaphon",
-                    date: "test",
-                    amount: "100",
-                    profileId: "test"),
-                const LenderCard(
-                    id: "01",
-                    name: "Thanaphon",
-                    date: "test",
-                    amount: "100",
-                    profileId: "test"),
+                SizedBox(
+                  width: 350,
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: urBorrowers.length,
+                    itemBuilder: (context, index) {
+                      return LenderCard(
+                          id: urBorrowers[index].id.toString(),
+                          fName: urBorrowers[index].firstname,
+                          lName: urBorrowers[index].lastname,
+                          date: urBrContract[index].dueAt,
+                          amount: urBrContract[index].loanAmount,
+                          profileId: "1");
+                    },
+                  ),
+                ),
                 const SizedBox(height: 20),
                 Text(
                   "Borrow requests",

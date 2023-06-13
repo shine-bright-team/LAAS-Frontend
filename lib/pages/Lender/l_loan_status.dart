@@ -151,47 +151,25 @@ class _LLoanStatusState extends State<LLoanStatus> {
                         width: 10,
                       ),
                       Container(
-                        // number of people
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .secondaryContainer,
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 4,
-                                  offset: const Offset(1, 1),
-                                  color: Colors.grey.withOpacity(0.5))
-                            ]),
-                        alignment: Alignment.center,
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            children: [
-                              WidgetSpan(
-                                child: Icon(Icons.group_add_outlined,
-                                    size: 24,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer),
-                              ),
-                              TextSpan(
-                                  text:
-                                      "3", //widget.debt.borrowersUserId.length.toString(),
-                                  style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                      fontSize: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall
-                                          ?.fontSize)),
-                            ],
-                          ),
-                        ),
-                      ),
+                          // number of people
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 4,
+                                    offset: const Offset(1, 1),
+                                    color: Colors.grey.withOpacity(0.5))
+                              ]),
+                          alignment: Alignment.center,
+                          child: const CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage('assets/ri.jpeg'),
+                          )),
                     ],
                   ),
                   const SizedBox(
@@ -343,7 +321,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                           circleColorState: "error",
                           tId: "",
                           dId: "",
-                          reason: ""),
+                          reason: "This is an error test"),
                       TransCard(
                           name: "Bob",
                           amount: 50,

@@ -3,14 +3,16 @@ import 'package:go_router/go_router.dart';
 
 class LenderCard extends StatefulWidget {
   final String id;
-  final String name;
-  final String date;
-  final String amount;
+  final String fName;
+  final String lName;
+  final DateTime date;
+  final int amount;
   final String profileId;
   const LenderCard(
       {super.key,
       required this.id,
-      required this.name,
+      required this.fName,
+      required this.lName,
       required this.date,
       required this.amount,
       required this.profileId});
@@ -19,6 +21,8 @@ class LenderCard extends StatefulWidget {
 }
 
 class _LenderCardState extends State<LenderCard> {
+  // String formattedDate = DateFormat
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -48,8 +52,13 @@ class _LenderCardState extends State<LenderCard> {
                     children: [
                       Row(
                         children: [
+                          const CircleAvatar(
+                            radius: 15,
+                            backgroundImage: AssetImage('assets/ri.jpeg'),
+                          ),
+                          const SizedBox(width: 5),
                           Text(
-                            "Thamolwan\nJarungrattanapong",
+                            "${widget.fName}\n${widget.lName}",
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme
@@ -64,7 +73,7 @@ class _LenderCardState extends State<LenderCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Due date: 25 JUL 2023",
+                            widget.date.toString(),
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme
@@ -87,7 +96,7 @@ class _LenderCardState extends State<LenderCard> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "1000 THB",
+                            "${widget.amount}THB",
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme

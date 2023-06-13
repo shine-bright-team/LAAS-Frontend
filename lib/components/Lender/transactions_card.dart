@@ -107,18 +107,19 @@ class _TransCardState extends State<TransCard> {
                           : const CircleAvatar(child: Icon(Icons.person))
                     ] else ...[
                       // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
-
-                      ClipOval(
-                        child: SizedBox.fromSize(
-                          size: const Size.fromRadius(30),
-                          child: Image.network(
-                            profileImage,
-                            fit: BoxFit.cover,
-                            color: Colors.black.withOpacity(0.5),
-                            colorBlendMode: BlendMode.overlay,
-                          ),
-                        ),
-                      ),
+                      profileImage != ''
+                          ? ClipOval(
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(30),
+                                child: Image.network(
+                                  profileImage,
+                                  fit: BoxFit.cover,
+                                  color: Colors.black.withOpacity(0.5),
+                                  colorBlendMode: BlendMode.overlay,
+                                ),
+                              ),
+                            )
+                          : const CircleAvatar(child: Icon(Icons.person))
                     ],
                     const SizedBox(
                       width: 13,
