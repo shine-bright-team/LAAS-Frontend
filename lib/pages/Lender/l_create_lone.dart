@@ -213,30 +213,41 @@ class _LCreateLoanState extends State<LCreateLoan> {
                 width: double.infinity,
                 child: Expanded(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 20, top: 10, right: 10),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      value: selectedPaymentOption.isNotEmpty
-                          ? selectedPaymentOption
-                          : null,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPaymentOption = value!;
-                        });
-                        widget.onPaymentOptionSelected(value!);
-                      },
-                      icon: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                      items: paymentOptions.map((String option) {
-                        return DropdownMenuItem<String>(
-                          value: option,
-                          key: ValueKey<String>(option),
-                          child: Text(option),
-                        );
-                      }).toList(),
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 10, top: 10),
+                            child: DropdownButton<String>(
+                              hint: const Text("Select Payment Option"),
+                              isExpanded: true,
+                              value: selectedPaymentOption.isNotEmpty
+                                  ? selectedPaymentOption
+                                  : null,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedPaymentOption = value!;
+                                });
+                                widget.onPaymentOptionSelected(value!);
+                              },
+                              icon: Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                              items: paymentOptions.map((String option) {
+                                return DropdownMenuItem<String>(
+                                  value: option,
+                                  key: ValueKey<String>(option),
+                                  child: Text(option),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
