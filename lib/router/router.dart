@@ -51,27 +51,27 @@ class AppGoRouter extends ChangeNotifier {
     return null;
   }
 
-  final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
-  final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
+  // final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
+  // final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
 
   late final routes = [
     ShellRoute(
-      navigatorKey: _mainRouteKey,
+      // navigatorKey: _mainRouteKey,
       routes: [
         ShellRoute(
           routes: [
             GoRoute(
-              parentNavigatorKey: _shellRouteKey,
+              // parentNavigatorKey: _shellRouteKey,
               path: "/l",
               builder: (context, state) => const LHome(),
             ),
             GoRoute(
-              parentNavigatorKey: _shellRouteKey,
+              // parentNavigatorKey: _shellRouteKey,
               path: "/l/search",
               builder: (context, state) => const Search(),
             ),
             GoRoute(
-              parentNavigatorKey: _shellRouteKey,
+              // parentNavigatorKey: _shellRouteKey,
               path: "/l/profile",
               builder: (context, state) => const LProfileScreen(),
             ),
@@ -84,36 +84,36 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/l/createloan",
           builder: (context, state) => const LCreateLoan(),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/l/loanstatus/:contractId",
           builder: (context, state) =>
               LLoanStatus(contractId: state.params['contractId']!),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/l/apporveloan/:contractId",
           builder: (context, state) =>
               LApprove(contractId: state.params['contractId']!),
         ),
         GoRoute(
-            parentNavigatorKey: _mainRouteKey,
+            // parentNavigatorKey: _mainRouteKey,
             path: "/l/payment/:contractId",
             builder: (context, state) =>
                 LPaymentScreen(contractId: state.params['contractId']!)),
         ShellRoute(
           routes: [
             GoRoute(
-              parentNavigatorKey: _shellRouteKey,
+              // parentNavigatorKey: _shellRouteKey,
               path: "/b",
               builder: (context, state) => const BHome(),
             ),
             GoRoute(
-              parentNavigatorKey: _shellRouteKey,
+              // parentNavigatorKey: _shellRouteKey,
               path: "/b/profile",
               builder: (context, state) => const BProfileScreen(),
             ),
@@ -126,27 +126,27 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/b/loanstatus",
           builder: (context, state) => const BLoanStatus(),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/b/payment",
           builder: (context, state) => const BPaymentScreen(),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/login",
           builder: (context, state) => const LoginPage(),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/register",
           builder: (context, state) => const RegisterPage(),
         ),
         GoRoute(
-          parentNavigatorKey: _mainRouteKey,
+          // parentNavigatorKey: _mainRouteKey,
           path: "/KYC",
           builder: (context, state) => const Kyc(),
         ),
