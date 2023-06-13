@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:laas/components/Lender/Star.dart';
+import 'package:laas/components/Lender/com_star.dart';
 import 'package:laas/config/theme/custom_color.g.dart';
 
 Widget review(BuildContext context) {
