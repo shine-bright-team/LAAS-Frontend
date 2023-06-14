@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/review.dart';
 import 'package:laas/components/Lender/debt_analysis.dart';
-import 'package:laas/components/Lender/signaturePad.dart';
+import 'package:laas/components/Lender/signature_pad.dart';
 
 class LApprove extends StatelessWidget {
   final String contractId;
