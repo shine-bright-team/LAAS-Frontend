@@ -1,11 +1,22 @@
 //phon
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:laas/components/Lender/l_detail_card.dart';
 import 'package:laas/components/Lender/transactions_card.dart';
+import 'package:laas/model/contract.dart';
+import 'package:laas/model/transaction.dart';
+import 'package:laas/services/data/lone_contract/get_detail.dart';
+import 'package:laas/services/data/transction/get_transaction_by_cid.dart';
+
+import '../../model/user_model.dart';
+import '../../services/data/userdata/get_borrower_detail.dart';
 
 class LLoanStatus extends StatefulWidget {
+  final String userId;
   final String contractId;
-  const LLoanStatus({super.key, this.contractId = ""});
+
+  const LLoanStatus(
+      {super.key, required this.userId, required this.contractId});
 
   @override
   State<LLoanStatus> createState() => _LLoanStatusState();
@@ -13,19 +24,54 @@ class LLoanStatus extends StatefulWidget {
 
 class _LLoanStatusState extends State<LLoanStatus> {
   // late DateTime _date;
+  String? formattedDate;
+  User? urBrInfo;
+  Contract? contract;
+  List<Transaction?>? trans;
 
-  void initData() {
-    // _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
+  // void initData() {
+  //   _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
 
-    // for (var e in widget.debt.transactions) {
-    //   print("id: ${e.username} amount: ${e.amount}");
-    // }
-  }
+  //   for (var e in widget.debt.transactions) {
+  //     print("id: ${e.username} amount: ${e.amount}");
+  //   }
+  // }
 
   @override
   void initState() {
+    // initData();
+    _getData();
     super.initState();
-    initData();
+  }
+
+  _getData() async {
+    int uId = int.parse(widget.userId);
+    int cId = int.parse(widget.contractId);
+    urBrInfo = (await getBorrowerDetail(uId))!;
+    contract = (await getDetail(cId))!;
+    formattedDate = DateFormat.yMMMMd().format(contract!.dueAt);
+    trans = await getTransactionByContract(contract!.id);
+    setState(() {
+      urBrInfo;
+      contract;
+      formattedDate;
+      trans;
+    });
+    // print(widget.userId);
+    // print(urBrInfo?.firstname ?? "default");
+    // print(contract?.loanAmount);
+  }
+
+  createTransCard() {
+    return trans!
+        .map((e) => TransCard(
+            id: e!.id.toString(),
+            cId: contract!.id.toString(),
+            name: urBrInfo!.firstname,
+            amount: e.paidAmount,
+            circleColorState: "",
+            reason: ""))
+        .toList();
   }
 
   // totalPaidTransactions() {
@@ -86,11 +132,12 @@ class _LLoanStatusState extends State<LLoanStatus> {
                     height: 5,
                   ),
                   LenderDetailCard(
-                      id: "", //widget.debt.debtId,
-                      cardColor: Theme.of(context).colorScheme.primary,
-                      name: "Test", //widget.debt.debtName,
-                      amount: "100", //widget.debt.debtTotal.toString(),
-                      edit: true),
+                    id: widget.contractId,
+                    cardColor: Theme.of(context).colorScheme.primary,
+                    fName: urBrInfo!.firstname, //urBrInfo.firstname,
+                    lName: urBrInfo!.lastname, //urBrInfo.lastname,
+                    amount: contract!.loanAmount.toString(),
+                  ),
                   const SizedBox(
                     height: 23,
                   ),
@@ -133,7 +180,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                   children: [
                                     TextSpan(
                                         // Date Text
-                                        text: "Tue, Feburary 2023",
+                                        text: formattedDate,
                                         // "${_date.day}/${_date.month}/${_date.year}", //"Tue, Feburary 2023",
                                         style: TextStyle(
                                             color: Theme.of(context)
@@ -215,7 +262,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: "25",
+                                        text: "00",
                                         //totalPaidTransactions().toString(),
                                         style: TextStyle(
                                             color: Theme.of(context)
@@ -268,7 +315,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: "50",
+                                        text: "00",
                                         // text: (widget.debt.transactions)
                                         //     .where((e) =>
                                         //         e.isApproved == "pending")
@@ -307,30 +354,32 @@ class _LLoanStatusState extends State<LLoanStatus> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Column(
+                  Column(
                     children: [
-                      TransCard(
-                          name: "Thamolwan",
-                          amount: 50,
-                          circleColorState: "pending",
-                          tId: "",
-                          dId: "",
-                          reason: ""),
-                      TransCard(
+                      ...createTransCard(),
+                      const TransCard(
+                        id: '',
+                        cId: '',
+                        name: "Thamolwan",
+                        amount: 50,
+                        circleColorState: "pending",
+                        reason: "",
+                      ),
+                      const TransCard(
+                          id: '',
+                          cId: '',
                           name: "Thanaphon",
                           amount: 50,
                           circleColorState: "error",
-                          tId: "",
-                          dId: "",
                           reason: "This is an error test"),
-                      TransCard(
+                      const TransCard(
+                          id: '',
+                          cId: '',
                           name: "Bob",
                           amount: 50,
                           circleColorState: "success",
-                          tId: "",
-                          dId: "",
                           reason: ""),
-                      SizedBox(height: 100)
+                      const SizedBox(height: 100)
                     ],
                   ),
                 ],

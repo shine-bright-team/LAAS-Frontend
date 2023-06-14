@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 class LenderCard extends StatefulWidget {
-  final String id;
+  final String uId;
+  final String cId;
   final String fName;
   final String lName;
   final DateTime date;
@@ -10,7 +12,8 @@ class LenderCard extends StatefulWidget {
   final String profileId;
   const LenderCard(
       {super.key,
-      required this.id,
+      required this.uId,
+      required this.cId,
       required this.fName,
       required this.lName,
       required this.date,
@@ -21,14 +24,20 @@ class LenderCard extends StatefulWidget {
 }
 
 class _LenderCardState extends State<LenderCard> {
-  // String formattedDate = DateFormat
+  String? formattedDate;
+  @override
+  void initState() {
+    formattedDate = DateFormat.yMMMMd().format(widget.date);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: InkWell(
-            onTap: () => {context.push("/l/loanstatus")},
+            onTap: () =>
+                {context.push("/l/loanstatus/${widget.cId}/${widget.uId}")},
             child: Container(
               constraints: const BoxConstraints(maxWidth: 350, minHeight: 115),
               decoration: BoxDecoration(
@@ -64,7 +73,8 @@ class _LenderCardState extends State<LenderCard> {
                                     .textTheme
                                     .labelSmall!
                                     .fontSize,
-                                color: Theme.of(context).colorScheme.primary),
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600),
                           )
                         ],
                       ),
@@ -73,7 +83,7 @@ class _LenderCardState extends State<LenderCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            widget.date.toString(),
+                            "Due date: $formattedDate",
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme

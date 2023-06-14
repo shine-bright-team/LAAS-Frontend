@@ -64,7 +64,8 @@ class _LHomeState extends State<LHome> {
                     itemCount: urBorrowers.length,
                     itemBuilder: (context, index) {
                       return LenderCard(
-                          id: urBorrowers[index].id.toString(),
+                          uId: urBorrowers[index].id.toString(),
+                          cId: urBrContract[index].id.toString(),
                           fName: urBorrowers[index].firstname,
                           lName: urBorrowers[index].lastname,
                           date: urBrContract[index].dueAt,

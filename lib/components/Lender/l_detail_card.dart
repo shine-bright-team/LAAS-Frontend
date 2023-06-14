@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class LenderDetailCard extends StatefulWidget {
   final String id;
   final Color? cardColor;
-  final String name;
+  final String fName;
+  final String lName;
   final String amount;
-  final bool edit;
 
   const LenderDetailCard({
     super.key,
     required this.id,
     required this.cardColor,
-    required this.name,
+    required this.fName,
+    required this.lName,
     required this.amount,
-    required this.edit,
   });
 
   @override
@@ -63,7 +63,8 @@ class _LenderDetailCardState extends State<LenderDetailCard> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: widget.name,
+                                          text:
+                                              "${widget.fName}\n${widget.lName}",
                                           style: const TextStyle(
                                             fontSize: 34,
                                             color: Colors.white,
@@ -95,14 +96,6 @@ class _LenderDetailCardState extends State<LenderDetailCard> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (widget.edit == false)
-                          ...[]
-                        else ...[
-                          const Icon(Icons.edit, color: Colors.white),
-                          const SizedBox(
-                            height: 10, // space divider
-                          ),
-                        ],
                         SizedBox(
                           child: Text(
                             widget.amount, // Money amount

@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
 class TransCard extends StatefulWidget {
+  final String id;
+  final String cId;
   final bool isOpen;
   final String name;
-  final String tId;
-  final String dId;
   final String circleColorState;
-  final double amount;
+  final int amount;
   final String? reason;
 
   const TransCard({
-    Key? key,
+    super.key,
+    required this.id,
+    required this.cId,
     required this.name,
     // required this.image,
     required this.amount,
     // required this.done,
     required this.circleColorState,
-    required this.tId,
-    required this.dId,
     required this.reason,
     this.isOpen = false,
-  }) : super(key: key);
+  });
 
   @override
   State<TransCard> createState() => _TransCardState();
@@ -62,7 +62,7 @@ class _TransCardState extends State<TransCard> {
     return GestureDetector(
         onTap: () => {
               if (widget.circleColorState == "pending") ...[
-                _receiptAlert(context, billImage, widget.tId, widget.dId)
+                _receiptAlert(context, billImage, widget.id, widget.cId)
               ]
               // else if (widget.circleColor ==
               //     Theme.of(context).colorScheme.error) ...[
@@ -218,7 +218,7 @@ class _TransCardState extends State<TransCard> {
 }
 
 Future<void> _receiptAlert(
-    BuildContext context, String bill, String tId, String dId) {
+    BuildContext context, String bill, String id, String cId) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -245,7 +245,7 @@ Future<void> _receiptAlert(
             child: const Text('Decline'),
             onPressed: () {
               Navigator.of(context).pop();
-              _wrongAlert(context, tId, dId);
+              _wrongAlert(context, id, cId);
             },
           ),
           TextButton(
@@ -254,7 +254,7 @@ Future<void> _receiptAlert(
             ),
             child: const Text('Approve'),
             onPressed: () {
-              // approveTransaction(transactionId: tId, debtId: dId).then((value) {
+              // approveTransaction(transactionId: id, debtId: cId).then((value) {
               //   Navigator.of(context).pop();
               // }).onError((error, stackTrace) {
               //   showSnackBar(context, error.toString());
