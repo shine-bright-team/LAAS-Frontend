@@ -4,10 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:laas/components/Lender/payment/payment_upload.dart';
+import 'package:laas/components/gen_qr.dart';
 import 'package:laas/model/paychannel.dart';
 import 'package:laas/services/data/lone_contract/get_detail.dart';
 import 'package:laas/services/data/payment/get_paychannel_by_contract.dart';
-import 'package:promptpay_qrcode_generate/promptpay_qrcode_generate.dart';
 
 class LPaymentScreen extends StatefulWidget {
   final String contractId;

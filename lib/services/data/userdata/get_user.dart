@@ -9,6 +9,6 @@ Future<User> getUser() async {
       email: 'johndoe@example.com',
       isLender: true,
       paychannel: "Promptpay",
-      payNumber: "096220825");
+      payNumber: "0962200825");
   return mockupUserList;
 }
