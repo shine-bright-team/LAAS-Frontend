@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/review.dart';
 import 'package:laas/components/Lender/debt_analysis.dart';
+import 'package:laas/components/Lender/signaturePad.dart';
 
 class LApprove extends StatelessWidget {
   final String contractId;
@@ -58,7 +59,7 @@ class LApprove extends StatelessWidget {
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: [
-                    approveButton(context),
+                    approveButton(context, contractId),
                     const SizedBox(
                       height: 17,
                     ),
@@ -72,16 +73,16 @@ class LApprove extends StatelessWidget {
   }
 }
 
-Widget approveButton(BuildContext context) {
+Widget approveButton(BuildContext context, String contractId) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       minimumSize: const Size.fromHeight(50),
       backgroundColor: Theme.of(context).colorScheme.primary,
     ),
     onPressed: () {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('approve successfully')),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return SignaturePad(contractId: contractId);
+      }));
     },
     child: Text(
       "Approve",
