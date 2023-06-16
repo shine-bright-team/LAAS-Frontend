@@ -5,6 +5,7 @@ class Transaction {
   final DateTime paidAt;
   final String errMessage;
   final bool isApproved;
+  final String status;
 
   const Transaction({
     required this.id,
@@ -13,6 +14,7 @@ class Transaction {
     required this.paidAt,
     required this.errMessage,
     required this.isApproved,
+    required this.status,
   });
 
   factory Transaction.fromJson(Map json) {
@@ -23,6 +25,7 @@ class Transaction {
       paidAt: json['paidAt'],
       errMessage: json['errMessage'],
       isApproved: json['isApproved'],
+      status: json['status'],
     );
   }
 }
