@@ -86,7 +86,11 @@ class AppGoRouter extends ChangeNotifier {
         GoRoute(
           // parentNavigatorKey: _mainRouteKey,
           path: "/l/createloan",
-          builder: (context, state) => const LCreateLoan(),
+          builder: (context, state) => LCreateLoan(
+            onPaymentOptionSelected: (value) {
+              // Handle the payment option selection logic here
+            },
+          ),
         ),
         GoRoute(
           // parentNavigatorKey: _mainRouteKey,
@@ -163,6 +167,9 @@ class AppGoRouter extends ChangeNotifier {
     )
   ];
 }
+
+
+
 
      
 

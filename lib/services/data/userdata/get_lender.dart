@@ -19,7 +19,7 @@ Future<List<User>> getLender() async {
         email: 'janesmith@example.com',
         isLender: true,
         paychannel: "Promptpay",
-        payNumber: "096220825"),
+        payNumber: "0962200825"),
     const User(
         id: 3,
         title: 'Dr.',

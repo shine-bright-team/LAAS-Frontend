@@ -14,7 +14,7 @@ Widget agreement(BuildContext context) {
         height: 20,
       ),
       Container(
-        constraints: const BoxConstraints(maxWidth: 340, minHeight: 150),
+        constraints: const BoxConstraints(maxWidth: 576),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(19),
           color: Theme.of(context).colorScheme.surface,

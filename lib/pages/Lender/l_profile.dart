@@ -1,9 +1,8 @@
 //fxh
 import 'package:flutter/material.dart';
-import 'package:laas/components/Lender/Argeement.dart';
-import 'package:laas/components/Lender/Header.dart';
-
-import '../../components/Lender/Review.dart';
+import 'package:laas/components/Lender/header.dart';
+import 'package:laas/components/Lender/com_argeement.dart';
+import 'package:laas/components/Lender/review.dart';
 
 class LProfileScreen extends StatelessWidget {
   const LProfileScreen({super.key});
@@ -27,14 +26,16 @@ class LProfileScreen extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: [
-                    review(context),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    agreement(context)
-                  ],
+                child: Center(
+                  child: Column(
+                    children: [
+                      review(context),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      agreement(context)
+                    ],
+                  ),
                 ),
               ),
               Padding(

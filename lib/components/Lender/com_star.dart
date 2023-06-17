@@ -9,8 +9,7 @@ class StarDisplayWidget extends StatelessWidget {
     this.value = 0,
     required this.filledStar,
     required this.unfilledStar,
-  })  : assert(value != null),
-        super(key: key);
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Row(
