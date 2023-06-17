@@ -4,7 +4,6 @@ import 'package:laas/components/Lender/borrow_request_card.dart';
 import 'package:laas/model/contract.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';
 import 'package:laas/services/data/userdata/get_borrower.dart';
-import 'package:laas/services/data/userdata/get_user.dart';
 import '../../components/Lender/lender_card.dart';
 import '../../model/user_model.dart';
 
