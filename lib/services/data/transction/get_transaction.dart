@@ -17,6 +17,7 @@ Future<List<Transaction>> getTransaction() async {
       paidAmount: 800,
       paidAt: DateTime(2023, 4, 5),
       errMessage: "worng bill",
+
       isApproved: false,
       status: "ERROR",
     ),
