@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laas/config/theme/custom_text_fied.dart';
+import 'package:laas/providers/authProvider.dart';
 import 'package:laas/services/auth/vaildate_email.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -27,7 +28,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _confirmPassword = TextEditingController();
   bool _isLoading = false;
   bool _isShowPassword = false;
-  final _seletion = const ["MR", "MS", "MRS"];
+  final _seletion = const ["Mr.", "Ms.", "Mrs."];
   final _roleseletion = const ["Borrwer", "Lender"];
   void setLoading(bool isLoading) {
     setState(() {
@@ -48,20 +49,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    void signup() async {
-      // if (_formKey.currentState!.validate()) {
-      //   setLoading(true);
-      //   try {
-      //     await authService.signup(_username.text, _email.text, _password.text);
-      //     setLoading(false);
-      //   } catch (err) {
-      //     ScaffoldMessenger.of(context)
-      //         .showSnackBar(SnackBar(content: Text(err.toString())));
-      //     setLoading(false);
-      //   }
-      // }
-    }
-
+    final counter = ref.watch(authProvider);
     return Scaffold(
         body: SingleChildScrollView(
       child: Form(
@@ -275,7 +263,24 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           height: 30,
                         ),
                         FilledButton(
-                          onPressed: signup,
+                          onPressed: () async {
+                            try {
+                              await counter.signup(
+                                  _email.text,
+                                  _title,
+                                  _fname.text,
+                                  _lname.text,
+                                  _username.text,
+                                  _password.text,
+                                  _role);
+                              // ignore: use_build_context_synchronously
+                              context.go("/l/createloan");
+                            } catch (err) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(err.toString())));
+                              setLoading(false);
+                            }
+                          },
                           style: FilledButton.styleFrom(
                             minimumSize: const Size.fromHeight(50),
                             padding: const EdgeInsets.all(10.00),
