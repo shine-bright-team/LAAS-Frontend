@@ -1,8 +1,10 @@
 //phon
 import 'package:flutter/material.dart';
+import 'package:laas/components/Lender/borrow_request_card.dart';
 import 'package:laas/model/contract.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';
 import 'package:laas/services/data/userdata/get_borrower.dart';
+import 'package:laas/services/data/userdata/get_user.dart';
 import '../../components/Lender/lender_card.dart';
 import '../../model/user_model.dart';
 
@@ -25,6 +27,7 @@ class _LHomeState extends State<LHome> {
   _getYourBorrowers() async {
     urBorrowers = await getBorrower();
     urBrContract = await getContract();
+
     setState(() {
       urBorrowers;
       urBrContract;
@@ -84,6 +87,23 @@ class _LHomeState extends State<LHome> {
                   textAlign: TextAlign.end,
                 ),
                 const SizedBox(height: 10),
+                SizedBox(
+                  width: 350,
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: urBorrowers.length,
+                    itemBuilder: (context, index) {
+                      return BrRequestCard(
+                          uId: urBorrowers[index].id.toString(),
+                          cId: urBrContract[index].id.toString(),
+                          fName: urBorrowers[index].firstname,
+                          lName: urBorrowers[index].lastname,
+                          amount: urBrContract[index].loanAmount,
+                          profileId: "1");
+                    },
+                  ),
+                ),
               ])),
         ));
   }
