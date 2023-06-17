@@ -1,5 +1,8 @@
 import 'package:laas/model/user_model.dart';
 
+//หมั่ม Profile
+// ดึงuser ออกมา ผ่าน route "/user/ return ออกไป"
+// แก้ทุกสิ่งที่มันแดง
 Future<User> getUser() async {
   User mockupUserList = const User(
       id: 1,

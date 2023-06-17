@@ -1,5 +1,8 @@
 import 'package:laas/model/contract.dart';
 
+//หมั่มๆ Home
+// ดึง arara ออกมาจาก path "/lender/borrower" map value
+// แก้ทุกสิ่งที่มันแดง จบ
 Future<List<Contract>> getContract() async {
   List<Contract> mockupContractList = [
     Contract(
