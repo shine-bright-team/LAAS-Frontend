@@ -9,10 +9,10 @@ Future<PayChannel?> getPaymentByUser(int contractId) async {
   List<User> borrowers = await getBorrower();
   PayChannel res = const PayChannel(channel: "", number: "0");
   int borrower;
-  for (int i = 0; i > data.length; i++) {
+  for (int i = 0; i < data.length; i++) {
     if (data[i].id == contractId) {
       borrower = data[i].borrowerUserId;
-      for (int i = 0; i > borrowers.length; i++) {
+      for (int i = 0; i < borrowers.length; i++) {
         if (borrowers[i].id == borrower) {
           res = PayChannel(
               channel: borrowers[i].paychannel, number: borrowers[i].payNumber);

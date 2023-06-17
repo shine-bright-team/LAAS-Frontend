@@ -10,7 +10,7 @@ Future<List<User>> getBorrower() async {
         email: 'davidbrown@example.com',
         isLender: true,
         paychannel: "Promptpay",
-        payNumber: "096220825"),
+        payNumber: "0962200825"),
     const User(
         id: 6,
         title: 'Ms.',
@@ -19,7 +19,7 @@ Future<List<User>> getBorrower() async {
         email: 'sophiadavis@example.com',
         isLender: true,
         paychannel: "Promptpay",
-        payNumber: "096220825"),
+        payNumber: "0962200825"),
     const User(
       id: 7,
       title: 'Dr.',
@@ -38,7 +38,7 @@ Future<List<User>> getBorrower() async {
         email: 'emmaanderson@example.com',
         isLender: true,
         paychannel: "Promptpay",
-        payNumber: "096220825"),
+        payNumber: "0962200825"),
   ];
 
   return mockupUserList;
