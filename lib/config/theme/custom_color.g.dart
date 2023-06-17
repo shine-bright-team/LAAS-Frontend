@@ -6,6 +6,7 @@ const customcolor1 = Color(0xFFE8EB02);
 const greenbar = Color(0xFF57B461);
 
 CustomColors lightCustomColors = const CustomColors(
+  neutralVaraint: Color(0xFFF4FFFB),
   star: Color(0xFFFFC225),
   sourceRedbar: Color(0xFFCF5F5F),
   redbar: Color(0xFFA13D3E),
@@ -30,6 +31,7 @@ CustomColors lightCustomColors = const CustomColors(
 );
 
 CustomColors darkCustomColors = const CustomColors(
+  neutralVaraint: Color(0xFF003732),
   star: Color(0xFFFFC225),
   sourceRedbar: Color(0xFFCF5F5F),
   redbar: Color(0xFFFFB3B0),
@@ -81,7 +83,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.greenbarContainer,
     required this.onGreenbarContainer,
     required this.star,
+    required this.neutralVaraint,
   });
+  final Color? neutralVaraint;
   final Color? star;
   final Color? sourceRedbar;
   final Color? redbar;
@@ -106,6 +110,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
 
   @override
   CustomColors copyWith({
+    Color? neutralVarainr,
     Color? star,
     Color? sourceRedbar,
     Color? redbar,
@@ -129,6 +134,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? onGreenbarContainer,
   }) {
     return CustomColors(
+      // ignore: unnecessary_this
+      neutralVaraint: neutralVaraint ?? this.neutralVaraint,
       star: star ?? this.star,
       sourceRedbar: sourceRedbar ?? this.sourceRedbar,
       redbar: redbar ?? this.redbar,
@@ -161,6 +168,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       return this;
     }
     return CustomColors(
+      neutralVaraint: Color.lerp(neutralVaraint, other.neutralVaraint, t),
       star: Color.lerp(star, other.star, t),
       sourceRedbar: Color.lerp(sourceRedbar, other.sourceRedbar, t),
       redbar: Color.lerp(redbar, other.redbar, t),

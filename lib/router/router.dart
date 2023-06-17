@@ -86,13 +86,19 @@ class AppGoRouter extends ChangeNotifier {
         GoRoute(
           // parentNavigatorKey: _mainRouteKey,
           path: "/l/createloan",
-          builder: (context, state) => const LCreateLoan(),
+          builder: (context, state) => LCreateLoan(
+            onPaymentOptionSelected: (value) {
+              // Handle the payment option selection logic here
+            },
+          ),
         ),
         GoRoute(
           // parentNavigatorKey: _mainRouteKey,
-          path: "/l/loanstatus/:contractId",
-          builder: (context, state) =>
-              LLoanStatus(contractId: state.params['contractId']!),
+          path: "/l/loanstatus/:contractId/:userId",
+          builder: (context, state) => LLoanStatus(
+            contractId: state.params['contractId']!,
+            userId: state.params['userId']!,
+          ),
         ),
         GoRoute(
           // parentNavigatorKey: _mainRouteKey,
@@ -161,6 +167,9 @@ class AppGoRouter extends ChangeNotifier {
     )
   ];
 }
+
+
+
 
      
 

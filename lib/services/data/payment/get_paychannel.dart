@@ -7,7 +7,7 @@ Future<List<PayChannel>> getPaych() async {
       number: '1234567890',
     ),
     const PayChannel(
-      channel: 'PromPay',
+      channel: 'Promptpay',
       number: '0962200825',
     ),
     const PayChannel(
@@ -23,7 +23,7 @@ Future<List<PayChannel>> getPaych() async {
       number: '1234567890',
     ),
     const PayChannel(
-      channel: 'PromPay',
+      channel: 'Promptpay',
       number: '0962200825',
     ),
   ];
