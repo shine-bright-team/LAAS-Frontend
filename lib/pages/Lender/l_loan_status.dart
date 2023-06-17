@@ -28,6 +28,8 @@ class _LLoanStatusState extends State<LLoanStatus> {
   User? urBrInfo;
   Contract? contract;
   List<Transaction?>? trans;
+  int totalPaid = 0;
+  int totalUnPaid = 0;
 
   // void initData() {
   //   _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
@@ -51,10 +53,12 @@ class _LLoanStatusState extends State<LLoanStatus> {
     contract = (await getDetail(cId))!;
     formattedDate = DateFormat.yMMMMd().format(contract!.dueAt);
     trans = await getTransactionByContract(contract!.id);
+    addTotalPaid();
+    int loanAmount = contract?.loanAmount ?? 0;
+    totalUnPaid = loanAmount - totalPaid;
     setState(() {
       urBrInfo;
       contract;
-      formattedDate;
       trans;
     });
     // print(widget.userId);
@@ -65,13 +69,19 @@ class _LLoanStatusState extends State<LLoanStatus> {
   createTransCard() {
     return trans!
         .map((e) => TransCard(
-            id: e!.id.toString(),
-            cId: contract!.id.toString(),
-            name: urBrInfo!.firstname,
-            amount: e.paidAmount,
-            circleColorState: "",
-            reason: ""))
+              id: e!.id.toString(),
+              cId: contract?.id.toString() ?? "",
+              name: urBrInfo?.firstname ?? "",
+              amount: e.paidAmount,
+              circleColorState: e.status,
+              reason: e.errMessage,
+            ))
         .toList();
+  }
+
+  addTotalPaid() {
+    trans!.where((e) => e!.status == "SUCCESS").map((e) => e!.paidAmount).fold(
+        0, (previousValue, element) => totalPaid = previousValue + element);
   }
 
   // totalPaidTransactions() {
@@ -85,29 +95,6 @@ class _LLoanStatusState extends State<LLoanStatus> {
   //     }
   //   }
   //   return total;
-  // }
-
-  // createPayerCard() {
-  //   if (widget.debt.transactions.isNotEmpty) {
-  //     // for (var e in widget.debt.transactions) {
-  //     return widget.debt.transactions
-  //         .map((e) => Padding(
-  //               padding: const EdgeInsets.all(8.0),
-  //               child: PayerCard(
-  //                 tId: e.transactionId,
-  //                 dId: widget.debt.debtId,
-  //                 name: e.username,
-  //                 // image: e.username,
-  //                 amount: e.amount,
-  //                 circleColorState: e.isApproved,
-  //                 reason: e.errMessage,
-  //               ),
-  //             ))
-  //         .toList();
-  //     // }
-  //   } else {
-  //     return const [Text('')];
-  //   }
   // }
 
   @override
@@ -142,7 +129,6 @@ class _LLoanStatusState extends State<LLoanStatus> {
                     height: 23,
                   ),
                   Row(
-                    // Date, number of people
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
@@ -168,9 +154,8 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 padding: const EdgeInsets.only(left: 23),
                                 child: Icon(Icons.alarm,
                                     size: 24,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                               ),
                               const SizedBox(
                                 width: 13,
@@ -181,11 +166,11 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                     TextSpan(
                                         // Date Text
                                         text: formattedDate,
-                                        // "${_date.day}/${_date.month}/${_date.year}", //"Tue, Feburary 2023",
+                                        // "${_date.day}/${_date.month}/${_date.year}",
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onPrimaryContainer,
+                                                .primary,
                                             fontSize: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall
@@ -199,7 +184,6 @@ class _LLoanStatusState extends State<LLoanStatus> {
                         width: 10,
                       ),
                       Container(
-                          // number of people
                           width: 80,
                           height: 80,
                           decoration: BoxDecoration(
@@ -216,7 +200,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                           alignment: Alignment.center,
                           child: const CircleAvatar(
                             radius: 30,
-                            backgroundImage: AssetImage('assets/ri.jpeg'),
+                            backgroundImage: AssetImage('assets/profile.jpeg'),
                           )),
                     ],
                   ),
@@ -250,9 +234,8 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 padding: const EdgeInsets.only(left: 23),
                                 child: Icon(Icons.check_circle,
                                     size: 24,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                               ),
                               const SizedBox(
                                 width: 13,
@@ -262,12 +245,12 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: "00",
+                                        text: totalPaid.toString(),
                                         //totalPaidTransactions().toString(),
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onPrimaryContainer,
+                                                .primary,
                                             fontSize: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall
@@ -303,9 +286,8 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 padding: const EdgeInsets.only(left: 23),
                                 child: Icon(Icons.hourglass_top,
                                     size: 24,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
                               ),
                               const SizedBox(
                                 width: 13,
@@ -315,7 +297,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                        text: "00",
+                                        text: totalUnPaid.toString(),
                                         // text: (widget.debt.transactions)
                                         //     .where((e) =>
                                         //         e.isApproved == "pending")
@@ -328,7 +310,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .colorScheme
-                                                .onPrimaryContainer,
+                                                .primary,
                                             fontSize: Theme.of(context)
                                                 .textTheme
                                                 .headlineSmall
@@ -357,28 +339,6 @@ class _LLoanStatusState extends State<LLoanStatus> {
                   Column(
                     children: [
                       ...createTransCard(),
-                      const TransCard(
-                        id: '',
-                        cId: '',
-                        name: "Thamolwan",
-                        amount: 50,
-                        circleColorState: "pending",
-                        reason: "",
-                      ),
-                      const TransCard(
-                          id: '',
-                          cId: '',
-                          name: "Thanaphon",
-                          amount: 50,
-                          circleColorState: "error",
-                          reason: "This is an error test"),
-                      const TransCard(
-                          id: '',
-                          cId: '',
-                          name: "Bob",
-                          amount: 50,
-                          circleColorState: "success",
-                          reason: ""),
                       const SizedBox(height: 100)
                     ],
                   ),

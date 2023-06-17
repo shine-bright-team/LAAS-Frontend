@@ -66,7 +66,7 @@ class _LenderDetailCardState extends State<LenderDetailCard> {
                                           text:
                                               "${widget.fName}\n${widget.lName}",
                                           style: const TextStyle(
-                                            fontSize: 34,
+                                            fontSize: 28,
                                             color: Colors.white,
                                             height: 1.0,
                                           ),

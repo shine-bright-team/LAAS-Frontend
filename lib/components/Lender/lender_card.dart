@@ -34,7 +34,7 @@ class _LenderCardState extends State<LenderCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.only(bottom: 15.0),
         child: InkWell(
             onTap: () =>
                 {context.push("/l/loanstatus/${widget.cId}/${widget.uId}")},
@@ -63,7 +63,7 @@ class _LenderCardState extends State<LenderCard> {
                         children: [
                           const CircleAvatar(
                             radius: 15,
-                            backgroundImage: AssetImage('assets/ri.jpeg'),
+                            backgroundImage: AssetImage('assets/profile.jpeg'),
                           ),
                           const SizedBox(width: 5),
                           Text(

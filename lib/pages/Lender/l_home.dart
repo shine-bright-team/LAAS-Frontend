@@ -74,7 +74,7 @@ class _LHomeState extends State<LHome> {
                     },
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Text(
                   "Borrow requests",
                   style: TextStyle(
