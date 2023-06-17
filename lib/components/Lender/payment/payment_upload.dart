@@ -14,7 +14,7 @@ class Paymentuploadsheet extends StatelessWidget {
       : super(key: key);
   final XFile? imagefile;
   final String deptId;
-  final int amount;
+  final double amount;
 
   @override
   Widget build(BuildContext context) {

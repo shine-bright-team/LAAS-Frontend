@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/check_box.dart';
 import 'package:laas/components/Lender/silder.dart';
+import 'package:laas/services/data/lone_contract/create_lone.dart';
 
 class LCreateLoan extends StatefulWidget {
   final ValueChanged<String> onPaymentOptionSelected;
@@ -21,10 +22,12 @@ class _LCreateLoanState extends State<LCreateLoan> {
   bool _isSelected2 = false;
   bool _isTextFieldFilled = false;
 
-  TextEditingController startController = TextEditingController();
-  TextEditingController endController = TextEditingController();
-  TextEditingController agreementDetailsController = TextEditingController();
-  TextEditingController paymentNumberController = TextEditingController();
+  final startController = TextEditingController();
+  final endController = TextEditingController();
+  final agreementDetailsController = TextEditingController();
+  final paymentNumberController = TextEditingController();
+  final activeatleast = TextEditingController();
+  final havebasesalary = TextEditingController();
 
   void onPaymentOptionSelected(String option) {
     setState(() {
@@ -367,6 +370,7 @@ Widget createLoanButton(BuildContext context, bool isTextFieldFilled) {
     buttonColor = Theme.of(context).colorScheme.onSurface;
     textColor = Theme.of(context).colorScheme.primary;
   }
+
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       foregroundColor: textColor,

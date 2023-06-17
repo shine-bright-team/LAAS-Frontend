@@ -273,8 +273,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   _username.text,
                                   _password.text,
                                   _role);
-                              // ignore: use_build_context_synchronously
-                              context.go("/l/createloan");
+                              if (_role) {
+                                // ignore: use_build_context_synchronously
+                                context.go("/l/createloan");
+                              }
                             } catch (err) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(err.toString())));

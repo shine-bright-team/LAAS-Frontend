@@ -9,5 +9,5 @@ final routerProvider = Provider<GoRouter>((ref) {
       routes: routeRef.routes,
       refreshListenable: routeRef,
       redirect: routeRef.redirectlogic,
-      initialLocation: "/");
+      initialLocation: "/login");
 });

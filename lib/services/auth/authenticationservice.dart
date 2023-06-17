@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthenticationService extends ChangeNotifier {
   UserCredential? user;
   SharedPreferences? prefs;
+  bool isLoading = true;
 //   String token =
 
   Future<void> initPrefs() async {
@@ -14,6 +15,8 @@ class AuthenticationService extends ChangeNotifier {
     Api.setToken(token);
     prefs = value;
     await getUser();
+    isLoading = false;
+    notifyListeners();
   }
 
   Future<void> getUser() async {

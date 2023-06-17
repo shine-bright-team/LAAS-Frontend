@@ -18,7 +18,7 @@ class LPaymentScreen extends StatefulWidget {
 }
 
 class _LPaymentScreenState extends State<LPaymentScreen> {
-  late final int amounts;
+  late final double amounts;
   late final PayChannel check;
   XFile? imagefile;
   final ImagePicker _picker = ImagePicker();
@@ -59,8 +59,8 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
     setState(() {
       loading = true;
     });
-    await getDetail(int.parse(widget.contractId))
-        .then((value) => amounts = value!.loanAmount);
+    await getDetail(widget.contractId)
+        .then((value) => amounts = value!.detail.requestedAmount);
 
     await getPaymentByUser(int.parse(widget.contractId))
         .then((value) => check = value!);
@@ -154,7 +154,7 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
 
 class Payqr extends StatelessWidget {
   const Payqr({super.key, required this.amount, required this.promptPay});
-  final int amount;
+  final double amount;
   final String? promptPay;
   @override
   Widget build(BuildContext context) {
@@ -189,7 +189,7 @@ class Payqr extends StatelessWidget {
                 alignment: Alignment.center,
                 child: QRCodeGenerate(
                   promptPayId: promptPay!,
-                  amount: amount.toDouble(),
+                  amount: amount,
                 )),
           ),
         ]),
@@ -200,7 +200,7 @@ class Payqr extends StatelessWidget {
 
 class Paybank extends StatelessWidget {
   const Paybank({super.key, required this.amount, required this.bank});
-  final int amount;
+  final double amount;
   final String? bank;
   @override
   Widget build(BuildContext context) {

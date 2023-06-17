@@ -1,5 +1,5 @@
 class UserCredential {
-  final String userId;
+  final int userId;
   final bool isLender;
 
   const UserCredential({

@@ -3,20 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:laas/components/Lender/l_detail_card.dart';
 import 'package:laas/components/Lender/transactions_card.dart';
-import 'package:laas/model/contract.dart';
 import 'package:laas/model/transaction.dart';
 import 'package:laas/services/data/lone_contract/get_detail.dart';
-import 'package:laas/services/data/transction/get_transaction_by_cid.dart';
-
-import '../../model/user_model.dart';
-import '../../services/data/userdata/get_borrower_detail.dart';
 
 class LLoanStatus extends StatefulWidget {
-  final String userId;
   final String contractId;
 
-  const LLoanStatus(
-      {super.key, required this.userId, required this.contractId});
+  const LLoanStatus({super.key, required this.contractId});
 
   @override
   State<LLoanStatus> createState() => _LLoanStatusState();
@@ -25,11 +18,11 @@ class LLoanStatus extends StatefulWidget {
 class _LLoanStatusState extends State<LLoanStatus> {
   // late DateTime _date;
   String? formattedDate;
-  User? urBrInfo;
-  Contract? contract;
-  List<Transaction?>? trans;
+  DetailLone? data;
+  Detail? contract;
+  List<Transactions?>? trans;
   int totalPaid = 0;
-  int totalUnPaid = 0;
+  double totalUnPaid = 0;
 
   // void initData() {
   //   _date = DateTime.fromMillisecondsSinceEpoch(widget.debt.due.seconds * 1000);
@@ -47,17 +40,13 @@ class _LLoanStatusState extends State<LLoanStatus> {
   }
 
   _getData() async {
-    int uId = int.parse(widget.userId);
-    int cId = int.parse(widget.contractId);
-    urBrInfo = (await getBorrowerDetail(uId))!;
-    contract = (await getDetail(cId))!;
-    formattedDate = DateFormat.yMMMMd().format(contract!.dueAt);
-    trans = await getTransactionByContract(contract!.id);
-    addTotalPaid();
-    int loanAmount = contract?.loanAmount ?? 0;
+    data = (await getDetail(widget.contractId))!;
+    contract = data!.detail;
+    formattedDate = DateFormat.yMMMMd().format(contract!.dueDate);
+    trans = data!.transactions;
+    double loanAmount = contract?.requestedAmount ?? 0;
     totalUnPaid = loanAmount - totalPaid;
     setState(() {
-      urBrInfo;
       contract;
       trans;
     });
@@ -70,8 +59,8 @@ class _LLoanStatusState extends State<LLoanStatus> {
     return trans!
         .map((e) => TransCard(
               id: e!.id.toString(),
-              cId: contract?.id.toString() ?? "",
-              name: urBrInfo?.firstname ?? "",
+              cId: contract?.borrowId.toString() ?? "",
+              name: contract?.firstname ?? "",
               amount: e.paidAmount,
               circleColorState: e.status,
               reason: e.errMessage,
@@ -121,9 +110,9 @@ class _LLoanStatusState extends State<LLoanStatus> {
                   LenderDetailCard(
                     id: widget.contractId,
                     cardColor: Theme.of(context).colorScheme.primary,
-                    fName: urBrInfo!.firstname, //urBrInfo.firstname,
-                    lName: urBrInfo!.lastname, //urBrInfo.lastname,
-                    amount: contract!.loanAmount.toString(),
+                    fName: contract!.firstname, //urBrInfo.firstname,
+                    lName: contract!.lastname, //urBrInfo.lastname,
+                    amount: contract!.remainingAmount.toString(),
                   ),
                   const SizedBox(
                     height: 23,
