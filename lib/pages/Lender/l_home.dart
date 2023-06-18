@@ -16,7 +16,7 @@ class LHome extends StatefulWidget {
 
 class _LHomeState extends State<LHome> {
   List<User> urBorrowers = [];
-  List<Contract> urBrContract = [];
+  List<ContractRes>? urBrContract;
   @override
   void initState() {
     _getYourBorrowers();
@@ -67,11 +67,11 @@ class _LHomeState extends State<LHome> {
                     itemBuilder: (context, index) {
                       return LenderCard(
                           uId: urBorrowers[index].id.toString(),
-                          cId: urBrContract[index].id.toString(),
+                          cId: urBrContract![index].borrowId.toString(),
                           fName: urBorrowers[index].firstname,
                           lName: urBorrowers[index].lastname,
-                          date: urBrContract[index].dueAt,
-                          amount: urBrContract[index].loanAmount,
+                          date: urBrContract![index].dueDate,
+                          amount: urBrContract![index].remainingAmount,
                           profileId: "1");
                     },
                   ),
@@ -95,10 +95,10 @@ class _LHomeState extends State<LHome> {
                     itemBuilder: (context, index) {
                       return BrRequestCard(
                           uId: urBorrowers[index].id.toString(),
-                          cId: urBrContract[index].id.toString(),
+                          cId: urBrContract![index].borrowId.toString(),
                           fName: urBorrowers[index].firstname,
                           lName: urBorrowers[index].lastname,
-                          amount: urBrContract[index].loanAmount,
+                          amount: urBrContract![index].requestedAmount,
                           profileId: "1");
                     },
                   ),
