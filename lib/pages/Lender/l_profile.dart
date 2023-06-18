@@ -20,7 +20,7 @@ class LProfileScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              header(context),
+              const Header(),
               const SizedBox(
                 height: 10,
               ),
