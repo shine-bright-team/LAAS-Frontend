@@ -1,5 +1,4 @@
 import 'package:intl/intl.dart';
-import 'package:laas/model/transaction.dart';
 import 'package:laas/services/api.dart';
 
 Future<DetailLone?> getDetail(String id) async {
@@ -8,9 +7,7 @@ Future<DetailLone?> getDetail(String id) async {
 
     if (getdetail.statusCode == 200) {
       final data = getdetail.data;
-      print(data);
       DetailLone res = DetailLone.fromJson(data);
-      print(res);
       return res;
     }
   } catch (err) {

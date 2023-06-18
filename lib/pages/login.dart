@@ -23,6 +23,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void setLoading(bool isLoading) {
     setState(() {
+      print(isLoading);
       _isLoading = isLoading;
     });
   }
@@ -114,9 +115,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           height: 30,
                         ),
                         FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            setLoading(true);
                             try {
-                              counter.login(_email.text, _password.text);
+                              await counter.login(_email.text, _password.text);
+                              setLoading(false);
                             } catch (err) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

@@ -14,8 +14,8 @@ class AuthenticationService extends ChangeNotifier {
     final String token = value.getString('token') ?? "";
     Api.setToken(token);
     prefs = value;
-    await getUser();
     isLoading = false;
+    await getUser();
     notifyListeners();
   }
 

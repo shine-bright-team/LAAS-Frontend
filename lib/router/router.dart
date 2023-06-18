@@ -35,11 +35,12 @@ class AppGoRouter extends ChangeNotifier {
   String? redirectlogic(BuildContext context, GoRouterState state) {
     if (dotenv.env['DISABLE_LOGIN'] == "true") return null;
     // if (authState == null) return null;
+
     if (authState.isLoading) return null;
     final isAuth = authState.user != null;
 
     if (isAuth && {'l', '/login', "/register"}.contains(state.location)) {
-      if (authState!.user!.isLender) {
+      if (authState.user!.isLender) {
         return '/l';
       } else {
         return '/b';
