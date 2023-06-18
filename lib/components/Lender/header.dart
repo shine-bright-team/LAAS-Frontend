@@ -9,7 +9,7 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  User? data;
+  UserRes? data;
   String? firstname;
   String? lastname;
 

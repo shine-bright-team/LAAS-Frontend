@@ -3,13 +3,13 @@ import 'package:laas/services/api.dart';
 //หมั่ม Profile
 // ดึงuser ออกมา ผ่าน route "/user/ return ออกไป"
 // แก้ทุกสิ่งที่มันแดง
-Future<User?> getUser() async {
+Future<UserRes?> getUser() async {
   try {
     final user = await Api.dio.get("/user/");
 
     if (user.statusCode == 200) {
       final data = user.data;
-      User response = User.fromJson(data);
+      UserRes response = UserRes.fromJson(data);
       return response;
     }
   } catch (err) {
@@ -18,7 +18,7 @@ Future<User?> getUser() async {
   return null;
 }
 
-class User {
+class UserRes {
   final int id;
   final bool isKyc;
   final String username;
@@ -26,9 +26,8 @@ class User {
   final String lastname;
   final String email;
   final bool isLender;
-  final String token;
 
-  User({
+  UserRes({
     required this.id,
     required this.isKyc,
     required this.username,
@@ -36,11 +35,10 @@ class User {
     required this.lastname,
     required this.email,
     required this.isLender,
-    required this.token,
   });
 
-  factory User.fromJson(Map json) {
-    return User(
+  factory UserRes.fromJson(Map json) {
+    return UserRes(
       id: json['id'],
       isKyc: json['is_kyc'],
       username: json['username'],
@@ -48,7 +46,6 @@ class User {
       lastname: json['lastname'],
       email: json['email'],
       isLender: json['is_lender'],
-      token: json['token'],
     );
   }
 }
