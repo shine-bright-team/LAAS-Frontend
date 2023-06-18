@@ -42,7 +42,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
   _getData() async {
     data = (await getDetail(widget.contractId))!;
     contract = data!.detail;
-    formattedDate = DateFormat.yMMMMd().format(contract!.dueDate);
+    formattedDate = DateFormat.yMMMd().format(contract!.dueDate);
     trans = data!.transactions;
     double loanAmount = contract?.requestedAmount ?? 0;
     totalUnPaid = loanAmount - totalPaid;
