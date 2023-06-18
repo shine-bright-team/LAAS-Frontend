@@ -1,4 +1,3 @@
-import 'package:laas/model/contract.dart';
 import 'package:laas/model/paychannel.dart';
 import 'package:laas/model/user_model.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';

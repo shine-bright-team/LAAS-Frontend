@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:laas/components/Lender/l_detail_card.dart';
 import 'package:laas/components/Lender/transactions_card.dart';
-import 'package:laas/model/transaction.dart';
 import 'package:laas/services/data/lone_contract/get_detail.dart';
 
 class LLoanStatus extends StatefulWidget {
