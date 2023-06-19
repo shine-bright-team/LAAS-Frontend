@@ -18,11 +18,11 @@ class _LHomeState extends State<LHome> {
   List<ContractRes>? urBrContract;
   @override
   void initState() {
-    _getYourBorrowers();
+    _getData();
     super.initState();
   }
 
-  _getYourBorrowers() async {
+  _getData() async {
     urBorrowers = await getBorrower();
     urBrContract = await getContract();
 
