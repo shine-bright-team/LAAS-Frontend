@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/com_argeement.dart';
 import 'package:laas/components/Lender/review.dart';
+import 'package:laas/model/agreement.dart';
+import 'package:laas/services/data/agreement/get_agreement.dart';
 import 'package:laas/services/data/userdata/get_user.dart';
 
 class LProfileScreen extends StatefulWidget {
@@ -13,9 +15,13 @@ class LProfileScreen extends StatefulWidget {
 }
 
 class _LProfileScreenState extends State<LProfileScreen> {
-  UserRes? data;
+  UserRes? user;
+  Agreements? agreements;
   String? firstname;
   String? lastname;
+  double? interestRate;
+  int? dueIn;
+  String? addition;
 
   @override
   void initState() {
@@ -24,14 +30,21 @@ class _LProfileScreenState extends State<LProfileScreen> {
   }
 
   _getData() async {
-    data = await getUser();
+    user = await getUser();
+    agreements = await getAgreement();
 
-    firstname = data!.firstname;
-    lastname = data!.lastname;
+    firstname = user!.firstname;
+    lastname = user!.lastname;
+    interestRate = agreements!.interestRate;
+    dueIn = agreements!.dueIn;
+    addition = agreements!.addition;
 
     setState(() {
       firstname;
       lastname;
+      interestRate;
+      dueIn;
+      addition;
     });
   }
 
@@ -61,7 +74,7 @@ class _LProfileScreenState extends State<LProfileScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      agreement(context)
+                      agreement(context, interestRate, dueIn, addition)
                     ],
                   ),
                 ),

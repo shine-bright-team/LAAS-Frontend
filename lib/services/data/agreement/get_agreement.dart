@@ -1,39 +1,41 @@
-import 'package:laas/model/agreement.dart';
+import 'package:laas/services/api.dart';
 
-Future<List<Agreement>> getAgreement() async {
-  List<Agreement> mockAgreements = [
-    const Agreement(
-      id: 1,
-      contractId: 1,
-      interestRate: 5,
-      dueIn: 30,
-      addition: 'Additional terms and conditions',
-      isApproved: true,
-    ),
-    const Agreement(
-      id: 2,
-      contractId: 2,
-      interestRate: 7,
-      dueIn: 45,
-      addition: 'Additional terms and conditions',
-      isApproved: false,
-    ),
-    const Agreement(
-      id: 3,
-      contractId: 3,
-      interestRate: 6,
-      dueIn: 60,
-      addition: 'Additional terms and conditions',
-      isApproved: true,
-    ),
-    const Agreement(
-      id: 4,
-      contractId: 4,
-      interestRate: 4,
-      dueIn: 60,
-      addition: 'Additional terms and conditions',
-      isApproved: true,
-    ),
-  ];
-  return mockAgreements;
+Future<Agreements?> getAgreement() async {
+  try {
+    final agreement = await Api.dio.get("/user/agreement/");
+
+    if (agreement.statusCode == 200) {
+      final data = agreement.data;
+      final response = Agreements.fromJson(data);
+      return response;
+    }
+  } catch (err) {
+    rethrow;
+  }
+  return null;
+}
+
+class Agreements {
+  final int userId;
+  final int id;
+  final double interestRate;
+  final int dueIn;
+  final String addition;
+
+  Agreements({
+    required this.userId,
+    required this.id,
+    required this.interestRate,
+    required this.dueIn,
+    required this.addition,
+  });
+
+  factory Agreements.fromJson(Map json) {
+    return Agreements(
+        userId: json['UserId'],
+        id: json['ID'],
+        interestRate: json['InterestRate'],
+        dueIn: json['DueIn'],
+        addition: json['Addition']);
+  }
 }
