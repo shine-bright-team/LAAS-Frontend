@@ -1,7 +1,6 @@
 //phon
 import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/borrow_request_card.dart';
-import 'package:laas/model/contract.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';
 import 'package:laas/services/data/userdata/get_borrower.dart';
 import '../../components/Lender/lender_card.dart';
@@ -66,10 +65,10 @@ class _LHomeState extends State<LHome> {
                     itemCount: urBorrowers.length,
                     itemBuilder: (context, index) {
                       return LenderCard(
-                          uId: urBorrowers[index].id.toString(),
+                          uId: urBrContract![index].userId.toString(),
                           cId: urBrContract![index].borrowId.toString(),
-                          fName: urBorrowers[index].firstname,
-                          lName: urBorrowers[index].lastname,
+                          fName: urBrContract![index].firstname,
+                          lName: urBrContract![index].lastname,
                           date: urBrContract![index].dueDate,
                           amount: urBrContract![index].remainingAmount,
                           profileId: "1");
@@ -94,10 +93,10 @@ class _LHomeState extends State<LHome> {
                     itemCount: urBorrowers.length,
                     itemBuilder: (context, index) {
                       return BrRequestCard(
-                          uId: urBorrowers[index].id.toString(),
+                          uId: urBrContract![index].userId.toString(),
                           cId: urBrContract![index].borrowId.toString(),
-                          fName: urBorrowers[index].firstname,
-                          lName: urBorrowers[index].lastname,
+                          fName: urBrContract![index].firstname,
+                          lName: urBrContract![index].lastname,
                           amount: urBrContract![index].requestedAmount,
                           profileId: "1");
                     },
