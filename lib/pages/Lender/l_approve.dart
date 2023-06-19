@@ -22,7 +22,7 @@ class LApprove extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Header(),
+              header(context, "firstname", "lastname"),
               const SizedBox(
                 height: 10,
               ),

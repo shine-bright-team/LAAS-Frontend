@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/com_argeement.dart';
 import 'package:laas/components/Lender/review.dart';
+import 'package:laas/services/data/userdata/get_user.dart';
 
 class LProfileScreen extends StatefulWidget {
   const LProfileScreen({super.key});
@@ -12,6 +13,28 @@ class LProfileScreen extends StatefulWidget {
 }
 
 class _LProfileScreenState extends State<LProfileScreen> {
+  UserRes? data;
+  String? firstname;
+  String? lastname;
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
+
+  _getData() async {
+    data = await getUser();
+
+    firstname = data!.firstname;
+    lastname = data!.lastname;
+
+    setState(() {
+      firstname;
+      lastname;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +48,7 @@ class _LProfileScreenState extends State<LProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Header(),
+              header(context, firstname, lastname),
               const SizedBox(
                 height: 10,
               ),
