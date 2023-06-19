@@ -1,9 +1,11 @@
 //fxh
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/com_argeement.dart';
 import 'package:laas/components/Lender/review.dart';
 import 'package:laas/model/agreement.dart';
+import 'package:laas/services/auth/authenticationservice.dart';
 import 'package:laas/services/data/agreement/get_agreement.dart';
 import 'package:laas/services/data/userdata/get_user.dart';
 
@@ -150,6 +152,8 @@ Widget logoutButton(BuildContext context) {
       backgroundColor: Theme.of(context).colorScheme.primary,
     ),
     onPressed: () {
+      AuthenticationService().logout();
+      context.go("/login");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Log out successfully')),
       );

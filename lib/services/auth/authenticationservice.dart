@@ -58,6 +58,15 @@ class AuthenticationService extends ChangeNotifier {
     }
   }
 
+  Future<void> logout() async {
+    try {
+      Api.setToken("");
+      await prefs?.remove('token');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> signup(String email, String title, String fname, String lanme,
       String username, String password, bool isL) async {
     try {

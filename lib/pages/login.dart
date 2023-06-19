@@ -84,7 +84,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   ? "Incorrect username (or email) or password"
                                   : "Uncorrect email formatted.",
                           decoration: roundInput.copyWith(
-                              labelText: "Usernaem or Email"),
+                              labelText: "Username or Email"),
                           controller: _email,
                         ),
                         const SizedBox(
@@ -152,10 +152,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       children: [
                         const Text("Don't have an account ?"),
                         TextButton(
-                            onPressed: () {
-                              context.go("/register");
-                            },
-                            child: const Text("Register"))
+                            onPressed: () {}, child: const Text("Register"))
                       ],
                     )
                   ],

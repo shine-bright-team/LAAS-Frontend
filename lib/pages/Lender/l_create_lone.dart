@@ -1,5 +1,7 @@
 //FXH
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:laas/components/Lender/check_box.dart';
 import 'package:laas/components/Lender/silder.dart';
 import 'package:laas/services/data/lone_contract/create_lone.dart';
@@ -13,14 +15,19 @@ class LCreateLoan extends StatefulWidget {
   State<LCreateLoan> createState() => _LCreateLoanState();
 }
 
-const List<String> list = <String>['per day', 'per month'];
+const List<String> list = ['per day', 'per month'];
 const List<String> paymentOptions = ['KbanK', 'SCB', 'PromptPay'];
-String selectedPaymentOption = '';
 
 class _LCreateLoanState extends State<LCreateLoan> {
+  String selectedPaymentOption = '';
   bool _isSelected1 = false;
   bool _isSelected2 = false;
   bool _isTextFieldFilled = false;
+  bool _isActiveAtLeast = false;
+  bool _isHaveBaseSaraly = false;
+  bool ispermount = false;
+  int dropdownValue = 0;
+  double interest = 0.0;
 
   final startController = TextEditingController();
   final endController = TextEditingController();
@@ -28,6 +35,7 @@ class _LCreateLoanState extends State<LCreateLoan> {
   final paymentNumberController = TextEditingController();
   final activeatleast = TextEditingController();
   final havebasesalary = TextEditingController();
+  final due = TextEditingController();
 
   void onPaymentOptionSelected(String option) {
     setState(() {
@@ -36,11 +44,25 @@ class _LCreateLoanState extends State<LCreateLoan> {
   }
 
   @override
+  void initState() {
+    startController.text = "";
+    endController.text = "";
+    agreementDetailsController.text = "";
+    paymentNumberController.text = "";
+    activeatleast.text = "";
+    havebasesalary.text = "";
+    due.text = "";
+  }
+
+  @override
   void dispose() {
     startController.dispose();
     endController.dispose();
     agreementDetailsController.dispose();
     paymentNumberController.dispose();
+    activeatleast.dispose();
+    havebasesalary.dispose();
+    due.dispose();
     super.dispose();
   }
 
@@ -53,7 +75,16 @@ class _LCreateLoanState extends State<LCreateLoan> {
 
   @override
   Widget build(BuildContext context) {
-    _isTextFieldFilled = isFieldsFilled();
+    _isTextFieldFilled = false;
+    final Color primaryColor = Theme.of(context).colorScheme.primary;
+    final Color inactiveColor =
+        Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
+    Color buttonColor = Theme.of(context).colorScheme.primary;
+    Color textColor = Theme.of(context).colorScheme.onPrimary;
+    // if (!_isTextFieldFilled) {
+    //   buttonColor = Theme.of(context).colorScheme.onSurface;
+    //   textColor = Theme.of(context).colorScheme.primary;
+    // }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -82,7 +113,8 @@ class _LCreateLoanState extends State<LCreateLoan> {
                     child: TextField(
                       controller: startController,
                       onChanged: (value) => setState(() {
-                        _isTextFieldFilled = isFieldsFilled();
+                        print(startController);
+                        // _isTextFieldFilled = isFieldsFilled();
                       }),
                       decoration: InputDecoration(
                         labelText: "Start",
@@ -153,24 +185,244 @@ class _LCreateLoanState extends State<LCreateLoan> {
                       ),
                     ),
                     const SizedBox(width: 5),
-                    LDropdownButtons(
-                      isEnabled: _isSelected1,
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Theme.of(context).colorScheme.surfaceVariant,
+                      ),
+                      height: 25,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 1, right: 1),
+                        child: PopupMenuButton<int>(
+                          enabled: _isSelected1,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          offset: const Offset(0, 30),
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<int>>[
+                            PopupMenuItem<int>(
+                              value: 0,
+                              child: Text(
+                                'per day',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.outline,
+                                ),
+                              ),
+                            ),
+                            PopupMenuItem<int>(
+                              value: 1,
+                              child: Text(
+                                'per month',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.outline,
+                                ),
+                              ),
+                            ),
+                          ],
+                          onSelected: (value) {
+                            setState(() {
+                              dropdownValue = value;
+                              if (value == 0) {
+                                ispermount = false;
+                              }
+                              if (value == 1) {
+                                ispermount = true;
+                              }
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color:
+                                  Theme.of(context).colorScheme.surfaceVariant,
+                            ),
+                            child: Row(
+                              children: [
+                                Text(
+                                  dropdownValue == 0 ? 'per day' : 'per month',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Icon(
+                                  _isSelected1
+                                      ? Icons.keyboard_arrow_down
+                                      : Icons.keyboard_arrow_up,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
-              SilderBar(isEnabled: _isSelected1),
+              Row(
+                children: [
+                  const SizedBox(width: 30),
+                  Text(
+                    "$interest%",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 150),
+                    child: Slider(
+                      min: 0.0,
+                      max: 100.0,
+                      activeColor: _isSelected1 ? primaryColor : inactiveColor,
+                      inactiveColor: inactiveColor,
+                      value: interest,
+                      onChanged: _isSelected1
+                          ? (value) {
+                              setState(() {
+                                interest = (value / 5).round() *
+                                    5; // Ensures the value is a multiple of 5
+                              });
+                            }
+                          : null,
+                      divisions:
+                          20, // To match the increments of 5 (100/5 = 20)
+                      label: interest.toString(),
+                    ),
+                  ),
+                  Text(
+                    "100%",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 10),
-              LinkedLabelCheckbox(
-                label: 'Due within (months)',
-                value: _isSelected2,
-                onChanged: (bool newValue) {
-                  setState(() {
-                    _isSelected2 = newValue;
-                  });
-                },
-                labelType: LabelType.textField,
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    activeColor: Theme.of(context).colorScheme.inversePrimary,
+                    checkColor: Theme.of(context).colorScheme.primary,
+                    value: _isSelected2,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _isSelected2 = !_isSelected2;
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      child: TextField(
+                        enabled: _isSelected2,
+                        decoration: InputDecoration(
+                          labelText: 'Due within (months)',
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ).copyWith(
+                            color: _isSelected2
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.5),
+                          ),
+                        ),
+                        controller: due,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Text(
+                "Target Borrower",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize:
+                      Theme.of(context).textTheme.headlineMedium!.fontSize,
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    activeColor: Theme.of(context).colorScheme.inversePrimary,
+                    checkColor: Theme.of(context).colorScheme.primary,
+                    value: _isActiveAtLeast,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _isActiveAtLeast = !_isActiveAtLeast;
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      child: TextField(
+                        enabled: _isActiveAtLeast,
+                        decoration: InputDecoration(
+                          labelText: 'Active at least (months)',
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ).copyWith(
+                            color: _isActiveAtLeast
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.5),
+                          ),
+                        ),
+                        controller: activeatleast,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    activeColor: Theme.of(context).colorScheme.inversePrimary,
+                    checkColor: Theme.of(context).colorScheme.primary,
+                    value: _isHaveBaseSaraly,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _isHaveBaseSaraly = !_isHaveBaseSaraly;
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      child: TextField(
+                        enabled: _isHaveBaseSaraly,
+                        decoration: InputDecoration(
+                          labelText: 'Have base salary (THB)',
+                          labelStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ).copyWith(
+                            color: _isHaveBaseSaraly
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withOpacity(0.5),
+                          ),
+                        ),
+                        controller: havebasesalary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               Text(
@@ -269,127 +521,48 @@ class _LCreateLoanState extends State<LCreateLoan> {
                 ),
               ),
               const SizedBox(height: 100),
-              createLoanButton(context, _isTextFieldFilled),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: textColor,
+                  minimumSize: const Size.fromHeight(50),
+                  backgroundColor: buttonColor,
+                ),
+                onPressed: () {
+                  createlone(
+                    startController.text,
+                    endController.text,
+                    interest,
+                    ispermount,
+                    due.text,
+                    activeatleast.text,
+                    havebasesalary.text,
+                    agreementDetailsController.text,
+                    selectedPaymentOption,
+                    paymentNumberController.text,
+                  ).then((value) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Create Loan successfully')),
+                    );
+                    context.go('/login');
+                  });
+
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   const SnackBar(content: Text('Create Loan successfully')),
+                  // );
+                },
+                child: Text(
+                  "Create Loan",
+                  style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-class LDropdownButtons extends StatefulWidget {
-  final bool isEnabled;
-
-  const LDropdownButtons({Key? key, required this.isEnabled}) : super(key: key);
-
-  @override
-  State<LDropdownButtons> createState() => _LDropdownButtonsState();
-}
-
-class _LDropdownButtonsState extends State<LDropdownButtons> {
-  int dropdownValue = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Theme.of(context).colorScheme.surfaceVariant,
-      ),
-      height: 25,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 1, right: 1),
-        child: PopupMenuButton<int>(
-          enabled: widget.isEnabled,
-          color: Theme.of(context).colorScheme.onPrimary,
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          offset: const Offset(0, 30),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-            PopupMenuItem<int>(
-              value: 0,
-              child: Text(
-                'per day',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-              ),
-            ),
-            PopupMenuItem<int>(
-              value: 1,
-              child: Text(
-                'per month',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-              ),
-            ),
-          ],
-          onSelected: (value) {
-            setState(() {
-              dropdownValue = value;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).colorScheme.surfaceVariant,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  dropdownValue == 0 ? 'per day' : 'per month',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.outline,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Icon(
-                  widget.isEnabled
-                      ? Icons.keyboard_arrow_down
-                      : Icons.keyboard_arrow_up,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-Widget createLoanButton(BuildContext context, bool isTextFieldFilled) {
-  Color buttonColor = Theme.of(context).colorScheme.primary;
-  Color textColor = Theme.of(context).colorScheme.onPrimary;
-  if (!isTextFieldFilled) {
-    buttonColor = Theme.of(context).colorScheme.onSurface;
-    textColor = Theme.of(context).colorScheme.primary;
-  }
-
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      foregroundColor: textColor,
-      minimumSize: const Size.fromHeight(50),
-      backgroundColor: buttonColor,
-    ),
-    onPressed: isTextFieldFilled && selectedPaymentOption.isNotEmpty
-        ? () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Create Loan successfully')),
-            );
-          }
-        : null,
-    child: Text(
-      "Create Loan",
-      style: TextStyle(
-          color: textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-    ),
-  );
 }

@@ -263,20 +263,22 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           height: 30,
                         ),
                         FilledButton(
-                          onPressed: () async {
+                          onPressed: () {
                             try {
-                              await counter.signup(
-                                  _email.text,
-                                  _title,
-                                  _fname.text,
-                                  _lname.text,
-                                  _username.text,
-                                  _password.text,
-                                  _role);
-                              if (_role) {
-                                // ignore: use_build_context_synchronously
-                                context.go("/l/createloan");
-                              }
+                              counter
+                                  .signup(
+                                      _email.text,
+                                      _title,
+                                      _fname.text,
+                                      _lname.text,
+                                      _username.text,
+                                      _password.text,
+                                      _role)
+                                  .then((value) {
+                                if (_role) {
+                                  context.go("/l/createloan");
+                                }
+                              });
                             } catch (err) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(err.toString())));
