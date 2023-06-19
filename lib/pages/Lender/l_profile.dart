@@ -4,9 +4,14 @@ import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/com_argeement.dart';
 import 'package:laas/components/Lender/review.dart';
 
-class LProfileScreen extends StatelessWidget {
+class LProfileScreen extends StatefulWidget {
   const LProfileScreen({super.key});
 
+  @override
+  State<LProfileScreen> createState() => _LProfileScreenState();
+}
+
+class _LProfileScreenState extends State<LProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
