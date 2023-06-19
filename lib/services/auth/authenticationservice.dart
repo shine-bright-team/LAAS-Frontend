@@ -86,7 +86,6 @@ class AuthenticationService extends ChangeNotifier {
         Api.setToken(token);
         await getUser();
       }
-      throw "Login failed";
     } catch (err) {
       rethrow;
     }

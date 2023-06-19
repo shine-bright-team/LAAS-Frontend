@@ -1,4 +1,6 @@
 //Tine
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _confirmPassword = TextEditingController();
   bool _isLoading = false;
   bool _isShowPassword = false;
-  final _seletion = const ["Mr.", "Ms.", "Mrs."];
+  final _seletion = const ["Mr.", "Ms.", "Mrs"];
   final _roleseletion = const ["Borrwer", "Lender"];
   void setLoading(bool isLoading) {
     setState(() {
@@ -249,12 +251,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   .toList(),
                               onChanged: (item) {
                                 // ignore: unrelated_type_equality_checks
-                                if (e == 'Lender') {
+                                if (item == "Lender") {
                                   _role = true;
                                 }
                                 // ignore: unrelated_type_equality_checks
-                                if (e == 'Borrwer') {
-                                  _role = true;
+                                if (item == "Borrwer") {
+                                  _role = false;
                                 }
                               }),
                         ),
@@ -263,22 +265,19 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           height: 30,
                         ),
                         FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
                             try {
-                              counter
-                                  .signup(
-                                      _email.text,
-                                      _title,
-                                      _fname.text,
-                                      _lname.text,
-                                      _username.text,
-                                      _password.text,
-                                      _role)
-                                  .then((value) {
-                                if (_role) {
-                                  context.go("/l/createloan");
-                                }
-                              });
+                              await counter.signup(
+                                  _email.text,
+                                  _title,
+                                  _fname.text,
+                                  _lname.text,
+                                  _username.text,
+                                  _password.text,
+                                  _role);
+                              if (_role) {
+                                context.go('/l/createloan');
+                              }
                             } catch (err) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(err.toString())));

@@ -19,7 +19,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _password = TextEditingController();
   bool _isShowPassword = false;
   bool _isLoading = false;
-  bool _fail = false;
+  bool fail = false;
 
   void setLoading(bool isLoading) {
     setState(() {
@@ -80,7 +80,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         TextFormField(
                           validator: (value) => value!.isEmpty
                               ? "Email must not be empty."
-                              : _fail
+                              : fail
                                   ? "Incorrect username (or email) or password"
                                   : "Uncorrect email formatted.",
                           decoration: roundInput.copyWith(
@@ -152,7 +152,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       children: [
                         const Text("Don't have an account ?"),
                         TextButton(
-                            onPressed: () {}, child: const Text("Register"))
+                            onPressed: () {
+                              context.go("/register");
+                            },
+                            child: const Text("Register"))
                       ],
                     )
                   ],
