@@ -4,7 +4,6 @@ import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/review.dart';
 import 'package:laas/components/Lender/debt_analysis.dart';
 import 'package:laas/components/Lender/signature_pad.dart';
-import 'package:laas/services/data/lone_contract/approve_loan.dart';
 import 'package:laas/services/data/lone_contract/get_loan_req.dart';
 
 class LApprove extends StatefulWidget {

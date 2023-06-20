@@ -25,7 +25,6 @@ class AuthenticationService extends ChangeNotifier {
       if (userCredentialResponse.statusCode == 200) {
         final userCredentialData = userCredentialResponse.data;
         user = UserCredential.fromJson(userCredentialData);
-        print(userCredentialData);
         notifyListeners();
         return;
       }

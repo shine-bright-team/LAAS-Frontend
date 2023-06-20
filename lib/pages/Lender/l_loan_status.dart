@@ -1,4 +1,6 @@
 //phon
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:laas/components/Lender/l_detail_card.dart';

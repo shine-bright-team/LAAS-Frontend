@@ -7,7 +7,6 @@ Future<ApproveDetail?> getDetailReq(String id) async {
 
     if (getdetail.statusCode == 200) {
       final data = getdetail.data;
-      print(data);
       ApproveDetail res = ApproveDetail.fromJson(data);
       return res;
     }
