@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget header(BuildContext context, String? firstname, String? lastname) {
+Widget header(BuildContext context, String? firstname, String? lastname,
+    bool isProfile, String amount) {
   return Container(
       color: Theme.of(context).colorScheme.primary,
       height: 250,
@@ -37,13 +38,22 @@ Widget header(BuildContext context, String? firstname, String? lastname) {
               const SizedBox(
                 height: 40,
               ),
-              Text("Amount Limit : ",
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize:
-                        Theme.of(context).textTheme.headlineSmall!.fontSize,
-                    fontWeight: FontWeight.bold,
-                  )),
+              if (isProfile)
+                Text("Amount Limit : $amount THB",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineSmall!.fontSize,
+                      fontWeight: FontWeight.bold,
+                    )),
+              if (!isProfile)
+                Text("Amount : $amount THB",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize:
+                          Theme.of(context).textTheme.headlineSmall!.fontSize,
+                      fontWeight: FontWeight.bold,
+                    )),
             ]),
       ));
 }

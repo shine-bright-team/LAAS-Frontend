@@ -72,7 +72,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              header(context, firstname, lastname),
+              header(context, firstname, lastname, true, ""),
               const SizedBox(
                 height: 10,
               ),
@@ -141,9 +141,9 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       onPressed: () {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(content: Text('Edit successfully')),
-        // );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Edit successfully')),
+        );
       },
       child: Text(
         "Edit Agreement",

@@ -39,16 +39,13 @@ class AppGoRouter extends ChangeNotifier {
     if (authState.isLoading) return null;
     final isAuth = authState.user != null;
 
-    if (isAuth && {'l', '/login'}.contains(state.location)) {
+    if (isAuth && {'l', '/login', '/register'}.contains(state.location)) {
       if (authState.user!.isLender) {
-        return '/l';
-      } else {
-        return '/b';
-      }
-    }
-    if (isAuth && {"/register"}.contains(state.location)) {
-      if (authState.user!.isLender) {
-        return '/l/createloan';
+        if (!authState.user!.isSetAgreement) {
+          return '/createloan';
+        } else {
+          return '/l';
+        }
       } else {
         return '/b';
       }
@@ -60,12 +57,12 @@ class AppGoRouter extends ChangeNotifier {
     return null;
   }
 
-  // final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
+  final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
   // final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
 
   late final routes = [
     ShellRoute(
-      // navigatorKey: _mainRouteKey,
+      navigatorKey: _mainRouteKey,
       routes: [
         ShellRoute(
           routes: [
@@ -93,8 +90,8 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          // parentNavigatorKey: _mainRouteKey,
-          path: "/l/createloan",
+          parentNavigatorKey: _mainRouteKey,
+          path: "/createloan",
           builder: (context, state) => LCreateLoan(
             onPaymentOptionSelected: (value) {
               // Handle the payment option selection logic here

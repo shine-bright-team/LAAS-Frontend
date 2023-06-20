@@ -22,7 +22,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void setLoading(bool isLoading) {
     setState(() {
-      print(isLoading);
       _isLoading = isLoading;
     });
   }
@@ -124,7 +123,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   const SnackBar(
                                       content: Text(
                                           "Incorrect username (or email) or password")));
-                              ;
                             }
                           },
                           style: FilledButton.styleFrom(

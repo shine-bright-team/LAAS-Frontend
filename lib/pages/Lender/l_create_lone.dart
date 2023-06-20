@@ -1,28 +1,28 @@
 //FXH
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laas/components/Lender/check_box.dart';
-import 'package:laas/components/Lender/silder.dart';
+import 'package:laas/providers/authProvider.dart';
 import 'package:laas/services/data/lone_contract/create_lone.dart';
 
-class LCreateLoan extends StatefulWidget {
+class LCreateLoan extends ConsumerStatefulWidget {
   final ValueChanged<String> onPaymentOptionSelected;
   const LCreateLoan({Key? key, required this.onPaymentOptionSelected})
       : super(key: key);
 
   @override
-  State<LCreateLoan> createState() => _LCreateLoanState();
+  ConsumerState<LCreateLoan> createState() => _LCreateLoanState();
 }
 
 const List<String> list = ['per day', 'per month'];
 const List<String> paymentOptions = ['KbanK', 'SCB', 'PromptPay'];
 
-class _LCreateLoanState extends State<LCreateLoan> {
+class _LCreateLoanState extends ConsumerState<LCreateLoan> {
   String selectedPaymentOption = '';
   bool _isSelected1 = false;
   bool _isSelected2 = false;
-  bool _isTextFieldFilled = false;
   bool _isActiveAtLeast = false;
   bool _isHaveBaseSaraly = false;
   bool ispermount = false;
@@ -45,6 +45,7 @@ class _LCreateLoanState extends State<LCreateLoan> {
 
   @override
   void initState() {
+    super.initState();
     startController.text = "";
     endController.text = "";
     agreementDetailsController.text = "";
@@ -75,7 +76,7 @@ class _LCreateLoanState extends State<LCreateLoan> {
 
   @override
   Widget build(BuildContext context) {
-    _isTextFieldFilled = false;
+    final counter = ref.watch(authProvider);
     final Color primaryColor = Theme.of(context).colorScheme.primary;
     final Color inactiveColor =
         Theme.of(context).colorScheme.onSurface.withOpacity(0.5);
@@ -113,7 +114,6 @@ class _LCreateLoanState extends State<LCreateLoan> {
                     child: TextField(
                       controller: startController,
                       onChanged: (value) => setState(() {
-                        print(startController);
                         // _isTextFieldFilled = isFieldsFilled();
                       }),
                       decoration: InputDecoration(
@@ -140,9 +140,7 @@ class _LCreateLoanState extends State<LCreateLoan> {
                   Expanded(
                     child: TextField(
                       controller: endController,
-                      onChanged: (value) => setState(() {
-                        _isTextFieldFilled = isFieldsFilled();
-                      }),
+                      onChanged: (value) => setState(() {}),
                       decoration: InputDecoration(
                         labelText: "End",
                         hintStyle: TextStyle(
@@ -543,6 +541,7 @@ class _LCreateLoanState extends State<LCreateLoan> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Create Loan successfully')),
                     );
+                    counter.getUser();
                     context.go('/login');
                   });
 

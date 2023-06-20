@@ -273,9 +273,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   _username.text,
                                   _password.text,
                                   _role);
-                              if (_role) {
-                                context.go('/l/createloan');
-                              }
                             } catch (err) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(err.toString())));
