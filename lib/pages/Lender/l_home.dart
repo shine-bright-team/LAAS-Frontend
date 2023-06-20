@@ -15,6 +15,7 @@ class LHome extends StatefulWidget {
 class _LHomeState extends State<LHome> {
   List<BorrowReq>? urBorrowReq;
   List<ContractRes>? urBrContract;
+
   @override
   void initState() {
     _getData();
@@ -25,12 +26,10 @@ class _LHomeState extends State<LHome> {
     urBorrowReq = await getBorrowRequest();
     urBrContract = await getContract();
 
-    if (mounted) {
-      setState(() {
-        urBorrowReq;
-        urBrContract;
-      });
-    }
+    setState(() {
+      urBorrowReq;
+      urBrContract;
+    });
   }
 
   @override
