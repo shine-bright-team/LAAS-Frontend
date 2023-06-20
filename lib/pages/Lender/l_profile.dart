@@ -23,14 +23,19 @@ class _LProfileScreenState extends State<LProfileScreen> {
   String? interestRate;
   int? dueIn;
   String? addition;
+  bool isLoading = true;
 
   @override
   void initState() {
-    _getData();
+    _initCheck();
     super.initState();
   }
 
-  _getData() async {
+  _initCheck() async {
+    setState(() {
+      isLoading = true;
+    });
+
     user = await getUser();
     agreements = await getAgreement();
 
@@ -41,64 +46,83 @@ class _LProfileScreenState extends State<LProfileScreen> {
     addition = agreements!.addition;
 
     setState(() {
-      firstname;
-      lastname;
-      interestRate;
-      dueIn;
-      addition;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Profile",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+    if (!isLoading) {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Profile",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              header(context, firstname, lastname),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Center(
-                  child: Column(
-                    children: [
-                      review(context),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      agreement(context, interestRate, dueIn, addition)
-                    ],
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                header(context, firstname, lastname),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        review(context),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        agreement(context, interestRate, dueIn, addition)
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: [
-                    editButton(context),
-                    const SizedBox(
-                      height: 17,
-                    ),
-                    update(context),
-                    const SizedBox(
-                      height: 17,
-                    ),
-                    logoutButton(context),
-                  ],
-                ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    children: [
+                      editButton(context),
+                      const SizedBox(
+                        height: 17,
+                      ),
+                      update(context),
+                      const SizedBox(
+                        height: 17,
+                      ),
+                      logoutButton(context),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ));
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Home",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
           ),
-        ));
+          body: Stack(children: [
+            SingleChildScrollView(
+                child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height - 55),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [Center(child: Text('Loading...'))],
+              ),
+            ))
+          ]));
+    }
   }
 }
 

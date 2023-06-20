@@ -36,16 +36,6 @@ class _LHomeState extends State<LHome> {
     });
   }
 
-  // _getData() async {
-  //   urBorrowReq = await getBorrowRequest();
-  //   urBrContract = await getContract();
-
-  //   setState(() {
-  //     urBorrowReq;
-  //     urBrContract;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     if (!isLoading) {
