@@ -19,21 +19,21 @@ class _LHomeState extends State<LHome> {
 
   @override
   void initState() {
-    _initCheck();
     super.initState();
+    _initCheck();
   }
 
   _initCheck() async {
-    setState(() {
-      isLoading = true;
-    });
+    var tempBrReq = await getBorrowRequest();
+    var tempBrContract = await getContract();
 
-    urBorrowReq = await getBorrowRequest();
-    urBrContract = await getContract();
-
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        urBorrowReq = tempBrReq;
+        urBrContract = tempBrContract;
+        isLoading = false;
+      });
+    }
   }
 
   @override
