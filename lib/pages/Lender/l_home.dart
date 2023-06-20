@@ -24,8 +24,15 @@ class _LHomeState extends State<LHome> {
   }
 
   _initCheck() async {
-    var tempBrReq = await getBorrowRequest();
-    var tempBrContract = await getContract();
+    List<BorrowReq>? tempBrReq;
+    List<ContractRes>? tempBrContract;
+
+    try {
+      tempBrReq = await getBorrowRequest();
+      tempBrContract = await getContract();
+    } catch (err) {
+      rethrow;
+    }
 
     if (mounted) {
       setState(() {

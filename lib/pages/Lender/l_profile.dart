@@ -33,8 +33,15 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   }
 
   _initCheck() async {
-    var tempUser = await getUser();
-    var tempAgreements = await getAgreement();
+    UserRes? tempUser;
+    Agreements? tempAgreements;
+
+    try {
+      tempUser = await getUser();
+      tempAgreements = await getAgreement();
+    } catch (err) {
+      rethrow;
+    }
 
     if (mounted) {
       setState(() {
