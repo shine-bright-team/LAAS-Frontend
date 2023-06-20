@@ -27,27 +27,26 @@ class _LProfileScreenState extends State<LProfileScreen> {
 
   @override
   void initState() {
-    _initCheck();
     super.initState();
+    _initCheck();
   }
 
   _initCheck() async {
-    setState(() {
-      isLoading = true;
-    });
+    var tempUser = await getUser();
+    var tempAgreements = await getAgreement();
 
-    user = await getUser();
-    agreements = await getAgreement();
-
-    firstname = user!.firstname;
-    lastname = user!.lastname;
-    interestRate = agreements!.interestRate;
-    dueIn = agreements!.dueIn;
-    addition = agreements!.addition;
-
-    setState(() {
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        user = tempUser;
+        agreements = tempAgreements;
+        firstname = user!.firstname;
+        lastname = user!.lastname;
+        interestRate = agreements!.interestRate;
+        dueIn = agreements!.dueIn;
+        addition = agreements!.addition;
+        isLoading = false;
+      });
+    }
   }
 
   @override
