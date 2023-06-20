@@ -21,7 +21,7 @@ class _LProfileScreenState extends State<LProfileScreen> {
   Agreements? agreements;
   String? firstname;
   String? lastname;
-  double? interestRate;
+  String? interestRate;
   int? dueIn;
   String? addition;
 

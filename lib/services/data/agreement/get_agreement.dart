@@ -18,7 +18,7 @@ Future<Agreements?> getAgreement() async {
 class Agreements {
   final int userId;
   final int id;
-  final double interestRate;
+  final String interestRate;
   final int dueIn;
   final String addition;
 

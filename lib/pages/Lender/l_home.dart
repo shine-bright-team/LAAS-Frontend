@@ -2,9 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/borrow_request_card.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';
-import 'package:laas/services/data/userdata/get_borrower.dart';
+import 'package:laas/services/data/userdata/get_borrow_request.dart';
 import '../../components/Lender/lender_card.dart';
-import '../../model/user_model.dart';
 
 class LHome extends StatefulWidget {
   const LHome({super.key});
@@ -14,7 +13,7 @@ class LHome extends StatefulWidget {
 }
 
 class _LHomeState extends State<LHome> {
-  List<User> urBorrowers = [];
+  List<BorrowReq>? urBorrowReq;
   List<ContractRes>? urBrContract;
   @override
   void initState() {
@@ -23,13 +22,15 @@ class _LHomeState extends State<LHome> {
   }
 
   _getData() async {
-    urBorrowers = await getBorrower();
+    urBorrowReq = await getBorrowRequest();
     urBrContract = await getContract();
 
-    setState(() {
-      urBorrowers;
-      urBrContract;
-    });
+    if (mounted) {
+      setState(() {
+        urBorrowReq;
+        urBrContract;
+      });
+    }
   }
 
   @override
@@ -62,7 +63,7 @@ class _LHomeState extends State<LHome> {
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: urBorrowers.length,
+                    itemCount: urBrContract!.length,
                     itemBuilder: (context, index) {
                       return LenderCard(
                           uId: urBrContract![index].userId.toString(),
@@ -90,14 +91,14 @@ class _LHomeState extends State<LHome> {
                   child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: urBorrowers.length,
+                    itemCount: urBorrowReq!.length,
                     itemBuilder: (context, index) {
                       return BrRequestCard(
-                          uId: urBrContract![index].userId.toString(),
-                          cId: urBrContract![index].borrowId.toString(),
-                          fName: urBrContract![index].firstname,
-                          lName: urBrContract![index].lastname,
-                          amount: urBrContract![index].requestedAmount,
+                          uId: urBorrowReq![index].userId.toString(),
+                          cId: urBorrowReq![index].borrowId.toString(),
+                          fName: urBorrowReq![index].firstname,
+                          lName: urBorrowReq![index].lastname,
+                          amount: urBorrowReq![index].requestedAmount,
                           profileId: "1");
                     },
                   ),
