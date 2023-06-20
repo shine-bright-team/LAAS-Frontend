@@ -6,7 +6,6 @@ import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/com_argeement.dart';
 import 'package:laas/components/Lender/review.dart';
 import 'package:laas/providers/authProvider.dart';
-import 'package:laas/services/auth/authenticationservice.dart';
 import 'package:laas/services/data/agreement/get_agreement.dart';
 import 'package:laas/services/data/userdata/get_user.dart';
 
@@ -22,17 +21,22 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   Agreements? agreements;
   String? firstname;
   String? lastname;
-  double? interestRate;
+  String? interestRate;
   int? dueIn;
   String? addition;
+  bool isLoading = true;
 
   @override
   void initState() {
-    _getData();
     super.initState();
+    _initCheck();
   }
 
-  _getData() async {
+  _initCheck() async {
+    setState(() {
+      isLoading = true;
+    });
+
     user = await getUser();
     agreements = await getAgreement();
 
@@ -43,18 +47,15 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
     addition = agreements!.addition;
 
     setState(() {
-      firstname;
-      lastname;
-      interestRate;
-      dueIn;
-      addition;
+      isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final counter = ref.watch(authProvider);
-    return Scaffold(
+    if (!isLoading) {
+      return Scaffold(
         appBar: AppBar(
           title: Text(
             "Profile",
@@ -95,77 +96,100 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
                     const SizedBox(
                       height: 17,
                     ),
-                    logoutButton(context, counter),
+                    logoutButton(context, counter)
                   ],
                 ),
-              )
+              ),
             ],
           ),
-        ));
-  }
-}
-
-Widget editButton(BuildContext context) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      minimumSize: const Size.fromHeight(50),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-    ),
-    onPressed: () {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Edit successfully')),
-      // );
-    },
-    child: Text(
-      "Edit Agreement",
-      style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-          fontWeight: FontWeight.bold,
-          fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-    ),
-  );
-}
-
-Widget update(BuildContext context) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      minimumSize: const Size.fromHeight(50),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-    ),
-    onPressed: () {
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   const SnackBar(content: Text('Update KYC successfully')),
-      // );
-    },
-    child: Text(
-      "Update KYC",
-      style: TextStyle(
-          color: Theme.of(context).colorScheme.primary,
-          fontWeight: FontWeight.bold,
-          fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-    ),
-  );
-}
-
-Widget logoutButton(BuildContext context, counter) {
-  return ElevatedButton(
-    style: ElevatedButton.styleFrom(
-      minimumSize: const Size.fromHeight(50),
-      backgroundColor: Theme.of(context).colorScheme.primary,
-    ),
-    onPressed: () {
-      counter.logout();
-      context.go("/login");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Log out successfully')),
+        ),
       );
-    },
-    child: Text(
-      "Log Out",
-      style: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimary,
-          fontWeight: FontWeight.bold,
-          fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
-    ),
-  );
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Home",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ),
+          body: Stack(children: [
+            SingleChildScrollView(
+                child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height - 55),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [Center(child: Text('Loading...'))],
+              ),
+            ))
+          ]));
+    }
+  }
+
+  Widget editButton(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(50),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+      ),
+      onPressed: () {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(content: Text('Edit successfully')),
+        // );
+      },
+      child: Text(
+        "Edit Agreement",
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+            fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+      ),
+    );
+  }
+
+  Widget update(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(50),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+      ),
+      onPressed: () {
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   const SnackBar(content: Text('Update KYC successfully')),
+        // );
+      },
+      child: Text(
+        "Update KYC",
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
+            fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+      ),
+    );
+  }
+
+  Widget logoutButton(BuildContext context, counter) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(50),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      onPressed: () {
+        counter.logout();
+        context.go("/login");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Logout successfully')),
+        );
+      },
+      child: Text(
+        "Log Out",
+        style: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary,
+            fontWeight: FontWeight.bold,
+            fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
+      ),
+    );
+  }
 }

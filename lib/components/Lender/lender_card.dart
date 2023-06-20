@@ -36,8 +36,7 @@ class _LenderCardState extends State<LenderCard> {
     return Padding(
         padding: const EdgeInsets.only(bottom: 15.0),
         child: InkWell(
-            onTap: () =>
-                {context.push("/l/loanstatus/${widget.cId}/${widget.uId}")},
+            onTap: () => {context.push("/l/loanstatus/${widget.cId}")},
             child: Container(
               constraints: const BoxConstraints(maxWidth: 350, minHeight: 115),
               decoration: BoxDecoration(

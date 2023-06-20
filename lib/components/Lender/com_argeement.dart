@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget agreement(
-    BuildContext context, double? interestRate, int? dueIn, String? addition) {
+    BuildContext context, String? interestRate, int? dueIn, String? addition) {
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -37,7 +37,7 @@ Widget agreement(
             child: Column(
               children: [
                 Text(
-                    "Interest rate : $interestRate% \nPay within $dueIn months\n$addition  ",
+                    "Interest rate : $interestRate \nPay within $dueIn months\n$addition  ",
                     style: TextStyle(
                       fontSize:
                           Theme.of(context).textTheme.titleLarge!.fontSize,
