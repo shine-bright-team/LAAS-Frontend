@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:laas/services/data/transction/update_transaction.dart';
 
 class TransCard extends StatefulWidget {
   final String id;
@@ -100,6 +102,8 @@ class _TransCardState extends State<TransCard> {
                 // }).onError((error, stackTrace) {
                 //   showSnackBar(context, error.toString());
                 // });
+                updateTransaction(int.parse(widget.id), true, null);
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -145,6 +149,7 @@ class _TransCardState extends State<TransCard> {
               child: const Text('Send'),
               onPressed: () {
                 reason.value = myController.text;
+                updateTransaction(int.parse(widget.id), false, reason.value);
                 Navigator.pop(context);
 
                 // declineTransaction(
