@@ -37,7 +37,7 @@ Widget agreement(
             child: Column(
               children: [
                 Text(
-                    "Interest rate : $interestRate \nPay within $dueIn months\n$addition  ",
+                    "• Interest rate : $interestRate \n• Pay within $dueIn months\n• $addition  ",
                     style: TextStyle(
                       fontSize:
                           Theme.of(context).textTheme.titleLarge!.fontSize,
