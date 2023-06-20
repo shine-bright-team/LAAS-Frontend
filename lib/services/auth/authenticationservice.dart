@@ -60,8 +60,11 @@ class AuthenticationService extends ChangeNotifier {
 
   Future<void> logout() async {
     try {
+      user = null;
       Api.setToken("");
+
       await prefs?.remove('token');
+      notifyListeners();
     } catch (e) {
       rethrow;
     }

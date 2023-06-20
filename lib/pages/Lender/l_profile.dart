@@ -1,22 +1,23 @@
 //fxh
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/com_argeement.dart';
 import 'package:laas/components/Lender/review.dart';
-import 'package:laas/model/agreement.dart';
+import 'package:laas/providers/authProvider.dart';
 import 'package:laas/services/auth/authenticationservice.dart';
 import 'package:laas/services/data/agreement/get_agreement.dart';
 import 'package:laas/services/data/userdata/get_user.dart';
 
-class LProfileScreen extends StatefulWidget {
+class LProfileScreen extends ConsumerStatefulWidget {
   const LProfileScreen({super.key});
 
   @override
-  State<LProfileScreen> createState() => _LProfileScreenState();
+  ConsumerState<LProfileScreen> createState() => _LProfileScreenState();
 }
 
-class _LProfileScreenState extends State<LProfileScreen> {
+class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   UserRes? user;
   Agreements? agreements;
   String? firstname;
@@ -52,6 +53,7 @@ class _LProfileScreenState extends State<LProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final counter = ref.watch(authProvider);
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -93,7 +95,7 @@ class _LProfileScreenState extends State<LProfileScreen> {
                     const SizedBox(
                       height: 17,
                     ),
-                    logoutButton(context),
+                    logoutButton(context, counter),
                   ],
                 ),
               )
@@ -145,14 +147,14 @@ Widget update(BuildContext context) {
   );
 }
 
-Widget logoutButton(BuildContext context) {
+Widget logoutButton(BuildContext context, counter) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       minimumSize: const Size.fromHeight(50),
       backgroundColor: Theme.of(context).colorScheme.primary,
     ),
     onPressed: () {
-      AuthenticationService().logout();
+      counter.logout();
       context.go("/login");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Log out successfully')),

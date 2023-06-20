@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:laas/config/theme/custom_text_fied.dart';
 import 'package:laas/config/theme/custom_warpper.dart';
 import 'package:laas/providers/authProvider.dart';
-import 'package:laas/services/auth/authenticationservice.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
