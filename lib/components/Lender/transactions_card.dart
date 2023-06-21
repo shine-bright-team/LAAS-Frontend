@@ -150,16 +150,6 @@ class _TransCardState extends State<TransCard> {
                 reason.value = myController.text;
                 updateTransaction(int.parse(widget.id), false, reason.value);
                 Navigator.pop(context);
-
-                // declineTransaction(
-                //         transactionId: id,
-                //         debtId: cId,
-                //         reason: myController.text)
-                //     .then((value) {
-                //   Navigator.of(context).pop();
-                // }).onError((error, stackTrace) {
-                //   showSnackBar(context, error.toString());
-                // });
               },
             ),
           ],
