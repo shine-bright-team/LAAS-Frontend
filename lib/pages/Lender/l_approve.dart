@@ -68,7 +68,7 @@ class _LApproveState extends State<LApprove> {
                   padding: const EdgeInsets.all(32.0),
                   child: Column(
                     children: [
-                      review(context),
+                      review(context, 3),
                       const SizedBox(
                         height: 30,
                       ),

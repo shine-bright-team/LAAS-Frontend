@@ -26,6 +26,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   String? interestRate;
   int? dueIn;
   String? addition;
+  late double userReview;
   bool isLoading = true;
 
   @override
@@ -56,6 +57,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         interestRate = agreements!.interestRate;
         dueIn = agreements!.dueIn;
         addition = agreements!.addition;
+        userReview = agreements!.userReview.reviewAverage;
         isLoading = false;
       });
     }
@@ -85,7 +87,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
                 child: Center(
                   child: Column(
                     children: [
-                      review(context),
+                      review(context, userReview),
                       const SizedBox(
                         height: 20,
                       ),
@@ -118,7 +120,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
       return Scaffold(
           appBar: AppBar(
             title: Text(
-              "Home",
+              "Profile",
               style: TextStyle(color: Theme.of(context).colorScheme.primary),
             ),
           ),

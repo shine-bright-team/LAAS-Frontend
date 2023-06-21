@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/com_star.dart';
 import 'package:laas/config/theme/custom_color.g.dart';
 
-Widget review(BuildContext context) {
+Widget review(BuildContext context, double userReview) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -39,7 +39,7 @@ Widget review(BuildContext context) {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 50),
-                  child: Text("4.5",
+                  child: Text(userReview.toString(),
                       style: TextStyle(
                         fontSize:
                             Theme.of(context).textTheme.displayLarge!.fontSize,
@@ -50,7 +50,7 @@ Widget review(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     StarDisplayWidget(
-                      value: 4,
+                      value: userReview.round(),
                       filledStar: Icon(Icons.star,
                           color: Theme.of(context)
                               .extension<CustomColors>()!

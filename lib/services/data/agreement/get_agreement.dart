@@ -22,6 +22,7 @@ class Agreements {
   final String interestRate;
   final int dueIn;
   final String addition;
+  final Review userReview;
 
   Agreements({
     required this.userId,
@@ -30,6 +31,7 @@ class Agreements {
     required this.interestRate,
     required this.dueIn,
     required this.addition,
+    required this.userReview,
   });
 
   factory Agreements.fromJson(Map json) {
@@ -39,6 +41,24 @@ class Agreements {
         amountRange: json['AmountRange'],
         interestRate: json['InterestRate'],
         dueIn: json['DueIn'],
-        addition: json['Addition']);
+        addition: json['Addition'],
+        userReview: Review.fromJson(json['review']));
+  }
+}
+
+class Review {
+  final double reviewAverage;
+  final int reviewCount;
+
+  Review({
+    required this.reviewAverage,
+    required this.reviewCount,
+  });
+
+  factory Review.fromJson(Map json) {
+    return Review(
+      reviewAverage: json['review_average'],
+      reviewCount: json['review_count'],
+    );
   }
 }
