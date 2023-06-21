@@ -21,6 +21,8 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   Agreements? agreements;
   String? firstname;
   String? lastname;
+  late bool isLender;
+  late String amountRange;
   String? interestRate;
   int? dueIn;
   String? addition;
@@ -49,6 +51,8 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         agreements = tempAgreements;
         firstname = user!.firstname;
         lastname = user!.lastname;
+        isLender = user!.isLender;
+        amountRange = agreements!.amountRange;
         interestRate = agreements!.interestRate;
         dueIn = agreements!.dueIn;
         addition = agreements!.addition;
@@ -72,7 +76,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              header(context, firstname, lastname, true, ""),
+              header(context, firstname, lastname, isLender, amountRange),
               const SizedBox(
                 height: 10,
               ),
