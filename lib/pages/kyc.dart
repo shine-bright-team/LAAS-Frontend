@@ -13,11 +13,11 @@ class _KycState extends ConsumerState<Kyc> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   late double _page = 0;
-  bool _isLoading = false;
+  // bool _isLoading = false;
 
   void setLoading(bool isLoading) {
     setState(() {
-      _isLoading = isLoading;
+      // _isLoading = isLoading;
     });
   }
 
