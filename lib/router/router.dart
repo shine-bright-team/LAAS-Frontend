@@ -15,6 +15,7 @@ import 'package:laas/pages/Lender/l_loan_status.dart';
 import 'package:laas/pages/Lender/l_profile.dart';
 import 'package:laas/pages/Lender/search.dart';
 import 'package:laas/pages/kyc.dart';
+import 'package:laas/pages/loading.dart';
 import 'package:laas/pages/login.dart';
 import 'package:laas/pages/Lender/l_payment.dart';
 import 'package:laas/pages/register.dart';
@@ -29,16 +30,17 @@ class AppGoRouter extends ChangeNotifier {
       notifyListeners();
     });
   }
-  late final authState = ref.watch(authProvider).user;
+  late final authState = ref.watch(authProvider);
 
   String? redirectlogic(BuildContext context, GoRouterState state) {
     if (dotenv.env['DISABLE_LOGIN'] == "true") return null;
-    if (authState == null) return null;
-    // if (authState.isLoading || authState.hasError) return null;
-    final isAuth = authState != null;
-    if (isAuth &&
-        (state.location == '/login' || state.location == '/register')) {
-      if (authState!.isLender) {
+    // if (authState == null) return null;
+
+    if (authState.isLoading) return null;
+    final isAuth = authState.user != null;
+
+    if (isAuth && {'l', '/login', "/register"}.contains(state.location)) {
+      if (authState.user!.isLender) {
         return '/l';
       } else {
         return '/b';
@@ -94,10 +96,9 @@ class AppGoRouter extends ChangeNotifier {
         ),
         GoRoute(
           // parentNavigatorKey: _mainRouteKey,
-          path: "/l/loanstatus/:contractId/:userId",
+          path: "/l/loanstatus/:contractId",
           builder: (context, state) => LLoanStatus(
             contractId: state.params['contractId']!,
-            userId: state.params['userId']!,
           ),
         ),
         GoRoute(
@@ -158,11 +159,11 @@ class AppGoRouter extends ChangeNotifier {
         ),
       ],
       builder: (context, state, child) {
-        // if (authState.isLoading) {
-        //   return const LoadingScreen();
-        // } else {
-        return child;
-        // }
+        if (authState.isLoading) {
+          return const LoadingScreen();
+        } else {
+          return child;
+        }
       },
     )
   ];

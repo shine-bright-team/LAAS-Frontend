@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laas/config/theme/custom_text_fied.dart';
 import 'package:laas/config/theme/custom_warpper.dart';
+import 'package:laas/providers/authProvider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -17,14 +18,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _password = TextEditingController();
   bool _isShowPassword = false;
   bool _isLoading = false;
+  bool _fail = false;
 
   void setLoading(bool isLoading) {
     setState(() {
+      print(isLoading);
       _isLoading = isLoading;
     });
   }
-
-  void login() {}
 
   @override
   void dispose() {
@@ -35,6 +36,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final counter = ref.watch(authProvider);
     return Scaffold(
         body: SingleChildScrollView(
       child: Form(
@@ -77,7 +79,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         TextFormField(
                           validator: (value) => value!.isEmpty
                               ? "Email must not be empty."
-                              : "Uncorrect email formatted.",
+                              : _fail
+                                  ? "Incorrect username (or email) or password"
+                                  : "Uncorrect email formatted.",
                           decoration: roundInput.copyWith(
                               labelText: "Usernaem or Email"),
                           controller: _email,
@@ -110,7 +114,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           height: 30,
                         ),
                         FilledButton(
-                          onPressed: login,
+                          onPressed: () async {
+                            setLoading(true);
+                            try {
+                              await counter.login(_email.text, _password.text);
+                              setLoading(false);
+                            } catch (err) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Incorrect username (or email) or password")));
+                              ;
+                            }
+                          },
                           style: FilledButton.styleFrom(
                             minimumSize: const Size.fromHeight(50),
                             padding: const EdgeInsets.all(10.00),

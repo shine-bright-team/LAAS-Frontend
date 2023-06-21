@@ -30,15 +30,15 @@ Future<List<User>> getBorrower() async {
       paychannel: 'Bank Transfer',
       payNumber: '1234567890',
     ),
-    const User(
-        id: 8,
-        title: 'Mrs.',
-        firstname: 'Emma',
-        lastname: 'Anderson',
-        email: 'emmaanderson@example.com',
-        isLender: true,
-        paychannel: "Promptpay",
-        payNumber: "0962200825"),
+    // const User(
+    //     id: 8,
+    //     title: 'Mrs.',
+    //     firstname: 'Emma',
+    //     lastname: 'Anderson',
+    //     email: 'emmaanderson@example.com',
+    //     isLender: true,
+    //     paychannel: "Promptpay",
+    //     payNumber: "0962200825"),
   ];
 
   return mockupUserList;

@@ -1,7 +1,6 @@
 //phon
 import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/borrow_request_card.dart';
-import 'package:laas/model/contract.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';
 import 'package:laas/services/data/userdata/get_borrower.dart';
 import '../../components/Lender/lender_card.dart';
@@ -16,7 +15,7 @@ class LHome extends StatefulWidget {
 
 class _LHomeState extends State<LHome> {
   List<User> urBorrowers = [];
-  List<Contract> urBrContract = [];
+  List<ContractRes>? urBrContract;
   @override
   void initState() {
     _getYourBorrowers();
@@ -67,11 +66,11 @@ class _LHomeState extends State<LHome> {
                     itemBuilder: (context, index) {
                       return LenderCard(
                           uId: urBorrowers[index].id.toString(),
-                          cId: urBrContract[index].id.toString(),
+                          cId: urBrContract![index].borrowId.toString(),
                           fName: urBorrowers[index].firstname,
                           lName: urBorrowers[index].lastname,
-                          date: urBrContract[index].dueAt,
-                          amount: urBrContract[index].loanAmount,
+                          date: urBrContract![index].dueDate,
+                          amount: urBrContract![index].remainingAmount,
                           profileId: "1");
                     },
                   ),
@@ -95,10 +94,10 @@ class _LHomeState extends State<LHome> {
                     itemBuilder: (context, index) {
                       return BrRequestCard(
                           uId: urBorrowers[index].id.toString(),
-                          cId: urBrContract[index].id.toString(),
+                          cId: urBrContract![index].borrowId.toString(),
                           fName: urBorrowers[index].firstname,
                           lName: urBorrowers[index].lastname,
-                          amount: urBrContract[index].loanAmount,
+                          amount: urBrContract![index].requestedAmount,
                           profileId: "1");
                     },
                   ),

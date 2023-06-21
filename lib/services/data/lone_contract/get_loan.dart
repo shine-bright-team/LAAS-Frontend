@@ -1,44 +1,60 @@
-import 'package:laas/model/contract.dart';
+import 'package:intl/intl.dart';
+import 'package:laas/services/api.dart';
 
-Future<List<Contract>> getContract() async {
-  List<Contract> mockupContractList = [
-    Contract(
-      id: 1,
-      agreementId: 101,
-      lenderUserId: 1,
-      borrowerUserId: 5,
-      loanAmount: 5000,
-      signedAt: DateTime(2023, 4, 15),
-      dueAt: DateTime(2023, 5, 15),
-    ),
-    Contract(
-      id: 2,
-      agreementId: 102,
-      lenderUserId: 1,
-      borrowerUserId: 6,
-      loanAmount: 8000,
-      signedAt: DateTime(2023, 4, 20),
-      dueAt: DateTime(2023, 6, 1),
-    ),
-    Contract(
-      id: 3,
-      agreementId: 103,
-      lenderUserId: 1,
-      borrowerUserId: 7,
-      loanAmount: 3000,
-      signedAt: DateTime(2023, 4, 25),
-      dueAt: DateTime(2023, 5, 25),
-    ),
-    Contract(
-      id: 4,
-      agreementId: 104,
-      lenderUserId: 1,
-      borrowerUserId: 8,
-      loanAmount: 10000,
-      signedAt: DateTime(2023, 4, 28),
-      dueAt: DateTime(2023, 6, 30),
-    ),
-  ];
+//หมั่มๆ Home
+// ดึง arara ออกมาจาก path "/lender/borrower" map value
+// แก้ทุกสิ่งที่มันแดง จบ
+Future<List<ContractRes>?> getContract() async {
+  try {
+    final contract = await Api.dio.get("/lender/borrower/");
 
-  return mockupContractList;
+    if (contract.statusCode == 200) {
+      final data = contract.data;
+      List<ContractRes> response = List<Map<String, dynamic>>.from(data ?? [])
+          .map((e) => ContractRes.fromJson(e))
+          .toList();
+      return response;
+    }
+  } catch (err) {
+    rethrow;
+  }
+  return null;
+}
+
+class ContractRes {
+  final int borrowId;
+  final String username;
+  final int userId;
+  final String firstname;
+  final String lastname;
+  final int requestedAmount;
+  final int remainingAmount;
+  final DateTime requestedAt;
+  final DateTime dueDate;
+
+  const ContractRes({
+    required this.borrowId,
+    required this.username,
+    required this.userId,
+    required this.firstname,
+    required this.lastname,
+    required this.requestedAmount,
+    required this.remainingAmount,
+    required this.requestedAt,
+    required this.dueDate,
+  });
+
+  factory ContractRes.fromJson(Map json) {
+    return ContractRes(
+      borrowId: json['borrow_id'],
+      username: json['username'],
+      userId: json['user_id'],
+      firstname: json['firstname'],
+      lastname: json['lastname'],
+      requestedAmount: json['requested_amount'],
+      remainingAmount: json['remaining_amount'],
+      requestedAt: DateFormat("yyyy-MM-dd").parse(json['requested_at']),
+      dueDate: DateFormat("yyyy-MM-dd").parse(json['due_date']),
+    );
+  }
 }

@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthenticationService extends ChangeNotifier {
   UserCredential? user;
   SharedPreferences? prefs;
+  bool isLoading = true;
 //   String token =
 
   Future<void> initPrefs() async {
@@ -13,7 +14,9 @@ class AuthenticationService extends ChangeNotifier {
     final String token = value.getString('token') ?? "";
     Api.setToken(token);
     prefs = value;
+    isLoading = false;
     await getUser();
+    notifyListeners();
   }
 
   Future<void> getUser() async {
@@ -21,11 +24,13 @@ class AuthenticationService extends ChangeNotifier {
       final userCredentialResponse = await Api.dio.get("/user/");
       if (userCredentialResponse.statusCode == 200) {
         final userCredentialData = userCredentialResponse.data;
+        print(userCredentialData);
         user = UserCredential.fromJson(userCredentialData);
         notifyListeners();
         return;
       }
     } catch (err) {
+      notifyListeners();
       rethrow;
     }
   }
