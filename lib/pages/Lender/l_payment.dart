@@ -99,7 +99,7 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      check.channel == "Promptpay"
+                      check.channel == "PromptPay"
                           ? Payqr(
                               amount: amounts,
                               promptPay: check.number,
@@ -108,11 +108,6 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
                               amount: amounts,
                               bank: check.number,
                             )
-                      // : Paydetail(
-                      //     amount: amounts,
-                      //     promptPay: check!.promptPay,
-                      //     bank: check!.bank,
-                      //   ),
                     ],
                   ),
                 ),

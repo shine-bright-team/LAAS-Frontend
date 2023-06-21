@@ -1,9 +1,13 @@
 //FXH
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:laas/components/Lender/header.dart';
 import 'package:laas/components/Lender/review.dart';
 import 'package:laas/components/Lender/debt_analysis.dart';
 import 'package:laas/components/Lender/signature_pad.dart';
+import 'package:laas/services/data/lone_contract/approve_loan.dart';
 import 'package:laas/services/data/lone_contract/get_loan_req.dart';
 
 class LApprove extends StatefulWidget {
@@ -98,7 +102,7 @@ class _LApproveState extends State<LApprove> {
                       const SizedBox(
                         height: 17,
                       ),
-                      declineButton(context),
+                      declineButton(context, widget.contractId),
                     ],
                   ),
                 )
@@ -155,16 +159,23 @@ Widget approveButton(BuildContext context, String contractId) {
   );
 }
 
-Widget declineButton(BuildContext context) {
+Widget declineButton(BuildContext context, String contractId) {
   return ElevatedButton(
     style: ElevatedButton.styleFrom(
       minimumSize: const Size.fromHeight(50),
       backgroundColor: Theme.of(context).colorScheme.surface,
     ),
     onPressed: () {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('decline successfully')),
-      );
+      try {
+        declineLoan(int.parse(contractId)).then((value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('decline successfully')),
+          );
+          context.go('/l');
+        });
+      } catch (err) {
+        rethrow;
+      }
     },
     child: Text(
       "Decline",
