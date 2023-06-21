@@ -104,7 +104,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
                       cardColor: Theme.of(context).colorScheme.primary,
                       fName: contract!.firstname, //urBrInfo.firstname,
                       lName: contract!.lastname, //urBrInfo.lastname,
-                      amount: contract!.remainingAmount.toString(),
+                      amount: contract!.requestedAmount.toString(),
                     ),
                     const SizedBox(
                       height: 23,

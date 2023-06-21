@@ -84,7 +84,7 @@ class _LHomeState extends State<LHome> {
                             fName: urBrContract![index].firstname,
                             lName: urBrContract![index].lastname,
                             date: urBrContract![index].dueDate,
-                            amount: urBrContract![index].remainingAmount,
+                            amount: urBrContract![index].requestedAmount,
                             profileId: "1");
                       },
                     ),
