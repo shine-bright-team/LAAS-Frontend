@@ -91,7 +91,7 @@ class _LenderCardState extends State<LenderCard> {
                                 color: Theme.of(context).colorScheme.secondary),
                           ),
                           Text(
-                            "Remaing",
+                            "Remaining",
                             style: TextStyle(
                                 fontSize: Theme.of(context)
                                     .textTheme
