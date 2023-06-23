@@ -32,15 +32,9 @@ class _KycState extends State<Kyc> {
                 // mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const LinearProgressIndicator(
-                    value: 0.5,
-                  ),
-                  const SizedBox(
-                    height: 35,
-                  ),
+                  const SizedBox(height: 10),
+                  const LinearProgressIndicator(value: 0.5),
+                  const SizedBox(height: 35),
                   Text(
                     "Terms and Agreement",
                     style: TextStyle(
@@ -48,9 +42,7 @@ class _KycState extends State<Kyc> {
                             Theme.of(context).textTheme.headlineSmall!.fontSize,
                         color: Theme.of(context).colorScheme.primary),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Text(
                     "Condition of use\n  • Lender need to pay subscription to use our application\n  • The subscription will cost 75 THB per Month\n  • The information you provide us must be legally true. Providing false information can lead to legal action.",
                     style: TextStyle(
@@ -58,9 +50,7 @@ class _KycState extends State<Kyc> {
                             Theme.of(context).textTheme.bodyMedium!.fontSize,
                         color: Theme.of(context).colorScheme.secondary),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Text(
                     "Privacy policy\n  • When using our service. We need to collect your information for KYC verification.",
                     style: TextStyle(
@@ -68,9 +58,7 @@ class _KycState extends State<Kyc> {
                             Theme.of(context).textTheme.bodyMedium!.fontSize,
                         color: Theme.of(context).colorScheme.secondary),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   Text(
                     "Age restriction\n  • You must be at least 18 years of age before using our service.",
                     style: TextStyle(
@@ -78,7 +66,7 @@ class _KycState extends State<Kyc> {
                             Theme.of(context).textTheme.bodyMedium!.fontSize,
                         color: Theme.of(context).colorScheme.secondary),
                   ),
-                  SizedBox(height: 100),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
@@ -92,9 +80,7 @@ class _KycState extends State<Kyc> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Checkbox(value: isAgreed, onChanged: agree),
-                  const SizedBox(
-                    width: 5,
-                  ),
+                  const SizedBox(width: 5),
                   const Flexible(
                     child: Text("I agree with the terms and agreement"),
                   ),
@@ -111,17 +97,28 @@ class _KycState extends State<Kyc> {
                   const Expanded(child: SizedBox()),
                   Expanded(
                     child: FilledButton(
-                      onPressed: () {
-                        if (isAgreed) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const VerifyInformation()),
-                          );
-                        }
-                        print(isAgreed);
-                      },
+                      onPressed: () => isAgreed
+                          ? Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VerifyInformation()))
+                          : null,
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (!isAgreed) {
+                              return Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.5);
+                            } else {
+                              return Theme.of(context).colorScheme.primary;
+                            }
+                          },
+                        ),
+                      ),
                       child: const Text("Next"),
                     ),
                   ),
@@ -133,125 +130,4 @@ class _KycState extends State<Kyc> {
       ),
     );
   }
-
-  Widget checkAgreeButton() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Checkbox(value: isAgreed, onChanged: agree),
-            const SizedBox(
-              width: 5,
-            ),
-            const Flexible(
-              child: Text("I agree with the terms and agreement"),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 22,
-        ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Row(
-            children: [
-              const Expanded(child: SizedBox()),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () {
-                    if (isAgreed) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const VerifyInformation()),
-                      );
-                    }
-                    print(isAgreed);
-                  },
-                  child: const Text("Next"),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }
-
-
-// Stack(
-//         children: [
-//           SingleChildScrollView(
-//             child: Container(
-//               margin: const EdgeInsets.all(50),
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.max,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   const LinearProgressIndicator(
-//                     value: 0.5,
-//                   ),
-//                   const SizedBox(
-//                     height: 35,
-//                   ),
-//                   Text(
-//                     "Terms and Agreement",
-//                     style: TextStyle(
-//                         fontSize:
-//                             Theme.of(context).textTheme.headlineSmall!.fontSize,
-//                         color: Theme.of(context).colorScheme.primary),
-//                   ),
-//                   const SizedBox(
-//                     height: 10,
-//                   ),
-//                   Text(
-//                     "Condition of use\n  • Lender need to pay subscription to use our application\n  • The subscription will cost 75 THB per Month\n  • The information you provide us must be legally true. Providing false information can lead to legal action.\nPrivacy policy\n  • When using our service. We need to collect your information for KYC verification.\nAge restriction\n  • You must be at least 18 years of age before using our service.",
-//                     style: TextStyle(
-//                         fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
-//                         color: Theme.of(context).colorScheme.secondary),
-//                   ),
-//                   Align(
-//                       alignment: Alignment.bottomLeft,
-//                       child: Column(
-//                         children: [
-//                           Row(
-//                             children: [
-//                               Checkbox(value: isAgreed, onChanged: agree),
-//                               const SizedBox(
-//                                 width: 5,
-//                               ),
-//                               const Flexible(
-//                                 child: Text("I agree with the terms and agreement"),
-//                               ),
-//                             ],
-//                           ),
-//                           const SizedBox(
-//                             height: 22,
-//                           ),
-//                           Align(
-//                             alignment: Alignment.bottomRight,
-//                             child: Row(
-//                               children: [
-//                                 const Expanded(child: SizedBox()),
-//                                 Expanded(
-//                                   child: FilledButton(
-//                                     onPressed: () {
-//                                       print(isAgreed);
-//                                     },
-//                                     child: const Text("Next"),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
