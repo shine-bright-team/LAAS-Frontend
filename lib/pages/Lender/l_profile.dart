@@ -147,9 +147,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Edit successfully')),
-        );
+        context.go("/l/editloan");
       },
       child: Text(
         "Edit Agreement",

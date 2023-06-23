@@ -10,6 +10,7 @@ import 'package:laas/pages/Borrower/b_payment.dart';
 import 'package:laas/pages/Borrower/b_profile.dart';
 import 'package:laas/pages/Lender/l_approve.dart';
 import 'package:laas/pages/Lender/l_create_lone.dart';
+import 'package:laas/pages/Lender/l_edit_agreement.dart';
 import 'package:laas/pages/Lender/l_home.dart';
 import 'package:laas/pages/Lender/l_loan_status.dart';
 import 'package:laas/pages/Lender/l_profile.dart';
@@ -80,6 +81,14 @@ class AppGoRouter extends ChangeNotifier {
               // parentNavigatorKey: _shellRouteKey,
               path: "/l/profile",
               builder: (context, state) => const LProfileScreen(),
+            ),
+            GoRoute(
+              path: "/l/editloan",
+              builder: (context, state) => LEditloan(
+                onPaymentOptionSelected: (value) {
+                  // Handle the payment option selection logic here
+                },
+              ),
             ),
           ],
           builder: (context, state, child) => Scaffold(
