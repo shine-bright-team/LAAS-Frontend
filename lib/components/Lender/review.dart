@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/com_star.dart';
 import 'package:laas/config/theme/custom_color.g.dart';
 
-Widget review(
-  BuildContext context,
-  double userReview,
-) {
+Widget review(BuildContext context, double userReview, int reviewCount) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -67,7 +64,7 @@ Widget review(
                     const SizedBox(
                       height: 10,
                     ),
-                    Text("357,268",
+                    Text(reviewCount.toString(),
                         style: TextStyle(
                             fontSize: Theme.of(context)
                                 .textTheme

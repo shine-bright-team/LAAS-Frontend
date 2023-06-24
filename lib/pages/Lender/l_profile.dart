@@ -27,6 +27,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   int? dueIn;
   String? addition;
   late double userReview;
+  late int reviewCount;
   bool isLoading = true;
 
   @override
@@ -58,6 +59,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         dueIn = agreements!.dueIn;
         addition = agreements!.addition;
         userReview = agreements!.userReview.reviewAverage;
+        reviewCount = agreements!.userReview.reviewCount;
         isLoading = false;
       });
     }
@@ -87,7 +89,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
                 child: Center(
                   child: Column(
                     children: [
-                      review(context, userReview),
+                      review(context, userReview, reviewCount),
                       const SizedBox(
                         height: 20,
                       ),

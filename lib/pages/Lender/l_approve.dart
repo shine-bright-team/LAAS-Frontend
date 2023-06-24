@@ -68,10 +68,8 @@ class _LApproveState extends State<LApprove> {
                   padding: const EdgeInsets.all(32.0),
                   child: Column(
                     children: [
-                      review(
-                        context, data!.reviews.reviewAverage,
-                        // data!.reviews.reviewCount
-                      ),
+                      review(context, data!.reviews.reviewAverage,
+                          data!.reviews.reviewCount),
                       const SizedBox(
                         height: 30,
                       ),
