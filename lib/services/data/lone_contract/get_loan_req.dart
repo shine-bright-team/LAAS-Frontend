@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:laas/services/api.dart';
+import 'package:laas/services/data/agreement/get_agreement.dart';
 
 Future<ApproveDetail?> getDetailReq(String id) async {
   try {
@@ -29,7 +30,7 @@ class ApproveDetail {
   final String payChannel;
   final String payNumber;
   final DebtAnalysis debtAnalysis;
-  final Reviews reviews;
+  final Review reviews;
   ApproveDetail({
     required this.borrowId,
     required this.username,
@@ -59,7 +60,7 @@ class ApproveDetail {
         payChannel: json['pay_channel'],
         payNumber: json['pay_number'],
         debtAnalysis: DebtAnalysis.fromJson(json['debt_analysis']),
-        reviews: Reviews.fromJson(json['reviews']));
+        reviews: Review.fromJson(json['reviews']));
   }
 }
 
@@ -76,23 +77,6 @@ class DebtAnalysis {
     return DebtAnalysis(
       paid: json['paid'],
       unpaid: json['unpaid'],
-    );
-  }
-}
-
-class Reviews {
-  final int average;
-  final int count;
-
-  const Reviews({
-    required this.average,
-    required this.count,
-  });
-
-  factory Reviews.fromJson(Map json) {
-    return Reviews(
-      average: json['review_average'],
-      count: json['review_count'],
     );
   }
 }

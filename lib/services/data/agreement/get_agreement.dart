@@ -23,7 +23,10 @@ class Agreements {
   final int dueIn;
   final String addition;
   final Review userReview;
-
+  final int active;
+  final int salary;
+  final String channel;
+  final String number;
   Agreements({
     required this.userId,
     required this.id,
@@ -32,17 +35,26 @@ class Agreements {
     required this.dueIn,
     required this.addition,
     required this.userReview,
+    required this.active,
+    required this.salary,
+    required this.channel,
+    required this.number,
   });
 
   factory Agreements.fromJson(Map json) {
     return Agreements(
-        userId: json['UserId'],
-        id: json['ID'],
-        amountRange: json['AmountRange'],
-        interestRate: json['InterestRate'],
-        dueIn: json['DueIn'],
-        addition: json['Addition'],
-        userReview: Review.fromJson(json['review']));
+      userId: json['UserId'],
+      id: json['ID'],
+      amountRange: json['AmountRange'],
+      interestRate: json['InterestRate'],
+      dueIn: json['DueIn'],
+      addition: json['Addition'],
+      userReview: Review.fromJson(json['review']),
+      active: json['active_at_least'],
+      salary: json['have_base_salary'],
+      channel: json['payment_channel'],
+      number: json['payment_number'],
+    );
   }
 }
 

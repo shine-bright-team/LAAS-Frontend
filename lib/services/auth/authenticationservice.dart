@@ -69,6 +69,11 @@ class AuthenticationService extends ChangeNotifier {
     }
   }
 
+  Future<void> uploadkyc() async {
+    //code ที่นี่นะ อย่าไปที่อื่นไม่งั้นเค้าโกรธนะ
+    await getUser();
+  }
+
   Future<void> signup(String email, String title, String fname, String lanme,
       String username, String password, bool isL) async {
     try {

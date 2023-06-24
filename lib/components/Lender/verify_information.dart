@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laas/providers/authProvider.dart';
 
-class VerifyInformation extends StatefulWidget {
+class VerifyInformation extends ConsumerStatefulWidget {
   const VerifyInformation({super.key});
 
   @override
-  State<VerifyInformation> createState() => _VerifyInformationState();
+  ConsumerState<VerifyInformation> createState() => _VerifyInformationState();
 }
 
-class _VerifyInformationState extends State<VerifyInformation> {
+class _VerifyInformationState extends ConsumerState<VerifyInformation> {
   final _formKey = GlobalKey<FormState>();
   final birthdate = TextEditingController();
   final address = TextEditingController();
@@ -45,6 +47,7 @@ class _VerifyInformationState extends State<VerifyInformation> {
 
   @override
   Widget build(BuildContext context) {
+    final counter = ref.watch(authProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -179,8 +182,9 @@ class _VerifyInformationState extends State<VerifyInformation> {
                   Expanded(
                     child: FilledButton(
                       onPressed: () {
+                        counter.uploadkyc();
                         if (_formKey.currentState!.validate()) {
-                          context.push("/l");
+                          context.push("/login");
                         }
                       },
                       child: const Text("Next"),

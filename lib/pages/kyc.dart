@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:laas/components/Lender/verify_information.dart';
 
-class Kyc extends ConsumerStatefulWidget {
+class Kyc extends StatefulWidget {
   const Kyc({super.key});
 
   @override
-  ConsumerState<Kyc> createState() => _KycState();
+  State<Kyc> createState() => _KycState();
 }
 
-class _KycState extends ConsumerState<Kyc> {
+class _KycState extends State<Kyc> {
   bool isAgreed = false;
 
   void agree(bool? check) {

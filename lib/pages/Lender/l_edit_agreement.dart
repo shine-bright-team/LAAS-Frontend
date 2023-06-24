@@ -77,10 +77,21 @@ class _LEditloanState extends ConsumerState<LEditloan> {
           tempstring = tempAgreements!.amountRange.split(" - ");
           startController.text = tempstring[0];
           endController.text = tempstring[1];
-          agreementDetailsController.text = tempAgreements!.addition;
-          paymentNumberController.text = "";
-          activeatleast.text = "";
-          havebasesalary.text = "";
+          paymentNumberController.text = tempAgreements!.number;
+          onPaymentOptionSelected(tempAgreements!.channel);
+
+          if (tempAgreements!.addition != null) {
+            agreementDetailsController.text = tempAgreements!.addition;
+          }
+
+          if (tempAgreements!.active != null) {
+            activeatleast.text = tempAgreements!.active.toString();
+            _isActiveAtLeast = true;
+          }
+          if (tempAgreements!.salary != null) {
+            havebasesalary.text = tempAgreements!.salary.toString();
+            _isHaveBaseSaraly = true;
+          }
           if (tempAgreements!.interestRate != null) {
             tempstring = tempAgreements!.interestRate.split("% ");
             interest = double.parse(tempstring[0]);

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/com_star.dart';
 import 'package:laas/config/theme/custom_color.g.dart';
 
-Widget review(BuildContext context, double userReview) {
+Widget review(
+  BuildContext context,
+  double userReview,
+) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
