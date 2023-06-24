@@ -154,6 +154,7 @@ class _LEditloanState extends ConsumerState<LEditloan> {
                           if (value == null || value.isEmpty) {
                             return 'LowestAmount.';
                           }
+                          return null;
                         },
                         controller: startController,
                         onChanged: (value) => setState(() {

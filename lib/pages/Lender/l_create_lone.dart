@@ -125,6 +125,7 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                           if (value == null || value.isEmpty) {
                             return 'LowestAmount.';
                           }
+                          return null;
                         },
                         controller: startController,
                         onChanged: (value) => setState(() {
