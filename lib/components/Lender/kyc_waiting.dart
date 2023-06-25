@@ -20,7 +20,7 @@ class _KycWaitingState extends ConsumerState<KycWaiting> {
           child: SingleChildScrollView(
             child: Column(children: [
               Image.asset(
-                "hourglass.png",
+                "assets/hourglass.png",
                 width: 131,
                 height: 131,
               ),
