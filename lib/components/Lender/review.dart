@@ -17,6 +17,7 @@ Widget review(BuildContext context, double userReview, int reviewCount) {
       ),
       Container(
         constraints: const BoxConstraints(maxWidth: 576),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(19),
           color: Theme.of(context).colorScheme.surface,
@@ -32,52 +33,44 @@ Widget review(BuildContext context, double userReview, int reviewCount) {
             ),
           ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Center(
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 50),
-                  child: Text(userReview.toString(),
+        child: Center(
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Text(userReview.toString(),
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.displayLarge!.fontSize,
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    )),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StarDisplayWidget(
+                    value: userReview.round(),
+                    filledStar: Icon(Icons.star,
+                        color:
+                            Theme.of(context).extension<CustomColors>()!.star),
+                    unfilledStar: Icon(Icons.star_border,
+                        color:
+                            Theme.of(context).extension<CustomColors>()!.star),
+                    key: null,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(reviewCount.toString(),
                       style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.displayLarge!.fontSize,
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      )),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    StarDisplayWidget(
-                      value: userReview.round(),
-                      filledStar: Icon(Icons.star,
-                          color: Theme.of(context)
-                              .extension<CustomColors>()!
-                              .star),
-                      unfilledStar: Icon(Icons.star_border,
-                          color: Theme.of(context)
-                              .extension<CustomColors>()!
-                              .star),
-                      key: null,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(reviewCount.toString(),
-                        style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .fontSize,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onPrimaryContainer,
-                            fontWeight: FontWeight.bold))
-                  ],
-                ),
-              ],
-            ),
+                          fontSize:
+                              Theme.of(context).textTheme.titleSmall!.fontSize,
+                          color:
+                              Theme.of(context).colorScheme.onPrimaryContainer,
+                          fontWeight: FontWeight.bold))
+                ],
+              ),
+            ],
           ),
         ),
       ),

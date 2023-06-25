@@ -28,6 +28,8 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
   String? addition;
   late double userReview;
   late int reviewCount;
+  int? active;
+  int? baseSalary;
   bool isLoading = true;
 
   @override
@@ -60,6 +62,8 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         addition = agreements!.addition;
         userReview = agreements!.userReview.reviewAverage;
         reviewCount = agreements!.userReview.reviewCount;
+        active = agreements!.active;
+        baseSalary = agreements!.salary;
         isLoading = false;
       });
     }
@@ -93,7 +97,8 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      agreement(context, interestRate, dueIn, addition)
+                      agreement(context, interestRate, dueIn, addition, active,
+                          baseSalary)
                     ],
                   ),
                 ),
