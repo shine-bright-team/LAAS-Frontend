@@ -649,15 +649,14 @@ class _LEditloanState extends ConsumerState<LEditloan> {
                         });
                       } catch (err) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Failed to Create Loan')),
+                          const SnackBar(content: Text('Failed to Edit Loan')),
                         );
                         rethrow;
                       }
                     }
                   },
                   child: Text(
-                    "Create Loan",
+                    "Edit Agreement",
                     style: TextStyle(
                         color: textColor,
                         fontWeight: FontWeight.bold,

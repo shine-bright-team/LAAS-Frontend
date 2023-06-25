@@ -6,8 +6,8 @@ Future<void> editagreement(
     double interest,
     bool interestper,
     String dueinput,
-    String baseSalaryinput,
     String activeinput,
+    String baseSalaryinput,
     String additionalAgreement,
     String paymentChannel,
     String paymentNumber) async {
