@@ -13,7 +13,7 @@ Widget agreement(BuildContext context, String? interestRate, int? dueIn,
           ? "• Pay within $dueIn months\n"
           : "• Pay within $dueIn month\n";
     }
-    if (addition != null) {
+    if (addition != "") {
       allAgreement += "• $addition\n";
     }
     if (active! > 0) {
