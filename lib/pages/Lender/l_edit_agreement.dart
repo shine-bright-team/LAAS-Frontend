@@ -84,11 +84,11 @@ class _LEditloanState extends ConsumerState<LEditloan> {
             agreementDetailsController.text = tempAgreements!.addition;
           }
 
-          if (tempAgreements!.active != null) {
+          if (tempAgreements!.active != 0) {
             activeatleast.text = tempAgreements!.active.toString();
             _isActiveAtLeast = true;
           }
-          if (tempAgreements!.salary != null) {
+          if (tempAgreements!.salary != 0) {
             havebasesalary.text = tempAgreements!.salary.toString();
             _isHaveBaseSaraly = true;
           }
@@ -99,7 +99,7 @@ class _LEditloanState extends ConsumerState<LEditloan> {
             ispermount = dropdownValue == 0 ? false : true;
             _isSelected1 = true;
           }
-          if (tempAgreements!.dueIn != null) {
+          if (tempAgreements!.dueIn != 0) {
             due.text = tempAgreements!.dueIn.toString();
             _isSelected2 = true;
           }
@@ -552,53 +552,48 @@ class _LEditloanState extends ConsumerState<LEditloan> {
                     color: Theme.of(context).colorScheme.surfaceVariant,
                   ),
                   width: double.infinity,
-                  child: Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 10, top: 10),
-                              child: Column(
-                                children: [
-                                  DropdownButtonFormField<String>(
-                                    hint: const Text("Select Payment Option"),
-                                    isExpanded: true,
-                                    validator: (value) => value == null
-                                        ? 'Required Payment Option.'
-                                        : null,
-                                    value: selectedPaymentOption.isNotEmpty
-                                        ? selectedPaymentOption
-                                        : null,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedPaymentOption = value!;
-                                      });
-                                      widget.onPaymentOptionSelected(value!);
-                                    },
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                    ),
-                                    items: paymentOptions.map((String option) {
-                                      return DropdownMenuItem<String>(
-                                        value: option,
-                                        key: ValueKey<String>(option),
-                                        child: Text(option),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5, right: 10, top: 10),
+                          child: Column(
+                            children: [
+                              DropdownButtonFormField<String>(
+                                hint: const Text("Select Payment Option"),
+                                isExpanded: true,
+                                validator: (value) => value == null
+                                    ? 'Required Payment Option.'
+                                    : null,
+                                value: selectedPaymentOption.isNotEmpty
+                                    ? selectedPaymentOption
+                                    : null,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedPaymentOption = value!;
+                                  });
+                                  widget.onPaymentOptionSelected(value!);
+                                },
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                                items: paymentOptions.map((String option) {
+                                  return DropdownMenuItem<String>(
+                                    value: option,
+                                    key: ValueKey<String>(option),
+                                    child: Text(option),
+                                  );
+                                }).toList(),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),
