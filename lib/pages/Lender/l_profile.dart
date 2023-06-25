@@ -106,10 +106,10 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
                     const SizedBox(
                       height: 17,
                     ),
-                    update(context),
-                    const SizedBox(
-                      height: 17,
-                    ),
+                    // update(context),
+                    // const SizedBox(
+                    //   height: 17,
+                    // ),
                     logoutButton(context, counter)
                   ],
                 ),
