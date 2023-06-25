@@ -41,6 +41,9 @@ class AppGoRouter extends ChangeNotifier {
     final isAuth = authState.user != null;
 
     if (isAuth && {'l', '/login', '/register'}.contains(state.location)) {
+      // if (!authState.user!.isKyc) {
+      //   return '/KYC';
+      // }
       if (authState.user!.isLender) {
         if (!authState.user!.isSetAgreement) {
           return '/createloan';
