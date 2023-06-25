@@ -321,13 +321,12 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                         onChanged: _isSelected1
                             ? (value) {
                                 setState(() {
-                                  interest = (value / 5).round() *
-                                      5; // Ensures the value is a multiple of 5
+                                  interest = (value / 1).round() *
+                                      1; // Ensures the value is a multiple of 5
                                 });
                               }
                             : null,
-                        divisions:
-                            20, // To match the increments of 5 (100/5 = 20)
+                        divisions: 100,
                         label: interest.toString(),
                       ),
                     ),
@@ -512,53 +511,48 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                     color: Theme.of(context).colorScheme.surfaceVariant,
                   ),
                   width: double.infinity,
-                  child: Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 5, right: 10, top: 10),
-                              child: Column(
-                                children: [
-                                  DropdownButtonFormField<String>(
-                                    hint: const Text("Select Payment Option"),
-                                    isExpanded: true,
-                                    validator: (value) => value == null
-                                        ? 'Required Payment Option.'
-                                        : null,
-                                    value: selectedPaymentOption.isNotEmpty
-                                        ? selectedPaymentOption
-                                        : null,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedPaymentOption = value!;
-                                      });
-                                      widget.onPaymentOptionSelected(value!);
-                                    },
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                    ),
-                                    items: paymentOptions.map((String option) {
-                                      return DropdownMenuItem<String>(
-                                        value: option,
-                                        key: ValueKey<String>(option),
-                                        child: Text(option),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 5, right: 10, top: 10),
+                          child: Column(
+                            children: [
+                              DropdownButtonFormField<String>(
+                                hint: const Text("Select Payment Option"),
+                                isExpanded: true,
+                                validator: (value) => value == null
+                                    ? 'Required Payment Option.'
+                                    : null,
+                                value: selectedPaymentOption.isNotEmpty
+                                    ? selectedPaymentOption
+                                    : null,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedPaymentOption = value!;
+                                  });
+                                  widget.onPaymentOptionSelected(value!);
+                                },
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                ),
+                                items: paymentOptions.map((String option) {
+                                  return DropdownMenuItem<String>(
+                                    value: option,
+                                    key: ValueKey<String>(option),
+                                    child: Text(option),
+                                  );
+                                }).toList(),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ),

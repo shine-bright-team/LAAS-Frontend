@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'package:laas/services/data/lone_contract/approve_loan.dart';
-import 'package:laas/services/photo/post_image.dart';
 
 class Paymentuploadsheet extends StatelessWidget {
   const Paymentuploadsheet(
@@ -89,12 +88,13 @@ class Paymentuploadsheet extends StatelessWidget {
                       child: FilledButton(
                         onPressed: () {
                           try {
-                            postImage(imagefile!);
-                            approveLoan(int.parse(deptId)).then((value) {
+                            approveLoan(int.parse(deptId), imagefile!)
+                                .then((value) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text("Upload Successfully")));
-                              return context.go("/l/loanstatus/$deptId");
+                              // context.go("/l/loanstatus/$deptId");
+                              context.go('l');
                             });
                           } catch (err) {
                             rethrow;

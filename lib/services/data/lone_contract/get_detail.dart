@@ -73,7 +73,7 @@ class Detail {
 
 class Transactions {
   final int id;
-  final int paidAmount;
+  final double paidAmount;
   final DateTime paidAt;
   final String? errMessage;
   final bool isApproved;

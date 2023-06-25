@@ -1,5 +1,8 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:laas/services/photo/convertimage.dart';
+import 'package:laas/services/photo/post_signature.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class SignaturePad extends StatefulWidget {
@@ -11,10 +14,18 @@ class SignaturePad extends StatefulWidget {
 }
 
 class _SignaturePadState extends State<SignaturePad> {
-  late Image signature = const Image(
-    image: NetworkImage(""),
-  );
-  @override
+  late Uint8List signature;
+  void _postsig(signaturePadKey) async {
+    signaturePadKey.currentState?.toImage(pixelRatio: 3.0).then((value) {
+      if (mounted) {
+        setState(() async {
+          signature = await convertImageToUint8List(value);
+          await postSignature(signature, int.parse(widget.contractId));
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     GlobalKey<SfSignaturePadState> signaturePadKey = GlobalKey();
@@ -49,25 +60,6 @@ class _SignaturePadState extends State<SignaturePad> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                // Expanded(
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       minimumSize: const Size.fromHeight(50),
-                //       backgroundColor: Theme.of(context).colorScheme.surface,
-                //     ),
-                //     child: Text('Clear',
-                //         style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: Theme.of(context)
-                //                 .textTheme
-                //                 .titleMedium!
-                //                 .fontSize)),
-                //     onPressed: () {
-                //       signaturePadKey.currentState?.clear();
-                //     },
-                //   ),
-                // ),
-                // const SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -82,16 +74,9 @@ class _SignaturePadState extends State<SignaturePad> {
                                 .textTheme
                                 .titleMedium!
                                 .fontSize)),
-                    onPressed: () async {
+                    onPressed: () {
                       if (signaturePadKey.currentState != null) {
-                        // save the signature as image
-                        // setState(() async {
-                        //   await signaturePadKey.currentState
-                        //       ?.toImage(pixelRatio: 3.0)
-                        //       .then((value) {
-                        //     signature = Image(image: "$value" as ImageProvider);
-                        //   });
-                        // });
+                        _postsig(signaturePadKey);
                         context.go('/l/payment/${widget.contractId}');
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('approve successfully')),

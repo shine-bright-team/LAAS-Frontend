@@ -65,8 +65,8 @@ class ApproveDetail {
 }
 
 class DebtAnalysis {
-  final int paid;
-  final int unpaid;
+  final double paid;
+  final double unpaid;
 
   const DebtAnalysis({
     required this.paid,

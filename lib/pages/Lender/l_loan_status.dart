@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:laas/components/Lender/l_detail_card.dart';
 import 'package:laas/components/Lender/transactions_card.dart';
 import 'package:laas/services/data/lone_contract/get_detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LLoanStatus extends StatefulWidget {
   final String contractId;
@@ -20,6 +21,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
   // late DateTime _date;
   String? formattedDate;
   DetailLone? data;
+  late String token;
   Detail? contract;
   List<Transactions?>? trans;
   int totalPaid = 0;
@@ -28,6 +30,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
 
   @override
   void initState() {
+    _getbar();
     _getData();
     super.initState();
   }
@@ -47,22 +50,32 @@ class _LLoanStatusState extends State<LLoanStatus> {
     });
   }
 
+  _getbar() async {
+    final value = await SharedPreferences.getInstance();
+    final String bar = value.getString('token') ?? "";
+    setState(() {
+      token = bar;
+    });
+  }
+
   createTransCard() {
     return trans!
         .map((e) => TransCard(
-              id: e!.id.toString(),
-              cId: contract?.borrowId.toString() ?? "",
-              name: contract?.firstname ?? "",
-              amount: e.paidAmount,
-              circleColorState: e.status,
-              reason: e.errMessage,
-            ))
+            id: e!.id.toString(),
+            cId: contract?.borrowId.toString() ?? "",
+            name: contract?.firstname ?? "",
+            amount: e.paidAmount,
+            circleColorState: e.status,
+            reason: e.errMessage,
+            image: token))
         .toList();
   }
 
   addTotalPaid() {
     trans!.where((e) => e!.status == "SUCCESS").map((e) => e!.paidAmount).fold(
-        0, (previousValue, element) => totalPaid = previousValue + element);
+        0,
+        (previousValue, element) =>
+            totalPaid = previousValue + element.floor());
   }
 
   totalPaidTransactions() {

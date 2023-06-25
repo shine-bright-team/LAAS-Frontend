@@ -24,7 +24,6 @@ class AuthenticationService extends ChangeNotifier {
       final userCredentialResponse = await Api.dio.get("/user/");
       if (userCredentialResponse.statusCode == 200) {
         final userCredentialData = userCredentialResponse.data;
-        print(userCredentialData);
         user = UserCredential.fromJson(userCredentialData);
         notifyListeners();
         return;

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:laas/services/data/transction/update_transaction.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TransCard extends StatefulWidget {
   final String id;
   final String cId;
-  // final bool isOpen;
   final String name;
   final String circleColorState;
-  final int amount;
+  final double amount;
   final String? reason;
+  final String image;
 
   const TransCard({
     super.key,
     required this.id,
     required this.cId,
     required this.name,
-    // required this.image,
+    required this.image,
     required this.amount,
     // required this.done,
     required this.circleColorState,
@@ -30,33 +31,8 @@ class TransCard extends StatefulWidget {
 class _TransCardState extends State<TransCard> {
   String profileImage = '';
   String billImage = '';
+  String? url = dotenv.env['BASE_URL'];
   late ValueNotifier<String> reason = ValueNotifier(widget.reason ?? "");
-
-  // @override
-  // void initState() {
-  //   _getprofile();
-  //   _getbill();
-  //   // print(widget.name);
-  //   // print(widget.circleColorState);
-  //   // print(widget.dId);
-  //   // print(widget.amount);
-  //   // print(widget.tId);
-  //   // print(_getbill());
-  //   // print(_getbill());
-  //   super.initState();
-  // }
-
-  // _getprofile() {
-  //   picFrinedbyusername(widget.name).then((value) => setState(() {
-  //         profileImage = value;
-  //       }));
-  // }
-
-  // _getbill() {
-  //   getBill(widget.tId).then((value) => setState(() {
-  //         billImage = value;
-  //       }));
-  // }
 
   Future<void> _receiptAlert(
       BuildContext context, String bill, String id, String cId) {
@@ -64,21 +40,29 @@ class _TransCardState extends State<TransCard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // insetPadding:
-          //     const EdgeInsets.only(top: 150, bottom: 150, left: 50, right: 50),
           title: const Text('Receipt'),
           content: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // Test image
-              Image.asset('assets/ri.jpeg'),
-
-              // Image.network(
-              //   bill,
-              // ),
+              FadeInImage(
+                placeholder: NetworkImage(
+                  '$url/lender/debt/:debtId/:transactionId/image',
+                  headers: {
+                    "Authorization": "Bearer ${widget.image}",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                ),
+                image: NetworkImage(
+                  '$url/lender/debt/:debtId/:transactionId/image',
+                  headers: {
+                    "Authorization": "Bearer ${widget.image}",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                ),
+              ),
+              // Image.network(),
             ]),
           ),
-
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
@@ -96,11 +80,6 @@ class _TransCardState extends State<TransCard> {
               ),
               child: const Text('Approve'),
               onPressed: () {
-                // approveTransaction(transactionId: id, debtId: cId).then((value) {
-                //   Navigator.of(context).pop();
-                // }).onError((error, stackTrace) {
-                //   showSnackBar(context, error.toString());
-                // });
                 updateTransaction(int.parse(widget.id), true, null);
                 Navigator.of(context).pop();
               },
