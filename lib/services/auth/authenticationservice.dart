@@ -80,10 +80,6 @@ class AuthenticationService extends ChangeNotifier {
       });
 
       if (response.statusCode == 200) {
-        final data = response.data;
-        final token = data['token'];
-        await _saveToken(token);
-        Api.setToken(token);
         await getUser();
       }
     } catch (err) {
