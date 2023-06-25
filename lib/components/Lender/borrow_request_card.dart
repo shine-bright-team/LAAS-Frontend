@@ -6,7 +6,7 @@ class BrRequestCard extends StatefulWidget {
   final String cId;
   final String fName;
   final String lName;
-  final int amount;
+  final double amount;
   final String profileId;
   const BrRequestCard(
       {super.key,

@@ -24,7 +24,7 @@ class BorrowReq {
   final int userId;
   final String firstname;
   final String lastname;
-  final int requestedAmount;
+  final double requestedAmount;
   final DateTime requestedAt;
 
   BorrowReq({

@@ -69,9 +69,26 @@ class AuthenticationService extends ChangeNotifier {
     }
   }
 
-  Future<void> uploadkyc() async {
+  Future<void> uploadkyc(
+      String birthdate, String address, String idNumber) async {
     //code ที่นี่นะ อย่าไปที่อื่นไม่งั้นเค้าโกรธนะ
-    await getUser();
+    try {
+      final response = await Api.dio.post("/user/kyc", data: {
+        "birthdate": birthdate,
+        "address": address,
+        "id_card": idNumber
+      });
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final token = data['token'];
+        await _saveToken(token);
+        Api.setToken(token);
+        await getUser();
+      }
+    } catch (err) {
+      rethrow;
+    }
   }
 
   Future<void> signup(String email, String title, String fname, String lanme,

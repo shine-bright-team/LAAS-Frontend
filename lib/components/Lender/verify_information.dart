@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:laas/components/Lender/kyc_waiting.dart';
 import 'package:laas/providers/authProvider.dart';
 
 class VerifyInformation extends ConsumerStatefulWidget {
@@ -19,6 +21,8 @@ class _VerifyInformationState extends ConsumerState<VerifyInformation> {
   DateTime? birthdateTime;
   DateTime now = DateTime.now();
 
+  // String formattedDate = DateFormat("dd'-'MM'-'y", birthdate.text).toString();
+
   void pickbirthdate() async {
     try {
       final DateTime? calendar = await showDatePicker(
@@ -27,7 +31,8 @@ class _VerifyInformationState extends ConsumerState<VerifyInformation> {
           firstDate: DateTime(1923),
           lastDate: DateTime.now());
       if (calendar != null) {
-        birthdate.text = "${calendar.year}-${calendar.month}-${calendar.day}";
+        birthdate.text =
+            DateFormat().addPattern("dd'-'MM'-'y").format(calendar);
         setState(() {
           birthdateTime = calendar;
         });
@@ -181,10 +186,20 @@ class _VerifyInformationState extends ConsumerState<VerifyInformation> {
                   const SizedBox(width: 20),
                   Expanded(
                     child: FilledButton(
-                      onPressed: () {
-                        counter.uploadkyc();
-                        if (_formKey.currentState!.validate()) {
-                          context.push("/login");
+                      onPressed: () async {
+                        try {
+                          if (_formKey.currentState!.validate()) {
+                            await counter
+                                .uploadkyc(
+                                    birthdate.text, address.text, idNumber.text)
+                                .then((value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const KycWaiting())));
+                          }
+                        } catch (err) {
+                          rethrow;
                         }
                       },
                       child: const Text("Next"),
