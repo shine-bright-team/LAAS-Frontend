@@ -8,7 +8,7 @@ class LenderCard extends StatefulWidget {
   final String fName;
   final String lName;
   final DateTime date;
-  final int amount;
+  final double amount;
   final String profileId;
   const LenderCard(
       {super.key,

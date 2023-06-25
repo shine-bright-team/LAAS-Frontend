@@ -27,8 +27,8 @@ class ContractRes {
   final int userId;
   final String firstname;
   final String lastname;
-  final int requestedAmount;
-  final int remainingAmount;
+  final double requestedAmount;
+  final double remainingAmount;
   final DateTime requestedAt;
   final DateTime dueDate;
 
