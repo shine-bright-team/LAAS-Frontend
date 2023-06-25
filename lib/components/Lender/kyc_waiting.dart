@@ -14,22 +14,54 @@ class _KycWaitingState extends ConsumerState<KycWaiting> {
   Widget build(BuildContext context) {
     final counter = ref.watch(authProvider);
 
-    return SingleChildScrollView(
-      child: Column(children: [
-        Image.asset("hourglass.png"),
-        const SizedBox(height: 25),
-        const Text("Please wait for the verification.\nSee you soon!"),
+    return Scaffold(
+      body: Stack(children: [
+        Center(
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Image.asset(
+                "hourglass.png",
+                width: 131,
+                height: 131,
+              ),
+              const SizedBox(height: 25),
+              Text(
+                "Please wait for the verification.",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize,
+                ),
+              ),
+              Text(
+                "See you soon!",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: Theme.of(context).textTheme.headlineSmall!.fontSize,
+                ),
+              ),
+            ]),
+          ),
+        ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: FilledButton(
-              onPressed: () async {
-                try {
-                  await counter.logout();
-                } catch (err) {
-                  rethrow;
-                }
-              },
-              child: const Text("Log out")),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: FilledButton(
+                      onPressed: () async {
+                        try {
+                          await counter.logout();
+                        } catch (err) {
+                          rethrow;
+                        }
+                      },
+                      child: const Text("Log out")),
+                ),
+              ],
+            ),
+          ),
         )
       ]),
     );

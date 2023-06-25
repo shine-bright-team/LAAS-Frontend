@@ -80,7 +80,7 @@ class AuthenticationService extends ChangeNotifier {
       });
 
       if (response.statusCode == 200) {
-        await getUser();
+        // await getUser();
       }
     } catch (err) {
       rethrow;
