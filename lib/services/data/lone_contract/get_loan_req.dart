@@ -75,8 +75,8 @@ class DebtAnalysis {
 
   factory DebtAnalysis.fromJson(Map json) {
     return DebtAnalysis(
-      paid: json['paid'],
-      unpaid: json['unpaid'],
+      paid: double.parse(json['paid'].toString()),
+      unpaid: double.parse(json['unpaid'].toString()),
     );
   }
 }
