@@ -59,7 +59,7 @@ class Agreements {
 }
 
 class Review {
-  final double reviewAverage;
+  final String reviewAverage;
   final int reviewCount;
 
   Review({
@@ -69,7 +69,7 @@ class Review {
 
   factory Review.fromJson(Map json) {
     return Review(
-      reviewAverage: json['review_average'],
+      reviewAverage: json['review_average'].toString(),
       reviewCount: json['review_count'],
     );
   }
