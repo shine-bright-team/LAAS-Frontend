@@ -77,7 +77,6 @@ class _LEditloanState extends ConsumerState<LEditloan> {
           tempstring = tempAgreements!.amountRange.split(" - ");
           startController.text = tempstring[0];
           endController.text = tempstring[1];
-          // print(tempAgreements!.number);
           paymentNumberController.text = tempAgreements!.number;
           onPaymentOptionSelected(tempAgreements!.channel);
 
@@ -247,6 +246,10 @@ class _LEditloanState extends ConsumerState<LEditloan> {
                           onChanged: (bool newValue) {
                             setState(() {
                               _isSelected1 = newValue;
+                              if (_isSelected1 == false) {
+                                interest = 0.0;
+                                ispermount = false;
+                              }
                             });
                           },
                           labelType: LabelType.text,
@@ -440,6 +443,9 @@ class _LEditloanState extends ConsumerState<LEditloan> {
                       onChanged: (newValue) {
                         setState(() {
                           _isActiveAtLeast = !_isActiveAtLeast;
+                          if (_isActiveAtLeast == false) {
+                            activeatleast.text = "";
+                          }
                         });
                       },
                     ),
@@ -480,6 +486,9 @@ class _LEditloanState extends ConsumerState<LEditloan> {
                       onChanged: (newValue) {
                         setState(() {
                           _isHaveBaseSaraly = !_isHaveBaseSaraly;
+                          if (_isHaveBaseSaraly == false) {
+                            havebasesalary.text = "";
+                          }
                         });
                       },
                     ),

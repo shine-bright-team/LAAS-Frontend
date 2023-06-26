@@ -116,13 +116,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           onPressed: () async {
                             setLoading(true);
                             try {
-                              await counter.login(_email.text, _password.text);
+                              await counter
+                                  .login(_email.text, _password.text)
+                                  .then((value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Login Success")));
+                              });
+
                               setLoading(false);
                             } catch (err) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          "Incorrect username (or email) or password")));
+                              rethrow;
                             }
                           },
                           style: FilledButton.styleFrom(
