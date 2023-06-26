@@ -60,7 +60,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         interestRate = agreements!.interestRate;
         dueIn = agreements!.dueIn;
         addition = agreements!.addition;
-        userReview = agreements!.userReview.reviewAverage;
+        userReview = double.parse(agreements!.userReview.reviewAverage);
         reviewCount = agreements!.userReview.reviewCount;
         active = agreements!.active;
         baseSalary = agreements!.salary;
