@@ -163,51 +163,60 @@ class _VerifyInformationState extends ConsumerState<VerifyInformation> {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 40, left: 50, right: 50),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FilledButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).colorScheme.outlineVariant)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("Back",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary)),
+          ...(FocusScope.of(context).hasFocus
+              ? [
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 40, left: 50, right: 50),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: FilledButton(
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .outlineVariant)),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Back",
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary)),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: FilledButton(
+                              onPressed: () async {
+                                try {
+                                  if (_formKey.currentState!.validate()) {
+                                    await counter
+                                        .uploadkyc(birthdate.text, address.text,
+                                            idNumber.text)
+                                        .then((value) => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const KycWaiting())));
+                                  }
+                                } catch (err) {
+                                  rethrow;
+                                }
+                              },
+                              child: const Text("Next"),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: FilledButton(
-                      onPressed: () async {
-                        try {
-                          if (_formKey.currentState!.validate()) {
-                            await counter
-                                .uploadkyc(
-                                    birthdate.text, address.text, idNumber.text)
-                                .then((value) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const KycWaiting())));
-                          }
-                        } catch (err) {
-                          rethrow;
-                        }
-                      },
-                      child: const Text("Next"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ]
+              : [])
         ],
       ),
     );
