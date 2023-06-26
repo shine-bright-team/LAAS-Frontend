@@ -16,13 +16,14 @@ class SignaturePad extends StatefulWidget {
 class _SignaturePadState extends State<SignaturePad> {
   late Uint8List signature;
   void _postsig(signaturePadKey) async {
-    signaturePadKey.currentState?.toImage(pixelRatio: 3.0).then((value) {
+    signaturePadKey.currentState?.toImage(pixelRatio: 3.0).then((value) async {
+      value = await convertImageToUint8List(value);
       if (mounted) {
-        setState(() async {
-          signature = await convertImageToUint8List(value);
-          await postSignature(signature, int.parse(widget.contractId));
+        setState(() {
+          signature = value;
         });
       }
+      await postSignature(signature, int.parse(widget.contractId));
     });
   }
 
