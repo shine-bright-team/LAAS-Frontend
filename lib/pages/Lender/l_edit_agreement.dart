@@ -134,7 +134,7 @@ class _LEditloanState extends ConsumerState<LEditloan> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "CreateLoan",
+            "Edit Agreement",
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
         ),
