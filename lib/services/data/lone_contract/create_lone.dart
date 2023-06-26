@@ -16,17 +16,16 @@ Future<void> createlone(
   int due = dueinput != "" ? int.parse(dueinput) : 0;
   int baseSalary = baseSalaryinput != "" ? int.parse(baseSalaryinput) : 0;
   int active = activeinput != "" ? int.parse(activeinput) : 0;
-  // print(start);
-  // print(end);
-  // print(interest);
-  // print(due);
-  // print(active);
-  // print(baseSalary);
-  // print(additionalAgreement);
-  // print(paymentChannel);
-  // print(interestper);
-  // print(paymentNumber);
   try {
+    // print(start);
+    // print(end);
+    // print(due);
+    // print(active);
+    // print(baseSalary);
+    // print(additionalAgreement);
+    // print(paymentChannel);
+    // print(paymentNumber);
+    // print(interestper);
     await Api.dio.post("/lender/", data: {
       "start_amount": start,
       "end_amount": end,

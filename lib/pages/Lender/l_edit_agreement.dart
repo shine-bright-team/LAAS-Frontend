@@ -77,6 +77,7 @@ class _LEditloanState extends ConsumerState<LEditloan> {
           tempstring = tempAgreements!.amountRange.split(" - ");
           startController.text = tempstring[0];
           endController.text = tempstring[1];
+          // print(tempAgreements!.number);
           paymentNumberController.text = tempAgreements!.number;
           onPaymentOptionSelected(tempAgreements!.channel);
 
