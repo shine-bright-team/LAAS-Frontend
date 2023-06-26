@@ -22,7 +22,7 @@ Widget agreement(BuildContext context, String? interestRate, int? dueIn,
           : "• Active at least $active month\n";
     }
     if (baseSalary! > 0) {
-      allAgreement += "• Salary must more than $baseSalary THB\n";
+      allAgreement += "• Salary must be more than $baseSalary THB\n";
     }
     return Text(
       allAgreement,
