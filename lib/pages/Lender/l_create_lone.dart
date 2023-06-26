@@ -94,7 +94,7 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "CreateLoan",
+            "Create Agreement",
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
         ),

@@ -43,11 +43,13 @@ class _LLoanStatusState extends State<LLoanStatus> {
     double loanAmount = contract?.requestedAmount ?? 0;
     addTotalPaid();
     totalUnPaid = loanAmount - totalPaid;
-    setState(() {
-      contract;
-      trans;
-      isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        contract;
+        trans;
+        isLoading = false;
+      });
+    }
   }
 
   _getbar() async {
