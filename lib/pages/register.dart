@@ -29,7 +29,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   bool _isLoading = false;
   bool _isShowPassword = false;
   final _seletion = const ["Mr.", "Ms.", "Mrs"];
-  final _roleseletion = const ["Borrwer", "Lender"];
+  final _roleseletion = const ["Borrower", "Lender"];
   void setLoading(bool isLoading) {
     setState(() {
       _isLoading = isLoading;
