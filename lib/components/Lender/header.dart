@@ -18,7 +18,7 @@ Widget header(BuildContext context, String? firstname, String? lastname,
                   radius: 50.0,
                   child: const CircleAvatar(
                     radius: 45,
-                    backgroundImage: AssetImage('assets/ri.jpeg'),
+                    backgroundImage: AssetImage('assets/profile.jpeg'),
                   )),
               const SizedBox(width: 20),
               Flexible(
