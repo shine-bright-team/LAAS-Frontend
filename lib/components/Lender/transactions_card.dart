@@ -184,7 +184,12 @@ class _TransCardState extends State<TransCard> {
                                 ),
                               ),
                             )
-                          : const CircleAvatar(child: Icon(Icons.person))
+                          : const CircleAvatar(
+                              backgroundImage: AssetImage(
+                                "assets/profile.jpeg",
+                              ),
+                              radius: 20,
+                            )
                     ] else ...[
                       // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
                       profileImage != ''

@@ -24,7 +24,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
   late String token;
   Detail? contract;
   List<Transactions?>? trans;
-  int totalPaid = 0;
+  double totalPaid = 0;
   double totalUnPaid = 0;
   bool isLoading = true;
 
@@ -75,9 +75,7 @@ class _LLoanStatusState extends State<LLoanStatus> {
 
   addTotalPaid() {
     trans!.where((e) => e!.status == "SUCCESS").map((e) => e!.paidAmount).fold(
-        0,
-        (previousValue, element) =>
-            totalPaid = previousValue + element.floor());
+        0.0, (previousValue, element) => totalPaid = previousValue + element);
   }
 
   totalPaidTransactions() {
