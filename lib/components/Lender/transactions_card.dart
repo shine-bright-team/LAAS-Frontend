@@ -31,8 +31,21 @@ class TransCard extends StatefulWidget {
 class _TransCardState extends State<TransCard> {
   String profileImage = '';
   String billImage = '';
+  late String status;
   String? url = dotenv.env['BASE_URL'];
   late ValueNotifier<String> reason = ValueNotifier(widget.reason ?? "");
+
+  @override
+  void initState() {
+    setstatus();
+    super.initState();
+  }
+
+  void setstatus() {
+    setState(() {
+      status = widget.circleColorState;
+    });
+  }
 
   Future<void> _receiptAlert(
       BuildContext context, String bill, String id, String cId) {
@@ -70,8 +83,9 @@ class _TransCardState extends State<TransCard> {
               ),
               child: const Text('Decline'),
               onPressed: () {
-                Navigator.of(context).pop();
-                _wrongAlert(context, id, cId);
+                _wrongAlert(context, id, cId).then((value) {
+                  Navigator.of(context).pop();
+                });
               },
             ),
             TextButton(
@@ -80,8 +94,14 @@ class _TransCardState extends State<TransCard> {
               ),
               child: const Text('Approve'),
               onPressed: () {
-                updateTransaction(int.parse(widget.id), true, null);
-                Navigator.of(context).pop();
+                updateTransaction(int.parse(widget.id), true, null).then(
+                  (value) {
+                    setState(() {
+                      status = "SUCCESS";
+                    });
+                    Navigator.of(context).pop();
+                  },
+                );
               },
             ),
           ],
@@ -127,7 +147,12 @@ class _TransCardState extends State<TransCard> {
               child: const Text('Send'),
               onPressed: () {
                 reason.value = myController.text;
-                updateTransaction(int.parse(widget.id), false, reason.value);
+                updateTransaction(int.parse(widget.id), false, reason.value)
+                    .then((value) {
+                  setState(() {
+                    status = "ERROR";
+                  });
+                });
                 Navigator.pop(context);
               },
             ),
@@ -141,7 +166,7 @@ class _TransCardState extends State<TransCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () => {
-              if (widget.circleColorState == "PENDING") ...[
+              if (status == "PENDING") ...[
                 _receiptAlert(context, billImage, widget.id, widget.cId)
               ]
               // else if (widget.circleColor ==
@@ -173,7 +198,7 @@ class _TransCardState extends State<TransCard> {
                     const SizedBox(
                       width: 13,
                     ),
-                    if (widget.circleColorState != "SUCCESS") ...[
+                    if (status != "SUCCESS") ...[
                       profileImage != ''
                           ? ClipOval(
                               child: SizedBox.fromSize(
@@ -231,21 +256,21 @@ class _TransCardState extends State<TransCard> {
                             const SizedBox(
                               width: 13,
                             ),
-                            if (widget.circleColorState == "PENDING") ...[
+                            if (status == "PENDING") ...[
                               ClipOval(
                                   child: Container(
                                 color: Theme.of(context).colorScheme.primary,
                                 width: 12,
                                 height: 12,
                               )),
-                            ] else if (widget.circleColorState == "ERROR") ...[
+                            ] else if (status == "ERROR") ...[
                               ClipOval(
                                   child: Container(
                                 color: Theme.of(context).colorScheme.error,
                                 width: 12,
                                 height: 12,
                               )),
-                            ] else if (widget.circleColorState == "SUCCESS")
+                            ] else if (status == "SUCCESS")
                               ...[]
                           ],
                         ),
