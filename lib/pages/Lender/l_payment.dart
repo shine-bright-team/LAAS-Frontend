@@ -106,7 +106,7 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
                             )
                           : Paybank(
                               amount: amounts,
-                              bank: check.number,
+                              bank: check.channel,
                             )
                     ],
                   ),
