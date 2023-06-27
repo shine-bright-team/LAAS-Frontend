@@ -18,6 +18,7 @@ class _KycState extends State<Kyc> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -127,6 +128,7 @@ class _KycState extends State<Kyc> {
             ),
           ),
         ],
+
       ),
     );
   }
