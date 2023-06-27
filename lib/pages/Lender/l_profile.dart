@@ -154,7 +154,7 @@ class _LProfileScreenState extends ConsumerState<LProfileScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       onPressed: () {
-        context.go("/l/editloan");
+        context.push("/l/editloan");
       },
       child: Text(
         "Edit Agreement",
