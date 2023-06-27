@@ -137,6 +137,7 @@ class _VerifyInformationState extends ConsumerState<VerifyInformation> {
                         const SizedBox(height: 25),
                         TextFormField(
                           controller: idNumber,
+                          keyboardType: TextInputType.number,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Identification number must be filled";

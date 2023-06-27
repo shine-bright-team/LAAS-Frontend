@@ -78,16 +78,16 @@ class _LLoanStatusState extends State<LLoanStatus> {
         0.0, (previousValue, element) => totalPaid = previousValue + element);
   }
 
-  totalPaidTransactions() {
-    double total = 0;
+  // totalPaidTransactions() {
+  //   double total = 0;
 
-    for (var e in trans!) {
-      if (e!.isApproved == "success") {
-        total += e.paidAmount;
-      }
-    }
-    return total;
-  }
+  //   for (var e in trans!) {
+  //     if (e!.isApproved == "success") {
+  //       total += e.paidAmount;
+  //     }
+  //   }
+  //   return total;
+  // }
 
   @override
   Widget build(BuildContext context) {
