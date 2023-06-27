@@ -78,7 +78,7 @@ class _SignaturePadState extends State<SignaturePad> {
                     onPressed: () {
                       if (signaturePadKey.currentState != null) {
                         _postsig(signaturePadKey);
-                        context.go('/l/payment/${widget.contractId}');
+                        context.push('/l/payment/${widget.contractId}');
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('approve successfully')),
                         );
