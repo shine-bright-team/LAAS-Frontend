@@ -18,11 +18,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _password = TextEditingController();
   bool _isShowPassword = false;
   bool _isLoading = false;
-  bool _fail = false;
+  bool fail = false;
 
   void setLoading(bool isLoading) {
     setState(() {
-      print(isLoading);
       _isLoading = isLoading;
     });
   }
@@ -79,11 +78,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         TextFormField(
                           validator: (value) => value!.isEmpty
                               ? "Email must not be empty."
-                              : _fail
+                              : fail
                                   ? "Incorrect username (or email) or password"
                                   : "Uncorrect email formatted.",
                           decoration: roundInput.copyWith(
-                              labelText: "Usernaem or Email"),
+                              labelText: "Username or Email"),
                           controller: _email,
                         ),
                         const SizedBox(
@@ -117,14 +116,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           onPressed: () async {
                             setLoading(true);
                             try {
-                              await counter.login(_email.text, _password.text);
+                              await counter
+                                  .login(_email.text, _password.text)
+                                  .then((value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Login Success")));
+                              });
+
                               setLoading(false);
                             } catch (err) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          "Incorrect username (or email) or password")));
-                              ;
+                              rethrow;
                             }
                           },
                           style: FilledButton.styleFrom(

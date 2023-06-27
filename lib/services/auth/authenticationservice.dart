@@ -24,7 +24,6 @@ class AuthenticationService extends ChangeNotifier {
       final userCredentialResponse = await Api.dio.get("/user/");
       if (userCredentialResponse.statusCode == 200) {
         final userCredentialData = userCredentialResponse.data;
-        print(userCredentialData);
         user = UserCredential.fromJson(userCredentialData);
         notifyListeners();
         return;
@@ -58,6 +57,36 @@ class AuthenticationService extends ChangeNotifier {
     }
   }
 
+  Future<void> logout() async {
+    try {
+      user = null;
+      Api.setToken("");
+
+      await prefs?.remove('token');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> uploadkyc(
+      String birthdate, String address, String idNumber) async {
+    //code ที่นี่นะ อย่าไปที่อื่นไม่งั้นเค้าโกรธนะ
+    try {
+      final response = await Api.dio.post("/user/kyc", data: {
+        "birthdate": birthdate,
+        "address": address,
+        "id_card": idNumber
+      });
+
+      if (response.statusCode == 200) {
+        return;
+      }
+    } catch (err) {
+      rethrow;
+    }
+  }
+
   Future<void> signup(String email, String title, String fname, String lanme,
       String username, String password, bool isL) async {
     try {
@@ -77,7 +106,6 @@ class AuthenticationService extends ChangeNotifier {
         Api.setToken(token);
         await getUser();
       }
-      throw "Login failed";
     } catch (err) {
       rethrow;
     }

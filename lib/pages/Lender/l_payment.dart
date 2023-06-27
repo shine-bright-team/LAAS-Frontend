@@ -6,27 +6,51 @@ import 'package:image_picker/image_picker.dart';
 import 'package:laas/components/Lender/payment/payment_upload.dart';
 import 'package:laas/components/gen_qr.dart';
 import 'package:laas/model/paychannel.dart';
-import 'package:laas/services/data/lone_contract/get_detail.dart';
-import 'package:laas/services/data/payment/get_paychannel_by_contract.dart';
+import 'package:laas/services/data/lone_contract/get_loan_req.dart';
 
 class LPaymentScreen extends StatefulWidget {
   final String contractId;
-  const LPaymentScreen({super.key, this.contractId = ""});
+  const LPaymentScreen({
+    super.key,
+    this.contractId = "",
+  });
 
   @override
   State<LPaymentScreen> createState() => _LPaymentScreenState();
 }
 
 class _LPaymentScreenState extends State<LPaymentScreen> {
+  late final ApproveDetail? data;
   late final double amounts;
   late final PayChannel check;
   XFile? imagefile;
   final ImagePicker _picker = ImagePicker();
-  bool loading = true;
+  bool loading = false;
   @override
   void initState() {
-    _initcheck();
+    _getdata();
     super.initState();
+  }
+
+  Future<void> _getdata() async {
+    loading = true;
+    try {
+      await getDetailReq(widget.contractId).then((value) {
+        data = value;
+      });
+      if (mounted) {
+        setState(() {
+          amounts = data!.requestedAmount;
+          check =
+              PayChannel(channel: data!.payChannel, number: data!.payNumber);
+          loading = false;
+        });
+      }
+
+      return;
+    } catch (err) {
+      rethrow;
+    }
   }
 
   _getFromGallery() async {
@@ -55,21 +79,6 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
     }
   }
 
-  _initcheck() async {
-    setState(() {
-      loading = true;
-    });
-    await getDetail(widget.contractId)
-        .then((value) => amounts = value!.detail.requestedAmount);
-
-    await getPaymentByUser(int.parse(widget.contractId))
-        .then((value) => check = value!);
-
-    setState(() {
-      loading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (!loading) {
@@ -90,20 +99,15 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      check.channel == "Promptpay"
+                      check.channel == "PromptPay"
                           ? Payqr(
                               amount: amounts,
                               promptPay: check.number,
                             )
                           : Paybank(
                               amount: amounts,
-                              bank: check.number,
-                            )
-                      // : Paydetail(
-                      //     amount: amounts,
-                      //     promptPay: check!.promptPay,
-                      //     bank: check!.bank,
-                      //   ),
+                              bank: check.channel,
+                              id: check.number)
                     ],
                   ),
                 ),
@@ -199,9 +203,10 @@ class Payqr extends StatelessWidget {
 }
 
 class Paybank extends StatelessWidget {
-  const Paybank({super.key, required this.amount, required this.bank});
+  const Paybank({super.key, required this.amount, required this.bank, this.id});
   final double amount;
   final String? bank;
+  final String? id;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -236,7 +241,7 @@ class Paybank extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         left: 48, bottom: 42, right: 48, top: 0),
                     child: Text(
-                      bank!,
+                      id!,
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,

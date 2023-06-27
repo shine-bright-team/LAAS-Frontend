@@ -1,13 +1,13 @@
 import 'package:laas/services/api.dart';
 
-Future<void> createlone(
+Future<void> editagreement(
     String startinput,
     String endinput,
     double interest,
     bool interestper,
     String dueinput,
-    String baseSalaryinput,
     String activeinput,
+    String baseSalaryinput,
     String additionalAgreement,
     String paymentChannel,
     String paymentNumber) async {
@@ -17,16 +17,7 @@ Future<void> createlone(
   int baseSalary = baseSalaryinput != "" ? int.parse(baseSalaryinput) : 0;
   int active = activeinput != "" ? int.parse(activeinput) : 0;
   try {
-    // print(start);
-    // print(end);
-    // print(due);
-    // print(active);
-    // print(baseSalary);
-    // print(additionalAgreement);
-    // print(paymentChannel);
-    // print(paymentNumber);
-    // print(interestper);
-    await Api.dio.post("/lender/", data: {
+    await Api.dio.patch("/lender/", data: {
       "start_amount": start,
       "end_amount": end,
       "interest": interest,

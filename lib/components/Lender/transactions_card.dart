@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:laas/services/data/transction/update_transaction.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TransCard extends StatefulWidget {
   final String id;
   final String cId;
-  // final bool isOpen;
   final String name;
   final String circleColorState;
-  final int amount;
+  final double amount;
   final String? reason;
+  final String image;
 
   const TransCard({
     super.key,
     required this.id,
     required this.cId,
     required this.name,
-    // required this.image,
+    required this.image,
     required this.amount,
     // required this.done,
     required this.circleColorState,
@@ -29,33 +31,21 @@ class TransCard extends StatefulWidget {
 class _TransCardState extends State<TransCard> {
   String profileImage = '';
   String billImage = '';
+  late String status;
+  String? url = dotenv.env['BASE_URL'];
   late ValueNotifier<String> reason = ValueNotifier(widget.reason ?? "");
 
-  // @override
-  // void initState() {
-  //   _getprofile();
-  //   _getbill();
-  //   // print(widget.name);
-  //   // print(widget.circleColorState);
-  //   // print(widget.dId);
-  //   // print(widget.amount);
-  //   // print(widget.tId);
-  //   // print(_getbill());
-  //   // print(_getbill());
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    setstatus();
+    super.initState();
+  }
 
-  // _getprofile() {
-  //   picFrinedbyusername(widget.name).then((value) => setState(() {
-  //         profileImage = value;
-  //       }));
-  // }
-
-  // _getbill() {
-  //   getBill(widget.tId).then((value) => setState(() {
-  //         billImage = value;
-  //       }));
-  // }
+  void setstatus() {
+    setState(() {
+      status = widget.circleColorState;
+    });
+  }
 
   Future<void> _receiptAlert(
       BuildContext context, String bill, String id, String cId) {
@@ -63,21 +53,29 @@ class _TransCardState extends State<TransCard> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          // insetPadding:
-          //     const EdgeInsets.only(top: 150, bottom: 150, left: 50, right: 50),
           title: const Text('Receipt'),
           content: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              // Test image
-              Image.asset('assets/ri.jpeg'),
-
-              // Image.network(
-              //   bill,
-              // ),
+              FadeInImage(
+                placeholder: NetworkImage(
+                  '$url/lender/debt/:debtId/:transactionId/image',
+                  headers: {
+                    "Authorization": "Bearer ${widget.image}",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                ),
+                image: NetworkImage(
+                  '$url/lender/debt/:debtId/:transactionId/image',
+                  headers: {
+                    "Authorization": "Bearer ${widget.image}",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                ),
+              ),
+              // Image.network(),
             ]),
           ),
-
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
@@ -85,8 +83,9 @@ class _TransCardState extends State<TransCard> {
               ),
               child: const Text('Decline'),
               onPressed: () {
-                Navigator.of(context).pop();
-                _wrongAlert(context, id, cId);
+                _wrongAlert(context, id, cId).then((value) {
+                  Navigator.of(context).pop();
+                });
               },
             ),
             TextButton(
@@ -95,11 +94,14 @@ class _TransCardState extends State<TransCard> {
               ),
               child: const Text('Approve'),
               onPressed: () {
-                // approveTransaction(transactionId: id, debtId: cId).then((value) {
-                //   Navigator.of(context).pop();
-                // }).onError((error, stackTrace) {
-                //   showSnackBar(context, error.toString());
-                // });
+                updateTransaction(int.parse(widget.id), true, null).then(
+                  (value) {
+                    setState(() {
+                      status = "SUCCESS";
+                    });
+                    Navigator.of(context).pop();
+                  },
+                );
               },
             ),
           ],
@@ -145,17 +147,13 @@ class _TransCardState extends State<TransCard> {
               child: const Text('Send'),
               onPressed: () {
                 reason.value = myController.text;
+                updateTransaction(int.parse(widget.id), false, reason.value)
+                    .then((value) {
+                  setState(() {
+                    status = "ERROR";
+                  });
+                });
                 Navigator.pop(context);
-
-                // declineTransaction(
-                //         transactionId: id,
-                //         debtId: cId,
-                //         reason: myController.text)
-                //     .then((value) {
-                //   Navigator.of(context).pop();
-                // }).onError((error, stackTrace) {
-                //   showSnackBar(context, error.toString());
-                // });
               },
             ),
           ],
@@ -168,7 +166,7 @@ class _TransCardState extends State<TransCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () => {
-              if (widget.circleColorState == "PENDING") ...[
+              if (status == "PENDING") ...[
                 _receiptAlert(context, billImage, widget.id, widget.cId)
               ]
               // else if (widget.circleColor ==
@@ -200,7 +198,7 @@ class _TransCardState extends State<TransCard> {
                     const SizedBox(
                       width: 13,
                     ),
-                    if (widget.circleColorState != "SUCCESS") ...[
+                    if (status != "SUCCESS") ...[
                       profileImage != ''
                           ? ClipOval(
                               child: SizedBox.fromSize(
@@ -211,7 +209,12 @@ class _TransCardState extends State<TransCard> {
                                 ),
                               ),
                             )
-                          : const CircleAvatar(child: Icon(Icons.person))
+                          : const CircleAvatar(
+                              backgroundImage: AssetImage(
+                                "assets/profile.jpeg",
+                              ),
+                              radius: 20,
+                            )
                     ] else ...[
                       // fillColor: Color.fromRGBO(0, 0, 0, 0.05),
                       profileImage != ''
@@ -253,21 +256,21 @@ class _TransCardState extends State<TransCard> {
                             const SizedBox(
                               width: 13,
                             ),
-                            if (widget.circleColorState == "PENDING") ...[
+                            if (status == "PENDING") ...[
                               ClipOval(
                                   child: Container(
                                 color: Theme.of(context).colorScheme.primary,
                                 width: 12,
                                 height: 12,
                               )),
-                            ] else if (widget.circleColorState == "ERROR") ...[
+                            ] else if (status == "ERROR") ...[
                               ClipOval(
                                   child: Container(
                                 color: Theme.of(context).colorScheme.error,
                                 width: 12,
                                 height: 12,
                               )),
-                            ] else if (widget.circleColorState == "SUCCESS")
+                            ] else if (status == "SUCCESS")
                               ...[]
                           ],
                         ),

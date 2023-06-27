@@ -1,6 +1,38 @@
 import 'package:flutter/material.dart';
 
-Widget agreement(BuildContext context) {
+Widget agreement(BuildContext context, String? interestRate, int? dueIn,
+    String? addition, int? active, int? baseSalary) {
+  Widget getAgreementWidget() {
+    String allAgreement = "";
+
+    if (interestRate != null) {
+      allAgreement += "• Interest rate : $interestRate \n";
+    }
+    if (dueIn != null) {
+      allAgreement += dueIn > 1
+          ? "• Pay within $dueIn months\n"
+          : "• Pay within $dueIn month\n";
+    }
+    if (addition != "") {
+      allAgreement += "• $addition\n";
+    }
+    if (active! > 0) {
+      allAgreement += active > 1
+          ? "• Active at least $active months\n"
+          : "• Active at least $active month\n";
+    }
+    if (baseSalary! > 0) {
+      allAgreement += "• Salary must be more than $baseSalary THB\n";
+    }
+    return Text(
+      allAgreement,
+      style: TextStyle(
+        fontSize: Theme.of(context).textTheme.titleLarge!.fontSize,
+        color: Theme.of(context).colorScheme.onPrimaryContainer,
+      ),
+    );
+  }
+
   return (Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -35,13 +67,14 @@ Widget agreement(BuildContext context) {
           child: Center(
             child: Column(
               children: [
-                Text(
-                    "Interest rate : 3% \nPay within 3 months\nCan not split paying  ",
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleLarge!.fontSize,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    )),
+                getAgreementWidget()
+                // Text(
+                //     "• Interest rate : $interestRate \n• Pay within $dueIn months\n• $addition  ",
+                //     style: TextStyle(
+                //       fontSize:
+                //           Theme.of(context).textTheme.titleLarge!.fontSize,
+                //       color: Theme.of(context).colorScheme.onPrimaryContainer,
+                //     )),
               ],
             ),
           ),

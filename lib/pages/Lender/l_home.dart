@@ -2,9 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:laas/components/Lender/borrow_request_card.dart';
 import 'package:laas/services/data/lone_contract/get_loan.dart';
-import 'package:laas/services/data/userdata/get_borrower.dart';
+import 'package:laas/services/data/userdata/get_borrow_request.dart';
 import '../../components/Lender/lender_card.dart';
-import '../../model/user_model.dart';
 
 class LHome extends StatefulWidget {
   const LHome({super.key});
@@ -14,95 +13,137 @@ class LHome extends StatefulWidget {
 }
 
 class _LHomeState extends State<LHome> {
-  List<User> urBorrowers = [];
+  List<BorrowReq>? urBorrowReq;
   List<ContractRes>? urBrContract;
+  bool isLoading = true;
+
   @override
   void initState() {
-    _getYourBorrowers();
     super.initState();
+    _initCheck();
   }
 
-  _getYourBorrowers() async {
-    urBorrowers = await getBorrower();
-    urBrContract = await getContract();
+  Future<void> _initCheck() async {
+    List<BorrowReq>? tempBrReq;
+    List<ContractRes>? tempBrContract;
 
-    setState(() {
-      urBorrowers;
-      urBrContract;
-    });
+    try {
+      tempBrReq = await getBorrowRequest();
+      tempBrContract = await getContract();
+    } catch (err) {
+      rethrow;
+    }
+
+    if (mounted) {
+      setState(() {
+        urBorrowReq = tempBrReq;
+        urBrContract = tempBrContract;
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Home",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+    if (!isLoading) {
+      return RefreshIndicator(
+        onRefresh: _initCheck,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                "Home",
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+            body: SingleChildScrollView(
+              child: Center(
+                  child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    const SizedBox(height: 20),
+                    Text(
+                      "Your borrowers",
+                      style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .fontSize,
+                          color: Theme.of(context).colorScheme.primary),
+                      textAlign: TextAlign.end,
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 350,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: urBrContract!.length,
+                        itemBuilder: (context, index) {
+                          return LenderCard(
+                              uId: urBrContract![index].userId.toString(),
+                              cId: urBrContract![index].borrowId.toString(),
+                              fName: urBrContract![index].firstname,
+                              lName: urBrContract![index].lastname,
+                              date: urBrContract![index].dueDate,
+                              amount: urBrContract![index].remainingAmount,
+                              profileId: "1");
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Borrow requests",
+                      style: TextStyle(
+                          fontSize: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .fontSize,
+                          color: Theme.of(context).colorScheme.primary),
+                      textAlign: TextAlign.end,
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 350,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: urBorrowReq!.length,
+                        itemBuilder: (context, index) {
+                          return BrRequestCard(
+                              uId: urBorrowReq![index].userId.toString(),
+                              cId: urBorrowReq![index].borrowId.toString(),
+                              fName: urBorrowReq![index].firstname,
+                              lName: urBorrowReq![index].lastname,
+                              amount: urBorrowReq![index].requestedAmount,
+                              profileId: "1");
+                        },
+                      ),
+                    ),
+                  ])),
+            )),
+      );
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Home",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-              child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                const SizedBox(height: 20),
-                Text(
-                  "Your borrowers",
-                  style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.headlineMedium!.fontSize,
-                      color: Theme.of(context).colorScheme.primary),
-                  textAlign: TextAlign.end,
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: 350,
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: urBorrowers.length,
-                    itemBuilder: (context, index) {
-                      return LenderCard(
-                          uId: urBorrowers[index].id.toString(),
-                          cId: urBrContract![index].borrowId.toString(),
-                          fName: urBorrowers[index].firstname,
-                          lName: urBorrowers[index].lastname,
-                          date: urBrContract![index].dueDate,
-                          amount: urBrContract![index].remainingAmount,
-                          profileId: "1");
-                    },
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Borrow requests",
-                  style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.headlineMedium!.fontSize,
-                      color: Theme.of(context).colorScheme.primary),
-                  textAlign: TextAlign.end,
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: 350,
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: urBorrowers.length,
-                    itemBuilder: (context, index) {
-                      return BrRequestCard(
-                          uId: urBorrowers[index].id.toString(),
-                          cId: urBrContract![index].borrowId.toString(),
-                          fName: urBorrowers[index].firstname,
-                          lName: urBorrowers[index].lastname,
-                          amount: urBrContract![index].requestedAmount,
-                          profileId: "1");
-                    },
-                  ),
-                ),
-              ])),
-        ));
+          body: Stack(children: [
+            SingleChildScrollView(
+                child: Container(
+              alignment: Alignment.center,
+              constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height - 55),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [Center(child: Text('Loading...'))],
+              ),
+            ))
+          ]));
+    }
   }
 }

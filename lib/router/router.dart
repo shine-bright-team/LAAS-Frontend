@@ -10,6 +10,7 @@ import 'package:laas/pages/Borrower/b_payment.dart';
 import 'package:laas/pages/Borrower/b_profile.dart';
 import 'package:laas/pages/Lender/l_approve.dart';
 import 'package:laas/pages/Lender/l_create_lone.dart';
+import 'package:laas/pages/Lender/l_edit_agreement.dart';
 import 'package:laas/pages/Lender/l_home.dart';
 import 'package:laas/pages/Lender/l_loan_status.dart';
 import 'package:laas/pages/Lender/l_profile.dart';
@@ -39,9 +40,16 @@ class AppGoRouter extends ChangeNotifier {
     if (authState.isLoading) return null;
     final isAuth = authState.user != null;
 
-    if (isAuth && {'l', '/login', "/register"}.contains(state.location)) {
+    if (isAuth && {'l', '/login', '/register'}.contains(state.location)) {
+      if (!authState.user!.isKyc) {
+        return '/KYC';
+      }
       if (authState.user!.isLender) {
-        return '/l';
+        if (!authState.user!.isSetAgreement) {
+          return '/createloan';
+        } else {
+          return '/l';
+        }
       } else {
         return '/b';
       }
@@ -53,12 +61,12 @@ class AppGoRouter extends ChangeNotifier {
     return null;
   }
 
-  // final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
+  final GlobalKey<NavigatorState> _mainRouteKey = GlobalKey();
   // final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey();
 
   late final routes = [
     ShellRoute(
-      // navigatorKey: _mainRouteKey,
+      navigatorKey: _mainRouteKey,
       routes: [
         ShellRoute(
           routes: [
@@ -77,6 +85,14 @@ class AppGoRouter extends ChangeNotifier {
               path: "/l/profile",
               builder: (context, state) => const LProfileScreen(),
             ),
+            GoRoute(
+              path: "/l/editloan",
+              builder: (context, state) => LEditloan(
+                onPaymentOptionSelected: (value) {
+                  // Handle the payment option selection logic here
+                },
+              ),
+            ),
           ],
           builder: (context, state, child) => Scaffold(
             bottomNavigationBar: BottomNavL(
@@ -86,8 +102,8 @@ class AppGoRouter extends ChangeNotifier {
           ),
         ),
         GoRoute(
-          // parentNavigatorKey: _mainRouteKey,
-          path: "/l/createloan",
+          parentNavigatorKey: _mainRouteKey,
+          path: "/createloan",
           builder: (context, state) => LCreateLoan(
             onPaymentOptionSelected: (value) {
               // Handle the payment option selection logic here

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:laas/config/theme/custom_warpper.dart';
 
 class Kycpageone extends ConsumerStatefulWidget {
   const Kycpageone({super.key});

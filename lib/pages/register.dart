@@ -1,5 +1,5 @@
 //Tine
-import 'dart:math';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,8 +28,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _confirmPassword = TextEditingController();
   bool _isLoading = false;
   bool _isShowPassword = false;
-  final _seletion = const ["Mr.", "Ms.", "Mrs."];
-  final _roleseletion = const ["Borrwer", "Lender"];
+  final _seletion = const ["Mr.", "Ms.", "Mrs"];
+  final _roleseletion = const ["Borrower", "Lender"];
   void setLoading(bool isLoading) {
     setState(() {
       _isLoading = isLoading;
@@ -249,12 +249,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   .toList(),
                               onChanged: (item) {
                                 // ignore: unrelated_type_equality_checks
-                                if (e == 'Lender') {
+                                if (item == "Lender") {
                                   _role = true;
                                 }
                                 // ignore: unrelated_type_equality_checks
-                                if (e == 'Borrwer') {
-                                  _role = true;
+                                if (item == "Borrwer") {
+                                  _role = false;
                                 }
                               }),
                         ),
@@ -273,10 +273,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   _username.text,
                                   _password.text,
                                   _role);
-                              if (_role) {
-                                // ignore: use_build_context_synchronously
-                                context.go("/l/createloan");
-                              }
                             } catch (err) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(err.toString())));

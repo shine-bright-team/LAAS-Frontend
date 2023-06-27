@@ -1,25 +1,27 @@
-//FXH
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:laas/components/Lender/check_box.dart';
 import 'package:laas/providers/authProvider.dart';
-import 'package:laas/services/data/lone_contract/create_lone.dart';
+import 'package:laas/services/data/agreement/edit_agreement.dart';
+import 'package:laas/services/data/agreement/get_agreement.dart';
 
-class LCreateLoan extends ConsumerStatefulWidget {
+class LEditloan extends ConsumerStatefulWidget {
   final ValueChanged<String> onPaymentOptionSelected;
-  const LCreateLoan({Key? key, required this.onPaymentOptionSelected})
+  const LEditloan({Key? key, required this.onPaymentOptionSelected})
       : super(key: key);
 
   @override
-  ConsumerState<LCreateLoan> createState() => _LCreateLoanState();
+  ConsumerState<LEditloan> createState() => _LEditloanState();
 }
 
 const List<String> list = ['per day', 'per month'];
 const List<String> paymentOptions = ['KbanK', 'SCB', 'PromptPay'];
 
-class _LCreateLoanState extends ConsumerState<LCreateLoan> {
+class _LEditloanState extends ConsumerState<LEditloan> {
   final _formKey = GlobalKey<FormState>();
   String selectedPaymentOption = '';
   bool _isSelected1 = false;
@@ -29,7 +31,7 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
   bool ispermount = false;
   int dropdownValue = 0;
   double interest = 0.0;
-
+  Agreements? tempAgreements;
   final startController = TextEditingController();
   final endController = TextEditingController();
   final agreementDetailsController = TextEditingController();
@@ -49,13 +51,7 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
   @override
   void initState() {
     super.initState();
-    startController.text = "";
-    endController.text = "";
-    agreementDetailsController.text = "";
-    paymentNumberController.text = "";
-    activeatleast.text = "";
-    havebasesalary.text = "";
-    due.text = "";
+    getdata();
   }
 
   @override
@@ -68,6 +64,50 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
     havebasesalary.dispose();
     due.dispose();
     super.dispose();
+  }
+
+  Future<void> getdata() async {
+    List<String> tempstring;
+    tempAgreements = await getAgreement();
+    try {
+      tempAgreements = await getAgreement();
+
+      if (mounted) {
+        setState(() {
+          tempstring = tempAgreements!.amountRange.split(" - ");
+          startController.text = tempstring[0];
+          endController.text = tempstring[1];
+          paymentNumberController.text = tempAgreements!.number;
+          onPaymentOptionSelected(tempAgreements!.channel);
+
+          if (tempAgreements!.addition != null) {
+            agreementDetailsController.text = tempAgreements!.addition;
+          }
+
+          if (tempAgreements!.active != 0) {
+            activeatleast.text = tempAgreements!.active.toString();
+            _isActiveAtLeast = true;
+          }
+          if (tempAgreements!.salary != 0) {
+            havebasesalary.text = tempAgreements!.salary.toString();
+            _isHaveBaseSaraly = true;
+          }
+          if (tempAgreements!.interestRate != null) {
+            tempstring = tempAgreements!.interestRate.split("% ");
+            interest = double.parse(tempstring[0]);
+            dropdownValue = tempstring[1] == "per day" ? 0 : 1;
+            ispermount = dropdownValue == 0 ? false : true;
+            _isSelected1 = true;
+          }
+          if (tempAgreements!.dueIn != 0) {
+            due.text = tempAgreements!.dueIn.toString();
+            _isSelected2 = true;
+          }
+        });
+      }
+    } catch (err) {
+      rethrow;
+    }
   }
 
   bool isFieldsFilled() {
@@ -94,7 +134,7 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            "Create Agreement",
+            "Edit Agreement",
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
         ),
@@ -206,6 +246,10 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                           onChanged: (bool newValue) {
                             setState(() {
                               _isSelected1 = newValue;
+                              if (_isSelected1 == false) {
+                                interest = 0.0;
+                                ispermount = false;
+                              }
                             });
                           },
                           labelType: LabelType.text,
@@ -321,12 +365,13 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                         onChanged: _isSelected1
                             ? (value) {
                                 setState(() {
-                                  interest = (value / 1).round() *
-                                      1; // Ensures the value is a multiple of 5
+                                  interest = (value / 5).round() *
+                                      5; // Ensures the value is a multiple of 5
                                 });
                               }
                             : null,
-                        divisions: 100,
+                        divisions:
+                            20, // To match the increments of 5 (100/5 = 20)
                         label: interest.toString(),
                       ),
                     ),
@@ -398,6 +443,9 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                       onChanged: (newValue) {
                         setState(() {
                           _isActiveAtLeast = !_isActiveAtLeast;
+                          if (_isActiveAtLeast == false) {
+                            activeatleast.text = "";
+                          }
                         });
                       },
                     ),
@@ -438,6 +486,9 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                       onChanged: (newValue) {
                         setState(() {
                           _isHaveBaseSaraly = !_isHaveBaseSaraly;
+                          if (_isHaveBaseSaraly == false) {
+                            havebasesalary.text = "";
+                          }
                         });
                       },
                     ),
@@ -588,7 +639,7 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        createlone(
+                        editagreement(
                           startController.text,
                           endController.text,
                           interest,
@@ -601,27 +652,21 @@ class _LCreateLoanState extends ConsumerState<LCreateLoan> {
                           paymentNumberController.text,
                         ).then((value) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Create Loan successfully')),
+                            const SnackBar(content: Text('Edit successfully')),
                           );
                           counter.getUser();
                           context.go('/login');
                         });
                       } catch (err) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Failed to Create Loan')),
+                          const SnackBar(content: Text('Failed to Edit Loan')),
                         );
                         rethrow;
                       }
                     }
-
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   const SnackBar(content: Text('Create Loan successfully')),
-                    // );
                   },
                   child: Text(
-                    "Create Loan",
+                    "Edit Agreement",
                     style: TextStyle(
                         color: textColor,
                         fontWeight: FontWeight.bold,

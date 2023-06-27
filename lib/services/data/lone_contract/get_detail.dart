@@ -63,8 +63,8 @@ class Detail {
       userId: json['user_id'],
       firstname: json['firstname'],
       lastname: json['lastname'],
-      requestedAmount: json['requested_amount'],
-      remainingAmount: json['remaining_amount'],
+      requestedAmount: double.parse(json['requested_amount'].toString()),
+      remainingAmount: double.parse(json['remaining_amount'].toString()),
       requestedAt: DateFormat("yyyy-MM-dd").parse(json['requested_at']),
       dueDate: DateFormat("yyyy-MM-dd").parse(json['due_date']),
     );
@@ -73,7 +73,7 @@ class Detail {
 
 class Transactions {
   final int id;
-  final int paidAmount;
+  final double paidAmount;
   final DateTime paidAt;
   final String? errMessage;
   final bool isApproved;
@@ -91,7 +91,7 @@ class Transactions {
   factory Transactions.fromJson(Map json) {
     return Transactions(
       id: json['id'],
-      paidAmount: json['paid_amount'],
+      paidAmount: double.parse(json['paid_amount'].toString()),
       paidAt: DateFormat("yyyy-MM-dd").parse(json['paid_at']),
       errMessage: json['error_message'],
       isApproved: json['is_approved'],

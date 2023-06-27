@@ -1,17 +1,14 @@
 import 'package:intl/intl.dart';
 import 'package:laas/services/api.dart';
 
-//หมั่มๆ Home
-// ดึง arara ออกมาจาก path "/lender/borrower" map value
-// แก้ทุกสิ่งที่มันแดง จบ
-Future<List<ContractRes>?> getContract() async {
+Future<List<BorrowReq>?> getBorrowRequest() async {
   try {
-    final contract = await Api.dio.get("/lender/borrower/");
+    final borrowReq = await Api.dio.get("/lender/borrower/request/");
 
-    if (contract.statusCode == 200) {
-      final data = contract.data;
-      List<ContractRes> response = List<Map<String, dynamic>>.from(data ?? [])
-          .map((e) => ContractRes.fromJson(e))
+    if (borrowReq.statusCode == 200) {
+      final data = borrowReq.data;
+      List<BorrowReq> response = List<Map<String, dynamic>>.from(data ?? [])
+          .map((e) => BorrowReq.fromJson(e))
           .toList();
       return response;
     }
@@ -21,40 +18,34 @@ Future<List<ContractRes>?> getContract() async {
   return null;
 }
 
-class ContractRes {
+class BorrowReq {
   final int borrowId;
   final String username;
   final int userId;
   final String firstname;
   final String lastname;
   final double requestedAmount;
-  final double remainingAmount;
   final DateTime requestedAt;
-  final DateTime dueDate;
 
-  const ContractRes({
+  BorrowReq({
     required this.borrowId,
     required this.username,
     required this.userId,
     required this.firstname,
     required this.lastname,
     required this.requestedAmount,
-    required this.remainingAmount,
     required this.requestedAt,
-    required this.dueDate,
   });
 
-  factory ContractRes.fromJson(Map json) {
-    return ContractRes(
+  factory BorrowReq.fromJson(Map json) {
+    return BorrowReq(
       borrowId: json['borrow_id'],
       username: json['username'],
       userId: json['user_id'],
       firstname: json['firstname'],
       lastname: json['lastname'],
       requestedAmount: json['requested_amount'],
-      remainingAmount: json['remaining_amount'],
       requestedAt: DateFormat("yyyy-MM-dd").parse(json['requested_at']),
-      dueDate: DateFormat("yyyy-MM-dd").parse(json['due_date']),
     );
   }
 }

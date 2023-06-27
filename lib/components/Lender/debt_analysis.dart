@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/theme/custom_color.g.dart';
 
-Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
+Widget debtAnalysisBox(BuildContext context, String paid, String unpaid) {
   return Row(
     children: [
       Expanded(
@@ -126,7 +126,7 @@ Widget debtAnalysisBox(BuildContext context, String pain, String unpaid) {
                                   child: Column(
                                     children: [
                                       Text(
-                                        pain,
+                                        paid,
                                         style: TextStyle(
                                             color: Theme.of(context)
                                                 .extension<CustomColors>()!
