@@ -107,7 +107,7 @@ class _LPaymentScreenState extends State<LPaymentScreen> {
                           : Paybank(
                               amount: amounts,
                               bank: check.channel,
-                            )
+                              id: check.number)
                     ],
                   ),
                 ),
@@ -203,9 +203,10 @@ class Payqr extends StatelessWidget {
 }
 
 class Paybank extends StatelessWidget {
-  const Paybank({super.key, required this.amount, required this.bank});
+  const Paybank({super.key, required this.amount, required this.bank, this.id});
   final double amount;
   final String? bank;
+  final String? id;
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -240,7 +241,7 @@ class Paybank extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         left: 48, bottom: 42, right: 48, top: 0),
                     child: Text(
-                      bank!,
+                      id!,
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
