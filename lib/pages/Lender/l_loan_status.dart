@@ -42,7 +42,8 @@ class _LLoanStatusState extends State<LLoanStatus> {
     trans = data!.transactions;
     double loanAmount = contract?.requestedAmount ?? 0;
     addTotalPaid();
-    totalUnPaid = loanAmount - totalPaid;
+    totalUnPaid = contract!.remainingAmount;
+    // totalUnPaid = loanAmount - totalPaid;
     if (mounted) {
       setState(() {
         contract;
